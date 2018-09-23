@@ -276,6 +276,11 @@ main {
   border: 1px solid var(--brand-color);
 }
 
+.work .kexcelapi {
+  width: 80%;
+  border: 1px solid var(--brand-color);
+}
+
 .work .introduction {
   font-size: 20px;
   line-height: 2rem;
