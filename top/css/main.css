@@ -1,0 +1,433 @@
+@charset "utf-8";
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
+
+:root {
+  --brand-color: #31252f;
+  --background-color: #fcf5f0;
+  --page-width: 960px;
+}
+
+body {
+  box-sizing: border-box;
+  font-family: Lato, sans-serif;
+
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+
+  background-color: var(--background-color);
+  color: var(--brand-color);
+  display: flex;
+  font-size: 16px;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#modal {
+  display: none;
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: var(--brand-color);
+  text-decoration: none;
+}
+
+/* ヘッダー */
+
+header {
+  display: flex;
+  padding: 10px 0;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+header > div {
+  display: flex;
+  align-items: flex-end;
+  max-width: var(--page-width);
+  width: 100%;
+}
+
+#menuButton {
+  display: none;
+}
+
+.logo {
+  display: flex;
+  align-items: flex-end;
+  flex-grow: 1;
+  font-size: 28px;
+}
+
+.logo img {
+  align-items: end;
+  height: 1.4em;
+  margin-right: 5px;
+}
+
+nav ul {
+  display: flex;
+  font-size: 20px;
+}
+
+nav li:not(:last-child) {
+  margin-right: 50px;
+}
+
+nav a {
+  padding-bottom: 8px;
+  border-bottom: transparent;
+  transition: border-color 0.3s 0.1s ease;
+}
+
+nav a.menu_active {
+  border-bottom: solid 1px var(--brand-color);
+}
+
+nav a:hover {
+  border-bottom: solid 1px var(--brand-color);
+}
+
+/* メイン */
+
+/* HOME */
+main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.news {
+  display: flex;
+  max-width: var(--page-width);
+  text-align: center;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.news h2 {
+  font-size: 26px;
+  margin-bottom: 30px;
+}
+
+.news section {
+  /* 真ん中よりちょっと上に調整 */
+  padding-bottom: 8rem;
+}
+
+.news li {
+  font-size: 18px;
+  line-height: 2rem;
+}
+
+.news .date {
+  margin-right: 1rem;
+}
+
+/* ABOUT */
+.skill {
+  max-width: var(--page-width);
+  text-align: center;
+  align-items: center;
+  width: 100%;
+}
+
+.skill h2 {
+  text-align: left;
+  font-size: 30px;
+  margin: 0 0 20px 100px;
+}
+
+.skill_list {
+  display: flex;
+  flex-direction: row;
+  margin: 0 100px;
+}
+
+.skill_list ul {
+  margin: 5px 0;
+  padding: 20px 0;
+  font-size: 20px;
+  width: 10rem;
+}
+
+.skill_list li {
+  padding: 10px 10px;
+  margin-right: -1px;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  color: #b1a5af;
+
+  /* z-indexのために必要 */
+  position: relative;
+  z-index: 200;
+}
+
+.skill_list .selected {
+  color: var(--brand-color);
+  border-bottom: 1px dashed var(--brand-color);
+  animation: viewSkillBorder 0.5s ease-in 0s 1 normal forwards;
+}
+
+@keyframes viewSkillBorder {
+  0% {
+    color: #b1a5af;
+    border-bottom-color: transparent;
+  }
+  100% {
+    color: var(--brand-color);
+    border-bottom-color: var(--brand-color);
+  }
+}
+
+.skill .description {
+  display: flex;
+  flex: 1;
+}
+
+.skill .description > div {
+  flex: 1;
+  border-left: 1px dashed var(--brand-color);
+  padding: 10px 10px 10px 30px;
+  font-size: 20px;
+  line-height: 2rem;
+  text-align: left;
+  word-break: break-all;
+
+  position: relative;
+  z-index: 100;
+}
+
+.skill .description .show {
+  animation: viewDescription 0.5s linear 0s 1 normal forwards;
+}
+
+.skill .description .hide {
+  display: none;
+}
+
+@keyframes viewDescription {
+  0% {
+    color: transparent;
+  }
+  100% {
+    color: var(--brand-color);
+  }
+}
+
+/* WORK */
+.work {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.work:nth-child(2n + 1) {
+  background-color: #fff;
+}
+
+.work:nth-child(2n) {
+  background-color: var(--background-color);
+}
+
+.work section {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--page-width);
+  padding: 50px;
+}
+
+.work h2 {
+  font-size: 30px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.tag_list {
+  margin-bottom: 10px;
+}
+
+.tag {
+  display: inline-block;
+  background-color: #823c1b;
+  color: #fff;
+  padding: 5px;
+}
+
+.tag:not(:last-child) {
+  margin-right: 10px;
+}
+
+.work .description {
+  display: flex;
+}
+
+.work .image {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.work .clean_hakusan {
+  width: 60%;
+  border: 1px solid var(--brand-color);
+}
+
+.work .introduction {
+  font-size: 20px;
+  line-height: 2rem;
+  flex: 1.5;
+  padding: 10px;
+}
+
+/* フッター */
+footer {
+  background-color: #833c15;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+footer > div {
+  display: flex;
+  justify-content: space-between;
+  max-width: var(--page-width);
+  padding-bottom: 10px;
+  padding-top: 10px;
+  width: 100%;
+}
+
+footer ul {
+  display: flex;
+  justify-content: space-around;
+}
+
+footer li {
+  display: inline-block;
+  width: 1.6em;
+}
+
+footer a:link, footer a:visited, footer a:hover, footer a:active {
+  color: #fff;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 640px) {
+  /* ヘッダー */
+  header {
+    position: relative;
+  }
+
+  #menuButton {
+    display: block;
+    font-size: 25px;
+    margin-right: 20px;
+  }
+
+  #modal.show {
+    position: fixed;
+    display: block;
+    background-color: transparent;
+    opacity: 0.75;
+    width: 100%;
+    height: 100vh;
+    z-index: 1000;
+  }
+
+  #modal.show {
+    animation: fadeIn 0.3s ease 0s 1 normal forwards;
+  }
+
+  #modal.hide {
+    animation: fadeOut 0.3s ease 0s 1 normal forwards;
+  }
+
+  @keyframes fadeIn {
+    0% {
+      background-color: transparent;
+    }
+    100% {
+      background-color: #000;
+    }
+  }
+
+  @keyframes fadeOut {
+    0% {
+      background-color: #000;
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+
+  nav {
+    position: fixed;
+    width: 150px;
+    height: 100vh;
+    top: 0;
+    right: -150px;
+    background-color: var(--background-color);
+    z-index: 2000;
+  }
+
+  nav.show {
+    animation: showMenu 0.3s ease 0s 1 normal forwards;
+  }
+
+  nav.hide {
+    animation: hideMenu 0.3s ease 0s 1 normal forwards;
+  }
+
+  @keyframes showMenu {
+    0% {
+      right: -150px;
+    }
+    100% {
+      right: 0;
+    }
+  }
+
+  @keyframes hideMenu {
+    0% {
+      right: 0;
+    }
+    100% {
+      right: -150px;
+    }
+  }
+
+  nav ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  nav li {
+    padding: 10px;
+  }
+
+  nav a:link, nav a:visited, nav a:hover, nav a:active {
+    color: var(--brand-color);
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* メイン */
+
+  /* フッター */
+  footer > div {
+    display: block;
+    margin: 5px 10px;
+  }
+
+  footer > div > div:last-child {
+    margin-top: 10px;
+  }
+
+  footer ul {
+    display: block;
+    text-align: right;
+  }
+}
