@@ -130,6 +130,7 @@ main {
   max-width: var(--page-width);
   text-align: center;
   align-items: center;
+  padding: 50px 0;
   width: 100%;
 }
 
