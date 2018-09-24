@@ -421,6 +421,10 @@ footer a:link, footer a:visited, footer a:hover, footer a:active {
   }
 
   /* メイン */
+  /* WORK */
+  .work .description {
+    flex-direction: column;
+  }
 
   /* フッター */
   footer > div {
