@@ -421,6 +421,19 @@ footer a:link, footer a:visited, footer a:hover, footer a:active {
   }
 
   /* メイン */
+  /* ABOUT */
+  .skill_list {
+    flex-direction: column;
+    margin: 0 20px;
+  }
+
+  .skill_list ul {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    overflow: scroll;
+  }
+
   /* WORK */
   .work .description {
     flex-direction: column;
