@@ -255,6 +255,8 @@ main {
   background-color: #823c1b;
   color: #fff;
   padding: 5px;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 .tag:not(:last-child) {
@@ -287,6 +289,70 @@ main {
   line-height: 2rem;
   flex: 1.5;
   padding: 10px;
+}
+
+/* BLOG */
+.blog {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--page-width);
+}
+
+.blog h2 {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card_list {
+  display: flex;
+}
+
+.card {
+  display: flex;
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid var(--brand-color);
+  height: 11em;
+  margin: 0 20px;
+}
+
+.card:hover {
+  box-shadow: 2px 2px 4px;
+}
+
+.card img {
+  margin: 5px;
+  width: 7rem;
+  object-fit: contain
+}
+
+.card > div {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 5px 5px 20px;
+  width: 100%;
+}
+
+.card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card .list {
+  border: 1px solid #ccc;
+  flex: 1;
+  margin: 0 10px 10px 10px;
+  padding: 5px;
+  overflow: scroll;
+  line-height: 1.3em;
+}
+
+.card li {
+  list-style-type: decimal;
+  margin-left: 2em;
 }
 
 /* フッター */
