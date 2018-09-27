@@ -27,8 +27,11 @@ body {
   display: none;
 }
 
+a {
+  color: #b45a1d;
+}
+
 a:link, a:visited, a:hover, a:active {
-  color: var(--brand-color);
   text-decoration: none;
 }
 
@@ -65,6 +68,10 @@ header > div {
   margin-right: 5px;
 }
 
+.logo a {
+  color: var(--brand-color);
+}
+
 nav ul {
   display: flex;
   font-size: 20px;
@@ -75,6 +82,8 @@ nav li:not(:last-child) {
 }
 
 nav a {
+  color: var(--brand-color);
+  text-decoration: none;
   padding-bottom: 8px;
   border-bottom: transparent;
   transition: border-color 0.3s 0.1s ease;
@@ -168,18 +177,26 @@ main {
 
 .skill_list .selected {
   color: var(--brand-color);
-  border-bottom: 1px dashed var(--brand-color);
+  border-top: 1px solid var(--brand-color);
+  border-bottom: 1px solid var(--brand-color);
+  border-left: 1px solid var(--brand-color);
+  border-right: 1px solid var(--background-color);
+  border-radius: 20px 0 0 20px / 50% 0 0 50%;
   animation: viewSkillBorder 0.5s ease-in 0s 1 normal forwards;
 }
 
 @keyframes viewSkillBorder {
   0% {
     color: #b1a5af;
+    border-top-color: transparent;
     border-bottom-color: transparent;
+    border-left-color: transparent;
   }
   100% {
     color: var(--brand-color);
+    border-top-color: var(--brand-color);
     border-bottom-color: var(--brand-color);
+    border-left-color: var(--brand-color);
   }
 }
 
@@ -190,7 +207,7 @@ main {
 
 .skill .description > div {
   flex: 1;
-  border-left: 1px dashed var(--brand-color);
+  border-left: 1px solid var(--brand-color);
   padding: 10px 10px 10px 30px;
   font-size: 20px;
   line-height: 2rem;
@@ -226,7 +243,7 @@ main {
 }
 
 .work:nth-child(2n + 1) {
-  background-color: #fff;
+  background-color: #fefef6;
 }
 
 .work:nth-child(2n) {
@@ -301,9 +318,10 @@ main {
 }
 
 .blog h2 {
-  font-size: 20px;
+  font-size: 25px;
   text-align: center;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 40px;
 }
 
 .card_list {
@@ -317,6 +335,11 @@ main {
   border: 1px solid var(--brand-color);
   height: 11em;
   margin: 0 20px;
+  transition: box-shadow 100ms 0s ease;
+}
+
+.card_nothing {
+  flex: 1;
 }
 
 .card:hover {
@@ -346,7 +369,7 @@ main {
   flex: 1;
   margin: 0 10px 10px 10px;
   padding: 5px;
-  overflow: scroll;
+  overflow-y: scroll;
   line-height: 1.3em;
 }
 
@@ -497,11 +520,32 @@ footer a:link, footer a:visited, footer a:hover, footer a:active {
     display: flex;
     width: 100%;
     flex-direction: row;
-    overflow: scroll;
+    overflow-x: scroll;
+  }
+
+  .skill_list li.selected {
+    border: 1px solid var(--brand-color);
+    border-radius: 20px / 50%;
+  }
+
+  @keyframes viewSkillBorder {
+    0% {
+      color: #b1a5af;
+      border-color: transparent;
+    }
+    100% {
+      color: var(--brand-color);
+      border-color: var(--brand-color);
+    }
   }
 
   /* WORK */
   .work .description {
+    flex-direction: column;
+  }
+
+  /* BLOG */
+  .card_list {
     flex-direction: column;
   }
 
