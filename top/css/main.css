@@ -130,7 +130,7 @@ main {
   line-height: 2rem;
 }
 
-.news .date {
+.news time {
   margin-right: 1rem;
 }
 
@@ -564,3 +564,4 @@ footer a:link, footer a:visited, footer a:hover, footer a:active {
     text-align: right;
   }
 }
+ｄ
