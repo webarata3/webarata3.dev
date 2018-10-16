@@ -146,7 +146,7 @@ main {
 
 .skill h2 {
   text-align: left;
-  font-size: 30px;
+  font-size: 26px;
   margin: 0 0 20px 100px;
 }
 
@@ -159,7 +159,7 @@ main {
 .skill_list ul {
   margin: 5px 0;
   padding: 20px 0;
-  font-size: 20px;
+  font-size: 16px;
   width: 10rem;
 }
 
@@ -259,7 +259,7 @@ main {
 }
 
 .work h2 {
-  font-size: 30px;
+  font-size: 26px;
   padding: 10px;
   margin-bottom: 10px;
 }
@@ -303,7 +303,7 @@ main {
 }
 
 .work .introduction {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 2rem;
   flex: 1.5;
   padding: 10px;
