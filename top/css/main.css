@@ -336,7 +336,8 @@ main {
   border: 1px solid var(--brand-color);
   height: 11em;
   margin: 0 20px;
-  transition: box-shadow 100ms 0s ease;
+  transition: box-shadow 400ms 0s ease;
+  padding: 5px;
 }
 
 .card_nothing {
