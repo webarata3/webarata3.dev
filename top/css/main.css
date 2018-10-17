@@ -210,7 +210,7 @@ main {
   flex: 1;
   border-left: 1px solid var(--brand-color);
   padding: 10px 10px 10px 30px;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 2rem;
   text-align: left;
   word-break: break-all;
