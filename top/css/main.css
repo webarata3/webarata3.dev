@@ -4,7 +4,7 @@
 
 :root {
   --brand-color: #31252f;
-  --background-color: #fcf5f0;
+  --background-color: #fff;
   --page-width: 960px;
 }
 
@@ -567,5 +567,3 @@ footer a:link, footer a:visited, footer a:hover, footer a:active {
     text-align: right;
   }
 }
-
-ｄ
