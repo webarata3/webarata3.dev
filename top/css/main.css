@@ -172,9 +172,10 @@ main {
 .skill_list .panel {
   position: absolute;
   background-color: #fcf5f0;
-  border: 1px solid #000;
+  border: 1px solid #eee;
   width: var(--about-skill-panel-width);
   height: var(--about-skill-panel-height);
+  box-shadow: 2px 2px 4px;
 
   cursor: pointer;
 }
@@ -212,7 +213,7 @@ main {
 @keyframes activePanel {
   0% {
     background-color: #fcf5f0;
-    box-shadow: none;
+    border: 1px solid #eee;
     z-index: 0;
   }
   50% {
@@ -220,10 +221,10 @@ main {
     z-index: 1;
   }
   100% {
+    border: 1px solid #666;
     top: calc((var(--about-skill-num) - 1) * var(--about-skill-interval-y) / 2);
     left: calc((var(--about-skill-num) - 1) * var(--about-skill-interval-x) / 2);
     background-color: #fff;
-    box-shadow: 2px 2px 4px;
     z-index: 1;
   }
 }
@@ -242,7 +243,7 @@ main {
     top: calc((var(--about-skill-num) - 1) * var(--about-skill-interval-y) / 2);
     left: calc((var(--about-skill-num) - 1) * var(--about-skill-interval-x) / 2);
     background-color: #fff;
-    box-shadow: 2px 2px 4px;
+    border: 1px solid #666;
     z-index: 1;
   }
   50% {
@@ -251,7 +252,7 @@ main {
   }
   100% {
     background-color: #fcf5f0;
-    box-shadow: none;
+    border: 1px solid #eee;
     z-index: 0;
   }
 }
