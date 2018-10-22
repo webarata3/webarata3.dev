@@ -22,7 +22,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
   '游ゴシック  Medium', meiryo, sans-serif;
 
-  font-weight: 300;
+  font-weight: 200;
   -webkit-font-smoothing: antialiased;
 
   background-color: var(--background-color);
