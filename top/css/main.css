@@ -171,7 +171,7 @@ main {
 
 .skill_list .panel {
   position: absolute;
-  background-color: #fcf5f0;
+  background-color: #fafafa;
   border: 1px solid #eee;
   width: var(--about-skill-panel-width);
   height: var(--about-skill-panel-height);
@@ -199,7 +199,7 @@ main {
 }
 
 .skill_list .panel:hover {
-  background-color: #fff0e5;
+  background-color: #f0f0f0;
 }
 
 .skill_list .panel.inactive {
@@ -212,13 +212,14 @@ main {
 
 @keyframes activePanel {
   0% {
-    background-color: #fcf5f0;
+    background-color: #fafafa;
     border: 1px solid #eee;
     z-index: 0;
   }
   50% {
     left: 0;
     z-index: 1;
+    transform: rotate(-10deg);
   }
   100% {
     border: 1px solid #666;
@@ -251,7 +252,7 @@ main {
     z-index: 0;
   }
   100% {
-    background-color: #fcf5f0;
+    background-color: #fafafa;
     border: 1px solid #eee;
     z-index: 0;
   }
