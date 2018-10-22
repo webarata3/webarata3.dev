@@ -7,7 +7,7 @@
   --background-color: #fff;
   --page-width: 960px;
 
-  --about-skill-num: 5;
+  --about-skill-num: 6;
   --about-skill-interval-x: 60px;
   --about-skill-interval-y: 30px;
   --about-skill-panel-width: 320px;
@@ -157,15 +157,15 @@ main {
 }
 
 .skill h2 {
-  text-align: left;
+  text-align: center;
   font-size: 26px;
-  margin: 0 0 20px 100px;
+  margin: 0 0 40px 100px;
 }
 
 .skill_list {
   position: relative;
-  width: calc(var(--about-skill-panel-width) + var(--about-skill-num) * var(--about-skill-interval-x));
-  height: calc(var(--about-skill-panel-height) + var(--about-skill-num) * var(--about-skill-interval-y));
+  width: calc(var(--about-skill-panel-width) + (var(--about-skill-num) - 1) * var(--about-skill-interval-x));
+  height: calc(var(--about-skill-panel-height) + (var(--about-skill-num) - 1) * var(--about-skill-interval-y));
   margin: 0 auto;
 }
 
@@ -180,6 +180,7 @@ main {
 }
 
 .skill_list .content {
+  line-height: 1.5em;
   filter: blur(2px);
   padding: 15px;
   width: 100%;
@@ -219,8 +220,8 @@ main {
     z-index: 1;
   }
   100% {
-    top: calc(var(--about-skill-num) * var(--about-skill-interval-y) / 2);
-    left: calc(var(--about-skill-num) * var(--about-skill-interval-x) / 2);
+    top: calc((var(--about-skill-num) - 1) * var(--about-skill-interval-y) / 2);
+    left: calc((var(--about-skill-num) - 1) * var(--about-skill-interval-x) / 2);
     background-color: #fff;
     box-shadow: 2px 2px 4px;
     z-index: 1;
@@ -238,8 +239,8 @@ main {
 
 @keyframes inactivePanel {
   0% {
-    top: calc(var(--about-skill-num) * var(--about-skill-interval-y) / 2);
-    left: calc(var(--about-skill-num) * var(--about-skill-interval-x) / 2);
+    top: calc((var(--about-skill-num) - 1) * var(--about-skill-interval-y) / 2);
+    left: calc((var(--about-skill-num) - 1) * var(--about-skill-interval-x) / 2);
     background-color: #fff;
     box-shadow: 2px 2px 4px;
     z-index: 1;
