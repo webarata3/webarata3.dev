@@ -1,23 +1,27 @@
 'use strict';
 
-const liEls = document.querySelectorAll('.skill_list li');
-let selectedLiEl = document.querySelector('.skill_list .selected');
+const panels = document.querySelectorAll('.skill .panel');
+panels.forEach((value, index) => {
+  value.style.top = index * 30 + 'px';
+  value.style.left = index * 60 + 'px';
 
-const descriptionEls = document.querySelectorAll('.skill .description > div');
-let selectedDescriptionEl = descriptionEls[0];
-
-liEls.forEach((item, index) => {
-  item.addEventListener('click', (event) => {
-    if (item.classList.contains('selected')) return;
-    selectedLiEl.classList.remove('selected');
-
-    item.classList.add('selected');
-    selectedLiEl = item;
-
-    selectedDescriptionEl.classList.remove('show');
-    selectedDescriptionEl.classList.add('hide');
-    selectedDescriptionEl = descriptionEls[index];
-    selectedDescriptionEl.classList.remove('hide');
-    selectedDescriptionEl.classList.add('show');
+  value.addEventListener('click', event => {
+    panels.forEach(el => {
+      if (el !== value) {
+        if (el.classList.contains('active')) {
+          el.classList.remove('active');
+          el.classList.add('inactive');
+        } else {
+          el.classList.remove('inactive');
+        }
+      }
+    });
+    if (value.classList.contains('active')) {
+      value.classList.remove('active');
+      value.classList.add('inactive');
+    } else {
+      value.classList.add('active');
+      value.classList.remove('inactive');
+    }
   });
 });

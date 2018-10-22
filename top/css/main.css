@@ -6,12 +6,21 @@
   --brand-color: #31252f;
   --background-color: #fff;
   --page-width: 960px;
+
+  --about-skill-num: 5;
+  --about-skill-interval-x: 60px;
+  --about-skill-interval-y: 30px;
+  --about-skill-panel-width: 320px;
+  --about-skill-panel-height: 320px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
   '游ゴシック  Medium', meiryo, sans-serif;
-  box-sizing: border-box;
 
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
@@ -138,10 +147,13 @@ main {
 /* ABOUT */
 .skill {
   max-width: var(--page-width);
-  text-align: center;
-  align-items: center;
   padding: 50px 0;
   width: 100%;
+}
+
+.skill > section {
+  display: flex;
+  flex-direction: column;
 }
 
 .skill h2 {
@@ -151,89 +163,119 @@ main {
 }
 
 .skill_list {
-  display: flex;
-  flex-direction: row;
-  margin: 0 100px;
+  position: relative;
+  width: calc(var(--about-skill-panel-width) + var(--about-skill-num) * var(--about-skill-interval-x));
+  height: calc(var(--about-skill-panel-height) + var(--about-skill-num) * var(--about-skill-interval-y));
+  margin: 0 auto;
 }
 
-.skill_list ul {
-  margin: 5px 0;
-  padding: 20px 0;
-  font-size: 16px;
-  width: 10rem;
-}
+.skill_list .panel {
+  position: absolute;
+  background-color: #fcf5f0;
+  border: 1px solid #000;
+  width: var(--about-skill-panel-width);
+  height: var(--about-skill-panel-height);
 
-.skill_list li {
-  padding: 10px 10px;
-  margin-right: -1px;
-  border: 1px solid transparent;
   cursor: pointer;
-
-  color: #b1a5af;
-
-  /* z-indexのために必要 */
-  position: relative;
-  z-index: 200;
 }
 
-.skill_list .selected {
-  color: var(--brand-color);
-  border-top: 1px solid var(--brand-color);
-  border-bottom: 1px solid var(--brand-color);
-  border-left: 1px solid var(--brand-color);
-  border-right: 1px solid var(--background-color);
-  border-radius: 20px 0 0 20px / 50% 0 0 50%;
-  animation: viewSkillBorder 0.5s ease-in 0s 1 normal forwards;
+.skill_list .content {
+  filter: blur(2px);
+  padding: 15px;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
 }
 
-@keyframes viewSkillBorder {
+.skill_list .panel.active {
+  animation: activePanel 0.6s ease 0s 1 normal forwards;
+}
+
+.skill_list .panel.active .content {
+  animation: activeContent 0.6s ease 0s 1 normal forwards;
+  overflow-y: scroll;
+}
+
+.skill_list .panel:hover {
+  background-color: #fff0e5;
+}
+
+.skill_list .panel.inactive {
+  animation: inactivePanel 0.6s ease 0s 1 normal forwards;
+}
+
+.skill_list .panel.inactive .content {
+  animation: inactiveContent 0.6s ease 0s 1 normal forwards;
+}
+
+@keyframes activePanel {
   0% {
-    color: #b1a5af;
-    border-top-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
+    background-color: #fcf5f0;
+    box-shadow: none;
+    z-index: 0;
+  }
+  50% {
+    left: 0;
+    z-index: 1;
   }
   100% {
-    color: var(--brand-color);
-    border-top-color: var(--brand-color);
-    border-bottom-color: var(--brand-color);
-    border-left-color: var(--brand-color);
+    top: calc(var(--about-skill-num) * var(--about-skill-interval-y) / 2);
+    left: calc(var(--about-skill-num) * var(--about-skill-interval-x) / 2);
+    background-color: #fff;
+    box-shadow: 2px 2px 4px;
+    z-index: 1;
   }
 }
 
-.skill .description {
-  display: flex;
-  flex: 1;
-}
-
-.skill .description > div {
-  flex: 1;
-  border-left: 1px solid var(--brand-color);
-  padding: 10px 10px 10px 30px;
-  font-size: 18px;
-  line-height: 2rem;
-  text-align: left;
-  word-break: break-all;
-
-  position: relative;
-  z-index: 100;
-}
-
-.skill .description .show {
-  animation: viewDescription 0.5s linear 0s 1 normal forwards;
-}
-
-.skill .description .hide {
-  display: none;
-}
-
-@keyframes viewDescription {
+@keyframes activeContent {
   0% {
-    color: transparent;
+    filter: blur(2px);
   }
   100% {
-    color: var(--brand-color);
+    filter: none;
   }
+}
+
+@keyframes inactivePanel {
+  0% {
+    top: calc(var(--about-skill-num) * var(--about-skill-interval-y) / 2);
+    left: calc(var(--about-skill-num) * var(--about-skill-interval-x) / 2);
+    background-color: #fff;
+    box-shadow: 2px 2px 4px;
+    z-index: 1;
+  }
+  50% {
+    left: 0;
+    z-index: 0;
+  }
+  100% {
+    background-color: #fcf5f0;
+    box-shadow: none;
+    z-index: 0;
+  }
+}
+
+@keyframes inactiveContent {
+  0% {
+    filter: none;
+  }
+  100% {
+    filter: blur(2px);
+  }
+}
+
+.skill_list .title {
+  font-size: 16px;
+  text-align: center;
+  padding: 0 0 5px 0;
+  border-bottom: 1px solid #000;
+  margin: 0 3rem 15px 3rem;
+}
+
+.skill_list .star {
+  text-align: center;
+  color: #ffb42e;
+  margin-bottom: 10px;
 }
 
 /* WORK */
