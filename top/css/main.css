@@ -92,11 +92,12 @@ nav li:not(:last-child) {
 }
 
 nav a {
+  position: relative;
   color: var(--brand-color);
   text-decoration: none;
+  border: 1px solid transparent;
   padding-bottom: 8px;
-  border-bottom: transparent;
-  transition: border-color 0.3s 0.1s ease;
+  transition: border 1s 0.1s ease;
 }
 
 nav a.menu_active {
