@@ -22,7 +22,7 @@ const userAgent = window.navigator.userAgent.toLowerCase();
 const warningMs = `
 <div id="warning">!!! お使いのブラウザでは、このサイトの情報が正しく表示されません。</div>
  <div id="ms">
-  <img src="image/chrome.png">
+  <img src="/image/chrome.png">
   <div class="chrome">
   <div>Google Chromeを今すぐお試しください</div>
  <div>Windows 10のための高速で安全なブラウザー</div>
