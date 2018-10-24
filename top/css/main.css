@@ -495,10 +495,6 @@ main {
   flex: 1;
 }
 
-/*.card:hover {*/
-/*box-shadow: 2px 2px 4px;*/
-/*}*/
-
 .card img {
   margin: 5px;
   width: 7rem;
