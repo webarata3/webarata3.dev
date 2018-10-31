@@ -2,6 +2,7 @@
 
 const works = document.querySelectorAll('.works > article');
 let position = 0;
+const worksCount = works.length;
 
 function resetPosition(position) {
   works.forEach((work, index) => {
@@ -18,12 +19,14 @@ resetPosition(position);
 
 document.querySelector('main').addEventListener('click', event => {
   if (event.button === 0 && !event.shiftKey) {
+    if (position === -(worksCount - 1)) return;
     works.forEach((elm, index) => {
       elm.style.animation = `left${index + position + 1} 0.6s ease 0s 1 normal forwards`;
     });
     position--;
     resetPosition(position);
   } else if (event.shiftKey) {
+    if (position === 0) return;
     works.forEach((elm, index) => {
       elm.style.animation = `right${index + position + 2} 0.6s ease 0s 1 normal forwards`;
     });
