@@ -1,7 +1,5 @@
 @charset "utf-8";
 
-@import url(https://fonts.googleapis.com/css?family=Lato:400,300);
-
 :root {
   --brand-color: #31252f;
   --background-color: #fff;
@@ -15,6 +13,7 @@
 
   --work-width: 600px;
   --work-scroll-width: 500px;
+  --work-height: 400px;
   --work-scroll-scale: 0.5;
   --work-width-padding: calc((var(--page-width) - var(--work-width)) / 2);
 }
@@ -24,8 +23,9 @@
 }
 
 body {
-  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
-  '游ゴシック  Medium', meiryo, sans-serif;
+  font-family: 'ヒラギノ丸ゴ Pro W4', 'Hiragino Maru Gothic Pro',
+  'UD デジタル 教科書体 N-R', Meiryo, 'メイリオ',
+  'Lucida Grande', Verdana, Osaka, sans-serif;
 
   font-weight: 200;
   -webkit-font-smoothing: antialiased;
@@ -371,28 +371,36 @@ main {
 .work {
   display: flex;
   justify-content: center;
-  width: 100%;
+  position: absolute;
+  border: 1px solid var(--brand-color);
+  width: var(--work-width);
+  height: var(--work-height);
+  overflow: hidden;
 }
 
-.work:nth-child(2n + 1) {
-  background-color: #fff5f0;
-}
-
-.work:nth-child(2n) {
-  background-color: var(--background-color);
+.work .caption {
+  width: 200px;
 }
 
 .work section {
   display: flex;
   flex-direction: column;
-  max-width: var(--page-width);
-  padding: 50px;
+  width: var(--work-width);
+  height: var(--work-height);
 }
 
 .work h2 {
+  color: #fff;
+  background-color: #823c1b;
   font-size: 26px;
   padding: 10px;
-  margin-bottom: 10px;
+  text-align: center;
+}
+
+.work section > div {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
 }
 
 .tag_list {
@@ -413,47 +421,78 @@ main {
 }
 
 .work .description {
-  display: flex;
-}
-
-.work .image {
-  display: flex;
   flex: 1;
-  align-items: center;
-  justify-content: center;
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.6em;
 }
 
-.work .clean_hakusan {
-  width: 60%;
-  border: 1px solid var(--brand-color);
-}
-
-.work .kexcelapi {
-  width: 80%;
-  border: 1px solid var(--brand-color);
-}
-
-.work .introduction {
-  font-size: 18px;
-  line-height: 2rem;
-  flex: 1.5;
-  padding: 10px;
+.work img {
+  max-width: 100%;
+  max-height: 100%;
+  border: 1px solid #ccc;
 }
 
 .works {
-  border: 1px solid #f00;
-  position: relative;
-  width: 960px;
-  min-height: 600px;
-  overflow-x: hidden;
+  display: flex;
+  margin: 10px 0;
 }
 
-.works > article {
-  position: absolute;
-  border: 1px solid #ccc;
-  width: var(--work-width);
-  height: 600px;
+.worksMain {
+  position: relative;
+  width: 900px;
+  min-height: var(--work-height);
+  height: calc(var(--work-height) + 20px); /* paddingの分を足しておく */
   overflow: hidden;
+  padding: 10px 0;
+}
+
+.moveLeft {
+  cursor: pointer;
+  width: 30px;
+  position: relative;
+}
+
+.moveLeft:hover {
+  background-color: #eee;
+}
+
+.moveRight {
+  cursor: pointer;
+  width: 30px;
+  position: relative;
+}
+
+.moveRight:hover {
+  background-color: #eee;
+}
+
+.leftArrow {
+  border-top: 24px solid transparent;
+  border-right: 24px solid #ccc;
+  border-bottom: 24px solid transparent;
+  width: 24px;
+  height: 48px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.rightArrow {
+  border-top: 24px solid transparent;
+  border-left: 24px solid #ccc;
+  border-bottom: 24px solid transparent;
+  width: 24px;
+  height: 48px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 @keyframes left0 {
