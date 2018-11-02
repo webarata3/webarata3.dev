@@ -6,7 +6,7 @@ const worksCount = works.length;
 function resetPosition(position) {
   works.forEach((work, index) => {
     const loc = index + position;
-    work.style.left = 180 + loc * 500 + 'px';
+    work.style.left = 150 + loc * 500 + 'px';
     let scale = loc >= 0 ? 1 - 0.5 * loc : 1 + 0.5 * loc;
     scale = scale < 0 ? 0 : scale;
     work.style.transform = `scale(${scale}, ${scale})`;
@@ -22,8 +22,8 @@ function resetPosition(position) {
 let position = 0;
 resetPosition(position);
 
-const moveLeftEl = document.querySelector('.moveLeft');
-const moveRightEl = document.querySelector('.moveRight');
+const moveLeftEl = document.querySelector('.move_left');
+const moveRightEl = document.querySelector('.move_right');
 
 moveLeftEl.addEventListener('click', () => {
   if (position === -(worksCount - 1)) return;
