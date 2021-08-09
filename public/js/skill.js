@@ -25,6 +25,11 @@
       let x = baseX * Math.cos(theta) - baseY * Math.sin(theta);
       let y = baseX * Math.sin(theta) + baseY * Math.cos(theta);
       tabButtons[i].style.position = 'absolute';
+      const w = getPx(tabButtons[i], 'width');
+      const h = getPx(tabButtons[i], 'height');
+      if (x < 0) x = x - w;
+      if (y > 0) y = y + h;
+      if (x === 0) x = x - (w / 2);
       tabButtons[i].style.top = `${-y + r + top}px`;
       tabButtons[i].style.left = `${x + r + left}px`;
     }
