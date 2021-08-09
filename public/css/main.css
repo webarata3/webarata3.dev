@@ -205,9 +205,27 @@
   color: #007bff;
 }
 
-.skill__tab-content-init {
-  display: none;
+.skill {
+  position: relative;
+  width: 900px;
+  height: 800px;
+  border: 1px solid #999;
+  margin: 0 auto;
 }
 
 .skill__tab-content {
+  position: absolute;
+  top: 100px;
+  left: 150px;
+  width: 600px;
+  height: 600px;
+  border: 1px solid #999;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.skill__tab-content-init {
+  display: none;
 }
