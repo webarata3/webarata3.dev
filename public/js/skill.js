@@ -18,22 +18,24 @@
       this.top = getPx(this.tabContent, 'top');
       this.left = getPx(this.tabContent, 'left');
       this.betweenAngle = 360 / this.tabButtons.length;
+      this.newAngles = Array(this.tabButtons.length);
+
       this.#rotate(0, false);
       this.#setEvent();
     }
 
-    #rotate(changeDeg, animation = true) {
+    #rotate(changeAngle, animation = true) {
       for (let i = 0; i < this.tabButtons.length; i++) {
         this.tabButtons[i].style.position = 'absolute';
         const w = getPx(this.tabButtons[i], 'width');
         this.tabButtons[i].style.top = `${this.top - this.h / 2}px`;
         this.tabButtons[i].style.left = `${this.left + this.r - w / 2}px`;
 
-        const newAngle = (this.betweenAngle * i + changeDeg + 360) % 360;
+        const newAngle = (this.betweenAngle * i + changeAngle + 360) % 360;
         console.log(i, newAngle);
         this.tabButtons[i].style.transform = `rotate(${newAngle}deg)`;
         this.tabButtons[i].style.transformOrigin = `0 ${this.r}px`;
-        this.tabButtons[i].dataset.deg = 360 - newAngle;
+        this.newAngles[i] = 360 - newAngle;
         if (animation) this.tabButtons[i].style.transition = 'transform 1s ease-out';
 
         const inner = this.tabButtons[i].querySelector('p');
@@ -41,13 +43,14 @@
         inner.style.transformOrigin = '0 0';
         if (animation) inner.style.transition = 'transform 1s ease-out';
       }
+      console.log(this.newAngles);
     }
 
     #setEvent() {
       this.first = true;
       this.currentTab = null;
       this.currentContent = null;
-      this.tabButtons.forEach(tabButton => {
+      this.tabButtons.forEach((tabButton, index) => {
         tabButton.addEventListener('click', () => {
           if (this.currentTab !== null) {
             this.currentContent.classList.add('skill__tab-content-init');
@@ -60,8 +63,7 @@
           if (this.first) {
             this.first = false;
           } else {
-            this.#rotate(tabButton.dataset.deg);
-            console.log(tabButton.dataset.deg);
+            this.#rotate(this.newAngles[index]);
           }
         });
       });
