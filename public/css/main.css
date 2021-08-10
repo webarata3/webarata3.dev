@@ -5,7 +5,7 @@
   --basic-margin: 10px;
   --basic-margin-small: 5px;
   --basic-margin-large: 20px;
-  
+
   --header-height: calc(2em + var(--basic-padding) * 2);
   --header-bg-color: #333;
   --header-color: #fff;
@@ -35,7 +35,7 @@
 .header {
   background-color: var(--header-bg-color);
   padding: var(--basic-padding);
-  color: var(--header-color); 
+  color: var(--header-color);
   height: var(--header-height);
 }
 
@@ -112,15 +112,15 @@
 }
 
 .main__nav li:nth-child(1) {
-  margin-left: calc(var(--basic-margin-large) * 2); 
+  margin-left: calc(var(--basic-margin-large) * 2);
 }
 
 .main__nav li:nth-child(2) {
-  margin-left: calc(var(--basic-margin-large) * 9); 
+  margin-left: calc(var(--basic-margin-large) * 9);
 }
 
 .main__nav li:nth-child(3) {
-  margin-left: calc(var(--basic-margin-large) * 16); 
+  margin-left: calc(var(--basic-margin-large) * 16);
 }
 
 .main__nav-item {
