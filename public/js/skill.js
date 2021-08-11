@@ -18,7 +18,10 @@
       this.top = getPx(this.tabContent, 'top');
       this.left = getPx(this.tabContent, 'left');
       this.betweenAngle = 360 / this.tabButtons.length;
-      this.newAngles = Array(this.tabButtons.length);
+      this.currentAngles = Array(this.tabButtons.length);
+      for (let i = 0; i < this.currentAngles.length; i++) {
+        this.currentAngles[i] = 360 / this.currentAngles.length * i;
+      }
 
       this.#rotate(0, false);
       this.#setEvent();
@@ -31,19 +34,17 @@
         this.tabButtons[i].style.top = `${this.top - this.h / 2}px`;
         this.tabButtons[i].style.left = `${this.left + this.r - w / 2}px`;
 
-        const newAngle = (this.betweenAngle * i + changeAngle + 360) % 360;
-        console.log(i, newAngle);
+        const newAngle = (this.currentAngles[i] + changeAngle + 360) % 360;
         this.tabButtons[i].style.transform = `rotate(${newAngle}deg)`;
         this.tabButtons[i].style.transformOrigin = `0 ${this.r}px`;
-        this.newAngles[i] = 360 - newAngle;
-        if (animation) this.tabButtons[i].style.transition = 'transform 1s ease-out';
+        this.currentAngles[i] = newAngle;
+        if (animation) this.tabButtons[i].style.transition = 'transform 0.5s ease-out';
 
         const inner = this.tabButtons[i].querySelector('p');
         inner.style.transform = `rotate(-${newAngle}deg)`;
         inner.style.transformOrigin = '0 0';
-        if (animation) inner.style.transition = 'transform 1s ease-out';
+        if (animation) inner.style.transition = 'transform 0.5s ease-out';
       }
-      console.log(this.newAngles);
     }
 
     #setEvent() {
@@ -53,17 +54,19 @@
       this.tabButtons.forEach((tabButton, index) => {
         tabButton.addEventListener('click', () => {
           if (this.currentTab !== null) {
+            this.currentTab.querySelector('p').classList.remove('skill__tab-button-inner--selected');
             this.currentContent.classList.add('skill__tab-content-init');
           }
           const content = document.querySelector(`#${tabButton.dataset.content}`);
           content.classList.remove('skill__tab-content-init');
           content.parentNode.style.borderColor = content.dataset.circleColor;
+          tabButton.querySelector('p').classList.add('skill__tab-button-inner--selected');
           this.currentTab = tabButton;
           this.currentContent = content;
           if (this.first) {
             this.first = false;
           } else {
-            this.#rotate(this.newAngles[index]);
+            this.#rotate(360 - this.currentAngles[index]);
           }
         });
       });

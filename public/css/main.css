@@ -6,7 +6,7 @@
   --basic-margin-small: 5px;
   --basic-margin-large: 20px;
 
-  --header-height: calc(2em + var(--basic-padding) * 2);
+  --header-height: calc(3em + var(--basic-padding) * 2);
   --header-bg-color: #333;
   --header-color: #fff;
 
@@ -14,6 +14,8 @@
   --main-bg-color: #fff;
 
   --content-width: 960px;
+
+  --skill-border-color: #999;
 }
 
 * {
@@ -52,8 +54,9 @@
 }
 
 .header__logo {
-  height: 1.6em;
+  height: 2em;
   margin-right: var(--basic-margin-small);
+  image-rendering: pixelated;
 }
 
 .main {
@@ -69,6 +72,9 @@
 .main__inner {
   width: var(--content-width);
   height: calc(100vh - var(--header-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   overflow-y: scroll;
 }
 
@@ -177,15 +183,28 @@
 }
 
 .footer {
+  font-size: 0.8em;
   margin-top: 100px;
   display: flex;
   justify-content: flex-end;
+  margin-bottom: var(--basic-margin);
 }
 
-.footer__content {
-  text-align: right;
+.footer__inner {
   border-top: 1px solid #000;
   padding: var(--basic-padding);
+  display: flex;
+}
+
+.footer__credit{
+  margin-right: var(--basic-margin-large);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.footer__link {
+  text-decoration: none;
 }
 
 .header__nav {
@@ -208,24 +227,49 @@
 .skill {
   position: relative;
   width: 900px;
-  height: 800px;
-  border: 1px solid #999;
   margin: 0 auto;
+}
+
+.skill__tab-buttons {
+  /* 重ね合わせの問題で必要 */
+  /* 無いとタブのボタンが下になってしまう */
+  position: relative;
+  z-index: 10;
+}
+
+.skill__tab-button-inner {
+  padding: var(--basic-padding);
+  border-radius: var(--basic-padding);
+  background-color: #fff;
+  border: 1px solid var(--skill-border-color);
+  cursor: pointer;
+}
+
+.skill__tab-button-inner--selected {
+  color: var(--main-bg-color);
+  background-color: var(--header-bg-color);
+  border-color: var(--header-bg-color);
+  cursor: auto;
 }
 
 .skill__tab-content {
   position: absolute;
-  top: 100px;
+  top: 50px;
   left: 150px;
   width: 600px;
   height: 600px;
-  border: 1px solid #999;
+  border: 1px solid var(--skill-border-color);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .skill__tab-content-init {
   display: none;
+}
+
+.skill__level {
+  color: #ff0;
 }

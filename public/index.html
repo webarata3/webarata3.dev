@@ -39,12 +39,14 @@
        </ul>
       </section>
      </div>
-     <div style="height: 500px">a</div>
-     <div style="height: 500px">a</div>
-     <div style="height: 500px">a</div>
-     <div style="height: 500px">a</div>
      <footer class="footer">
-      <p class="footer__content"><small>©2021 webarata3（ARATA Shinichi）</small></p>
+      <div class="footer__inner">
+       <div class="footer__credit">
+        <a href="#" class="footer__link">プライバシーポリシー</a>
+        <a href="#" class="footer__link">クレジット</a>
+       </div>
+       <p><small>©2021 webarata3（ARATA Shinichi）</small></p>
+      </div>
      </footer>
     </div>
    </article>
@@ -77,28 +79,34 @@
      </header>
      <section>
       <div class="skill">
-       <ul id="skillTabButtons">
-        <li data-content="skillTabJava">
-         <p>Java</p>
+       <ul id="skillTabButtons" class="skill__tab-buttons">
+        <li data-content="skillTabJava" class="skill__tab-button">
+         <p class="skill__tab-button-inner">Java</p>
         </li>
-        <li data-content="skillTabHtml">
-         <p>HTML / CSS</p>
+        <li data-content="skillTabHtml" class="skill__tab-button">
+         <p class="skill__tab-button-inner">HTML / CSS</p>
         </li>
-        <li data-content="skillTabJavaScript">
-         <p>JavaScript</p>
+        <li data-content="skillTabJavaScript" class="skill__tab-button">
+         <p class="skill__tab-button-inner">JavaScript</p>
         </li>
-        <li data-content="skillTabElm">
-         <p>Elm</p>
+        <li data-content="skillTabElm" class="skill__tab-button">
+         <p class="skill__tab-button-inner">Elm</p>
         </li>
-        <li data-content="skillTabPython">
-         <p>Python</p>
+        <li data-content="skillTabPython" class="skill__tab-button">
+         <p class="skill__tab-button-inner">Python</p>
         </li>
-        <li data-content="skillTabFlutter">
-         <p>Flutter / Dart</p>
+        <li data-content="skillTabFlutter" class="skill__tab-button">
+         <p class="skill__tab-button-inner">Flutter / Dart</p>
         </li>
        </ul>
        <div class="skill__tab-content">
-        <div id="skillTabJava" class="skill__tab-content-init">Java</div>
+        <div id="skillTabJava" class="skill__tab-content-init">
+         <h3>Java</h3>
+         <div class="skill__level">★★★</div>
+         <div>
+          <p>Java 1.1から使っている。</p>
+         </div>
+        </div>
         <div id="skillTabHtml" class="skill__tab-content-init">Html</div>
         <div id="skillTabJavaScript" class="skill__tab-content-init">JavaScript</div>
         <div id="skillTabElm" class="skill__tab-content-init">Elm</div>
