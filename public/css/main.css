@@ -16,6 +16,10 @@
   --content-width: 960px;
 
   --skill-border-color: #999;
+  --skill-content-width: 600px;
+  --skill-content-height: var(--skill-content-width);
+  --skill-content-inner-width: calc(var(--skill-content-width) - 300px);
+  --skill-content-inner-height: var(--skill-content-inner-width);
 }
 
 * {
@@ -256,8 +260,8 @@
   position: absolute;
   top: 50px;
   left: 150px;
-  width: 600px;
-  height: 600px;
+  width: var(--skill-content-width);
+  height: var(--skill-content-height);
   border: 1px solid var(--skill-border-color);
   border-radius: 50%;
   display: flex;
@@ -266,10 +270,19 @@
   z-index: 1;
 }
 
+.skill__content {
+  position: absolute;
+  top: calc((var(--skill-content-height) - var(--skill-content-inner-height)) / 2);
+  left: calc((var(--skill-content-width) - var(--skill-content-inner-width)) / 2);
+  width: var(--skill-content-inner-width);
+  height: var(--skill-content-inner-height);
+  overflow-y: scroll;
+}
+
 .skill__tab-content-init {
   display: none;
 }
 
 .skill__level {
-  color: #ff0;
+  color: #f88;
 }
