@@ -283,6 +283,14 @@
   display: none;
 }
 
+.skill__tab-title {
+  text-align: center;
+  font-size: 1.2em;
+  border-bottom: 2px solid var(--skill-border-color);
+  padding: var(--basic-padding);
+  margin: 0 var(--basic-margin-large) var(--basic-margin);
+}
+
 .skill__level {
   color: #f88;
 }
