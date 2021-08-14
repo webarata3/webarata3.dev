@@ -111,6 +111,15 @@
   margin-left: 15em;
 }
 
+.main__link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.main__link:hover {
+  background-color: #eef0ff;
+}
+
 .main__title::before {
   content: '-';
   margin-right: var(--basic-margin);
