@@ -294,3 +294,8 @@
 .skill__level {
   color: #f88;
 }
+
+.skill__content-p {
+  margin: var(--basic-margin) 0;
+  line-height: 1.5;
+}
