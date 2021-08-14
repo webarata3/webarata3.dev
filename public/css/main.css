@@ -292,6 +292,16 @@
 }
 
 .skill__level {
+  text-align: center;
+  margin: var(--basic-margin) 0 var(--basic-margin-large);
+}
+
+.skill__level-title::after {
+  content: ':';
+  margin-right: var(--basic-margin);
+}
+
+.skill__level-star {
   color: #f88;
 }
 
