@@ -18,7 +18,7 @@
   --skill-border-color: #999;
   --skill-content-width: 600px;
   --skill-content-height: var(--skill-content-width);
-  --skill-content-inner-width: calc(var(--skill-content-width) - 300px);
+  --skill-content-inner-width: calc(var(--skill-content-width) - 240px);
   --skill-content-inner-height: var(--skill-content-inner-width);
 }
 
