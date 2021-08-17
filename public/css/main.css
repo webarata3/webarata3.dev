@@ -28,7 +28,7 @@
   font-weight: 300;
 }
 
-.body {
+body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -66,6 +66,7 @@
 .main {
   width: var(--content-width);
   margin: 0 auto;
+  position: relative;
 }
 
 .main__content {
@@ -248,6 +249,10 @@
   /* 無いとタブのボタンが下になってしまう */
   position: relative;
   z-index: 10;
+}
+
+.skill__tab-button {
+  position: absolute;
 }
 
 .skill__tab-button-inner {
