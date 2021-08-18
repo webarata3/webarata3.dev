@@ -279,10 +279,6 @@ update msg model =
             )
 
         TabButtonWidth (Err e) ->
-            let
-                a =
-                    Debug.log "error" e
-            in
             ( model, Cmd.none )
 
         LinkClicked urlRequest ->
