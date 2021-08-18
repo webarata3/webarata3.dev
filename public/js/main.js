@@ -5310,6 +5310,7 @@ var $author$project$Main$init = F3(
 			{
 				currentDeg: 0,
 				currentPage: 'Home',
+				isSkillTabFirstView: true,
 				key: key,
 				locationDict: $elm$core$Dict$empty,
 				maybeBodyCss: $elm$core$Maybe$Nothing,
@@ -5323,6 +5324,9 @@ var $author$project$Main$init = F3(
 							_Utils_Tuple2('skills', 180),
 							_Utils_Tuple2('link', 90)
 						])),
+				skillContent: {betweenDeg: 0, height: 0, left: 0, r: 0, top: 0},
+				skillTitleHeight: 0,
+				skillTitles: _List_Nil,
 				url: url
 			},
 			A2(
@@ -5330,10 +5334,31 @@ var $author$project$Main$init = F3(
 				$author$project$Main$Init,
 				$elm$browser$Browser$Dom$getElement('main')));
 	});
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
+var $author$project$Main$RetGetSkillOffset = function (a) {
+	return {$: 'RetGetSkillOffset', a: a};
+};
+var $elm$json$Json$Decode$andThen = _Json_andThen;
+var $elm$json$Json$Decode$field = _Json_decodeField;
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $author$project$Main$getOffsetReceiver = _Platform_incomingPort(
+	'getOffsetReceiver',
+	A2(
+		$elm$json$Json$Decode$andThen,
+		function (top) {
+			return A2(
+				$elm$json$Json$Decode$andThen,
+				function (left) {
+					return $elm$json$Json$Decode$succeed(
+						{left: left, top: top});
+				},
+				A2($elm$json$Json$Decode$field, 'left', $elm$json$Json$Decode$int));
+		},
+		A2($elm$json$Json$Decode$field, 'top', $elm$json$Json$Decode$int)));
 var $author$project$Main$subscriptions = function (_v0) {
-	return $elm$core$Platform$Sub$none;
+	return $author$project$Main$getOffsetReceiver($author$project$Main$RetGetSkillOffset);
+};
+var $author$project$Main$InitSkills = function (a) {
+	return {$: 'InitSkills', a: a};
 };
 var $author$project$Main$TabButtonWidth = function (a) {
 	return {$: 'TabButtonWidth', a: a};
@@ -5369,8 +5394,9 @@ var $elm$core$Dict$get = F2(
 			}
 		}
 	});
-var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$Main$getOffset = _Platform_outgoingPort('getOffset', $elm$json$Json$Encode$string);
+var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -5596,8 +5622,18 @@ var $author$project$Main$getSkillTabs = _List_fromArray(
 var $author$project$Main$getTabButtonWidth = function (id) {
 	return $elm$browser$Browser$Dom$getElement(id);
 };
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
 var $elm$browser$Browser$Navigation$load = _Browser_load;
 var $elm$core$Debug$log = _Debug_log;
+var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
@@ -5682,12 +5718,6 @@ var $author$project$Main$update = F2(
 				if (msg.a.$ === 'Ok') {
 					var elem = msg.a.a;
 					var y = $elm$core$Basics$floor(elem.element.y);
-					var tabIds = A2(
-						$elm$core$List$map,
-						function (e) {
-							return e.id;
-						},
-						$author$project$Main$getSkillTabs);
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
@@ -5725,18 +5755,101 @@ var $author$project$Main$update = F2(
 							}),
 						A2(
 							$elm$core$Task$attempt,
-							$author$project$Main$TabButtonWidth,
-							$elm$core$Task$sequence(
-								A2($elm$core$List$map, $author$project$Main$getTabButtonWidth, tabIds))));
+							$author$project$Main$InitSkills,
+							$elm$browser$Browser$Dom$getElement('skillTabContent')));
 				} else {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
+			case 'InitSkills':
+				if (msg.a.$ === 'Ok') {
+					var elem = msg.a.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								skillContent: {
+									betweenDeg: $elm$core$Basics$floor(
+										360 / $elm$core$List$length($author$project$Main$getSkillTabs)),
+									height: $elm$core$Basics$floor(elem.element.height),
+									left: 0,
+									r: ($elm$core$Basics$floor(elem.element.width) / 2) | 0,
+									top: 0
+								}
+							}),
+						$author$project$Main$getOffset('skillTabContent'));
+				} else {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				}
+			case 'RetGetSkillOffset':
+				var offset = msg.a;
+				var tabIds = A2(
+					$elm$core$List$map,
+					function (e) {
+						return e.id;
+					},
+					$author$project$Main$getSkillTabs);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							skillContent: {betweenDeg: model.skillContent.betweenDeg, height: model.skillContent.height, left: offset.left, r: model.skillContent.r, top: offset.top}
+						}),
+					A2(
+						$elm$core$Task$attempt,
+						$author$project$Main$TabButtonWidth,
+						$elm$core$Task$sequence(
+							A2($elm$core$List$map, $author$project$Main$getTabButtonWidth, tabIds))));
 			case 'TabButtonWidth':
 				if (msg.a.$ === 'Ok') {
 					var elems = msg.a.a;
-					var a = A2($elm$core$Debug$log, '', elems);
-					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+					var widths = A2(
+						$elm$core$List$map,
+						function (e) {
+							return $elm$core$Basics$floor(e);
+						},
+						A2(
+							$elm$core$List$map,
+							function (e) {
+								return e.element.width;
+							},
+							elems));
+					var height = $elm$core$Basics$floor(
+						A2(
+							$elm$core$Maybe$withDefault,
+							0.0,
+							$elm$core$List$head(
+								A2(
+									$elm$core$List$map,
+									function (e) {
+										return e.element.height;
+									},
+									elems))));
+					var count = A2(
+						$elm$core$List$range,
+						0,
+						$elm$core$List$length(widths) - 1);
+					var degs = A2(
+						$elm$core$List$map,
+						function (c) {
+							return c * model.skillContent.betweenDeg;
+						},
+						count);
+					var skillTitles = A3(
+						$elm$core$List$map2,
+						F2(
+							function (w, d) {
+								return {deg: d, width: w};
+							}),
+						widths,
+						degs);
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{skillTitleHeight: height, skillTitles: skillTitles}),
+						$elm$core$Platform$Cmd$none);
 				} else {
+					var e = msg.a.a;
+					var a = A2($elm$core$Debug$log, 'error', e);
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
 			case 'LinkClicked':
@@ -5755,7 +5868,7 @@ var $author$project$Main$update = F2(
 						model,
 						$elm$browser$Browser$Navigation$load(href));
 				}
-			default:
+			case 'UrlChanged':
 				var url = msg.a;
 				var page = $author$project$Main$urlToRoute(url);
 				var maybeBodyCss = function () {
@@ -5786,6 +5899,23 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{currentPage: page, maybeBodyCss: maybeBodyCss, url: url}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				var clickDeg = msg.a;
+				var changeDeg = 360 - clickDeg;
+				var skillTitles = A2(
+					$elm$core$List$map,
+					function (e) {
+						return {
+							deg: A2($elm$core$Basics$modBy, 360, (e.deg + changeDeg) + 360),
+							width: e.width
+						};
+					},
+					model.skillTitles);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isSkillTabFirstView: false, skillTitles: skillTitles}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -6120,15 +6250,6 @@ var $elm$core$List$filter = F2(
 			list);
 	});
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
-var $elm$core$List$head = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(x);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
 var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Main$viewMainHeaderLink = function (link) {
 	return A2(
@@ -6245,37 +6366,137 @@ var $author$project$Main$viewLink = function (model) {
 					]))
 			]));
 };
-var $author$project$Main$viewSkillTabButton = function (skillTab) {
+var $elm$core$List$isEmpty = function (xs) {
+	if (!xs.b) {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $elm$core$List$repeatHelp = F3(
+	function (result, n, value) {
+		repeatHelp:
+		while (true) {
+			if (n <= 0) {
+				return result;
+			} else {
+				var $temp$result = A2($elm$core$List$cons, value, result),
+					$temp$n = n - 1,
+					$temp$value = value;
+				result = $temp$result;
+				n = $temp$n;
+				value = $temp$value;
+				continue repeatHelp;
+			}
+		}
+	});
+var $elm$core$List$repeat = F2(
+	function (n, value) {
+		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
+	});
+var $author$project$Main$SkillTabClick = function (a) {
+	return {$: 'SkillTabClick', a: a};
+};
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
 	return A2(
-		$elm$html$Html$li,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$id(skillTab.id),
-				$elm$html$Html$Attributes$class('skill__tab-button')
-			]),
-		_List_fromArray(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $author$project$Main$viewSkillTabButton = F4(
+	function (skillContentElem, isSkillTabFirstView, skillTab, skillTitle) {
+		var styleWidth = (!skillTitle.width) ? _List_Nil : _List_fromArray(
 			[
 				A2(
-				$elm$html$Html$p,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('skill__tab-button-inner')
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(skillTab.title)
-					]))
-			]));
-};
-var $author$project$Main$viewSkillTabButtons = function (skillTabs) {
-	return A2(
-		$elm$html$Html$ul,
-		_List_fromArray(
+				$elm$html$Html$Attributes$style,
+				'width',
+				$elm$core$String$fromInt(skillTitle.width) + 'px')
+			]);
+		var baseLeft = skillContentElem.left + skillContentElem.r;
+		var animationStyle = isSkillTabFirstView ? _List_Nil : _List_fromArray(
 			[
-				$elm$html$Html$Attributes$class('skill__tab-buttons')
-			]),
-		A2($elm$core$List$map, $author$project$Main$viewSkillTabButton, skillTabs));
-};
+				A2($elm$html$Html$Attributes$style, 'transition', 'transform 0.5s ease-out')
+			]);
+		var appendStyle = A2($elm$core$List$append, styleWidth, animationStyle);
+		return A2(
+			$elm$html$Html$li,
+			A2(
+				$elm$core$List$append,
+				appendStyle,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$id(skillTab.id),
+						$elm$html$Html$Attributes$class('skill__tab-button'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'top',
+						$elm$core$String$fromInt(skillContentElem.top) + 'px'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'left',
+						$elm$core$String$fromInt(baseLeft - ((skillTitle.width / 2) | 0)) + 'px'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'transform',
+						'rotate(' + ($elm$core$String$fromInt(skillTitle.deg) + 'deg)')),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'transform-origin',
+						'0 ' + ($elm$core$String$fromInt(skillContentElem.r) + 'px')),
+						$elm$html$Html$Events$onClick(
+						$author$project$Main$SkillTabClick(skillTitle.deg))
+					])),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$p,
+					A2(
+						$elm$core$List$append,
+						animationStyle,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('skill__tab-button-inner'),
+								A2(
+								$elm$html$Html$Attributes$style,
+								'transform',
+								'rotate(-' + ($elm$core$String$fromInt(skillTitle.deg) + 'deg)')),
+								A2($elm$html$Html$Attributes$style, 'transform-origin', '0 0')
+							])),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(skillTab.title)
+						]))
+				]));
+	});
+var $author$project$Main$viewSkillTabButtons = F2(
+	function (model, skillTabs) {
+		var skillTitles = $elm$core$List$isEmpty(model.skillTitles) ? A2(
+			$elm$core$List$repeat,
+			$elm$core$List$length(skillTabs),
+			{deg: 0, width: 0}) : model.skillTitles;
+		return A2(
+			$elm$html$Html$ul,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('skill__tab-buttons')
+				]),
+			A3(
+				$elm$core$List$map2,
+				A2($author$project$Main$viewSkillTabButton, model.skillContent, model.isSkillTabFirstView),
+				skillTabs,
+				skillTitles));
+	});
 var $author$project$Main$viewSkills = function (model) {
 	var skillTabs = $author$project$Main$getSkillTabs;
 	return A2(
@@ -6300,15 +6521,16 @@ var $author$project$Main$viewSkills = function (model) {
 							]),
 						_List_fromArray(
 							[
-								$author$project$Main$viewSkillTabButtons(skillTabs)
-							])),
-						A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('skill__tab-content')
-							]),
-						_List_Nil)
+								A2($author$project$Main$viewSkillTabButtons, model, skillTabs),
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$id('skillTabContent'),
+										$elm$html$Html$Attributes$class('skill__tab-content')
+									]),
+								_List_Nil)
+							]))
 					]))
 			]));
 };

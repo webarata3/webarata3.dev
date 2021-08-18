@@ -261,6 +261,7 @@ body {
   background-color: #fff;
   border: 1px solid var(--skill-border-color);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .skill__tab-button-inner--selected {
