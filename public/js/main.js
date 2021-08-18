@@ -5334,12 +5334,17 @@ var $author$project$Main$init = F3(
 				$author$project$Main$Init,
 				$elm$browser$Browser$Dom$getElement('main')));
 	});
+var $author$project$Main$RetGetComputedHeight = function (a) {
+	return {$: 'RetGetComputedHeight', a: a};
+};
 var $author$project$Main$RetGetSkillOffset = function (a) {
 	return {$: 'RetGetSkillOffset', a: a};
 };
+var $elm$core$Platform$Sub$batch = _Platform_batch;
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $author$project$Main$getComputedHeightReceiver = _Platform_incomingPort('getComputedHeightReceiver', $elm$json$Json$Decode$int);
 var $elm$json$Json$Decode$andThen = _Json_andThen;
 var $elm$json$Json$Decode$field = _Json_decodeField;
-var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $author$project$Main$getOffsetReceiver = _Platform_incomingPort(
 	'getOffsetReceiver',
 	A2(
@@ -5355,7 +5360,12 @@ var $author$project$Main$getOffsetReceiver = _Platform_incomingPort(
 		},
 		A2($elm$json$Json$Decode$field, 'top', $elm$json$Json$Decode$int)));
 var $author$project$Main$subscriptions = function (_v0) {
-	return $author$project$Main$getOffsetReceiver($author$project$Main$RetGetSkillOffset);
+	return $elm$core$Platform$Sub$batch(
+		_List_fromArray(
+			[
+				$author$project$Main$getOffsetReceiver($author$project$Main$RetGetSkillOffset),
+				$author$project$Main$getComputedHeightReceiver($author$project$Main$RetGetComputedHeight)
+			]));
 };
 var $author$project$Main$InitSkills = function (a) {
 	return {$: 'InitSkills', a: a};
@@ -5395,6 +5405,7 @@ var $elm$core$Dict$get = F2(
 		}
 	});
 var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$Main$getComputedHeight = _Platform_outgoingPort('getComputedHeight', $elm$json$Json$Encode$string);
 var $author$project$Main$getOffset = _Platform_outgoingPort('getOffset', $elm$json$Json$Encode$string);
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -5782,6 +5793,15 @@ var $author$project$Main$update = F2(
 				}
 			case 'RetGetSkillOffset':
 				var offset = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							skillContent: {betweenDeg: model.skillContent.betweenDeg, height: model.skillContent.height, left: offset.left, r: model.skillContent.r, top: offset.top}
+						}),
+					$author$project$Main$getComputedHeight('skillTab0'));
+			case 'RetGetComputedHeight':
+				var height = msg.a;
 				var tabIds = A2(
 					$elm$core$List$map,
 					function (e) {
@@ -5791,9 +5811,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{
-							skillContent: {betweenDeg: model.skillContent.betweenDeg, height: model.skillContent.height, left: offset.left, r: model.skillContent.r, top: offset.top}
-						}),
+						{skillTitleHeight: height}),
 					A2(
 						$elm$core$Task$attempt,
 						$author$project$Main$TabButtonWidth,
@@ -6414,8 +6432,8 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $author$project$Main$viewSkillTabButton = F4(
-	function (skillContentElem, isSkillTabFirstView, skillTab, skillTitle) {
+var $author$project$Main$viewSkillTabButton = F3(
+	function (model, skillTab, skillTitle) {
 		var styleWidth = (!skillTitle.width) ? _List_Nil : _List_fromArray(
 			[
 				A2(
@@ -6423,7 +6441,9 @@ var $author$project$Main$viewSkillTabButton = F4(
 				'width',
 				$elm$core$String$fromInt(skillTitle.width) + 'px')
 			]);
-		var baseLeft = skillContentElem.left + skillContentElem.r;
+		var skillContent = model.skillContent;
+		var isSkillTabFirstView = model.isSkillTabFirstView;
+		var baseLeft = skillContent.left + skillContent.r;
 		var animationStyle = isSkillTabFirstView ? _List_Nil : _List_fromArray(
 			[
 				A2($elm$html$Html$Attributes$style, 'transition', 'transform 0.5s ease-out')
@@ -6441,7 +6461,7 @@ var $author$project$Main$viewSkillTabButton = F4(
 						A2(
 						$elm$html$Html$Attributes$style,
 						'top',
-						$elm$core$String$fromInt(skillContentElem.top) + 'px'),
+						$elm$core$String$fromInt(skillContent.top - ((model.skillTitleHeight / 2) | 0)) + 'px'),
 						A2(
 						$elm$html$Html$Attributes$style,
 						'left',
@@ -6453,7 +6473,7 @@ var $author$project$Main$viewSkillTabButton = F4(
 						A2(
 						$elm$html$Html$Attributes$style,
 						'transform-origin',
-						'0 ' + ($elm$core$String$fromInt(skillContentElem.r) + 'px')),
+						'0 ' + ($elm$core$String$fromInt(skillContent.r) + 'px')),
 						$elm$html$Html$Events$onClick(
 						$author$project$Main$SkillTabClick(skillTitle.deg))
 					])),
@@ -6493,7 +6513,7 @@ var $author$project$Main$viewSkillTabButtons = F2(
 				]),
 			A3(
 				$elm$core$List$map2,
-				A2($author$project$Main$viewSkillTabButton, model.skillContent, model.isSkillTabFirstView),
+				$author$project$Main$viewSkillTabButton(model),
 				skillTabs,
 				skillTitles));
 	});

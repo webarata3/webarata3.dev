@@ -21,6 +21,12 @@ port getOffset : String -> Cmd msg
 port getOffsetReceiver : (Offset -> msg) -> Sub msg
 
 
+port getComputedHeight : String -> Cmd msg
+
+
+port getComputedHeightReceiver : (Int -> msg) -> Sub msg
+
+
 
 -- MAIN
 
@@ -140,6 +146,7 @@ type Msg
     = Init (Result Browser.Dom.Error Browser.Dom.Element)
     | InitSkills (Result Browser.Dom.Error Browser.Dom.Element)
     | RetGetSkillOffset Offset
+    | RetGetComputedHeight Int
     | TabButtonWidth (Result Browser.Dom.Error (List Browser.Dom.Element))
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
@@ -211,10 +218,6 @@ update msg model =
             ( model, Cmd.none )
 
         RetGetSkillOffset offset ->
-            let
-                tabIds =
-                    List.map (\e -> e.id) getSkillTabs
-            in
             ( { model
                 | skillContent =
                     { height = model.skillContent.height
@@ -223,6 +226,17 @@ update msg model =
                     , left = offset.left
                     , betweenDeg = model.skillContent.betweenDeg
                     }
+              }
+            , getComputedHeight "skillTab0"
+            )
+
+        RetGetComputedHeight height ->
+            let
+                tabIds =
+                    List.map (\e -> e.id) getSkillTabs
+            in
+            ( { model
+                | skillTitleHeight = height
               }
             , List.map getTabButtonWidth tabIds
                 |> Task.sequence
@@ -343,7 +357,10 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    getOffsetReceiver RetGetSkillOffset
+    Sub.batch
+        [ getOffsetReceiver RetGetSkillOffset
+        , getComputedHeightReceiver RetGetComputedHeight
+        ]
 
 
 
@@ -639,12 +656,18 @@ viewSkillTabButtons model skillTabs =
                 model.skillTitles
     in
     ul [ class "skill__tab-buttons" ] <|
-        List.map2 (viewSkillTabButton model.skillContent model.isSkillTabFirstView) skillTabs skillTitles
+        List.map2 (viewSkillTabButton model) skillTabs skillTitles
 
 
-viewSkillTabButton : SkillContentElem -> Bool -> SkillTab -> SkillTitleElem -> Html Msg
-viewSkillTabButton skillContentElem isSkillTabFirstView skillTab skillTitle =
+viewSkillTabButton : Model -> SkillTab -> SkillTitleElem -> Html Msg
+viewSkillTabButton model skillTab skillTitle =
     let
+        skillContent =
+            model.skillContent
+
+        isSkillTabFirstView =
+            model.isSkillTabFirstView
+
         styleWidth =
             if skillTitle.width == 0 then
                 []
@@ -663,17 +686,17 @@ viewSkillTabButton skillContentElem isSkillTabFirstView skillTab skillTitle =
             List.append styleWidth animationStyle
 
         baseLeft =
-            skillContentElem.left + skillContentElem.r
+            skillContent.left + skillContent.r
     in
     li
         (List.append
             appendStyle
             [ id skillTab.id
             , class "skill__tab-button"
-            , style "top" <| String.fromInt skillContentElem.top ++ "px"
+            , style "top" <| String.fromInt (skillContent.top - model.skillTitleHeight // 2) ++ "px"
             , style "left" <| String.fromInt (baseLeft - (skillTitle.width // 2)) ++ "px"
             , style "transform" <| "rotate(" ++ String.fromInt skillTitle.deg ++ "deg)"
-            , style "transform-origin" <| "0 " ++ String.fromInt skillContentElem.r ++ "px"
+            , style "transform-origin" <| "0 " ++ String.fromInt skillContent.r ++ "px"
             , onClick <| SkillTabClick skillTitle.deg
             ]
         )
