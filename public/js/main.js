@@ -5444,7 +5444,7 @@ var $author$project$Main$getSkillTabs = _List_fromArray(
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('java 1.1から使っています。')
+							$elm$html$Html$text('Java 1.1から使っています。')
 						])),
 					A2(
 					$elm$html$Html$p,
@@ -5601,31 +5601,172 @@ var $author$project$Main$getSkillTabs = _List_fromArray(
 		title: 'Java'
 	},
 		{
-		content: A2($elm$html$Html$div, _List_Nil, _List_Nil),
+		content: A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__content-p')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('このサイトくらいのHTMLやCSSは書けます。')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__content-p')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$span,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('Webアプリを作っていたこともあるので、HTMLやCSSで困ることは（新しいものは日々勉強ですが）あまりありません。')
+								]))
+						]))
+				])),
 		id: 'skillTab1',
 		level: '★★★',
 		title: 'HTML / CSS'
 	},
 		{
-		content: A2($elm$html$Html$div, _List_Nil, _List_Nil),
+		content: A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__content-p')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('バニラJavaScriptはそこそこ書けます。')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__content-p')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$span,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('規模が大きいものを作るときはElmで作ることが多いです。')
+								]))
+						]))
+				])),
 		id: 'skillTab2',
 		level: '★★☆',
 		title: 'JavaScript'
 	},
 		{
-		content: A2($elm$html$Html$div, _List_Nil, _List_Nil),
+		content: A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__content-p')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$span,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('このサイトや')
+								])),
+							A2(
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$href('https://clean.hakusan.app/'),
+									$elm$html$Html$Attributes$class('main__link')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('クリーン白山')
+								])),
+							A2(
+							$elm$html$Html$span,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('でも使っています。')
+								]))
+						]))
+				])),
 		id: 'skillTab3',
 		level: '★★☆',
 		title: 'Elm'
 	},
 		{
-		content: A2($elm$html$Html$div, _List_Nil, _List_Nil),
+		content: A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__content-p')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('文法を一通り勉強して、Flaskを使ったWebアプリを作ったことがあります。')
+						])),
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__content-p')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('使い方を知っているという程度のレベルです。')
+						]))
+				])),
 		id: 'skillTab4',
 		level: '★☆☆',
 		title: 'Python'
 	},
 		{
-		content: A2($elm$html$Html$div, _List_Nil, _List_Nil),
+		content: A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$p,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__content-p')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('勉強中です。')
+						]))
+				])),
 		id: 'skillTab5',
 		level: '★☆☆',
 		title: 'Flutter / Dart'
@@ -6519,8 +6660,69 @@ var $author$project$Main$viewSkillTabButtons = F2(
 				skillTabs,
 				skillTitles));
 	});
+var $author$project$Main$viewSkillTabContent = function (skillTab) {
+	return _List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('skill__content')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h3,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__tab-title')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(skillTab.title)
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('skill__level')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('skill__level-title')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('レベル')
+								])),
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('skill__level-star')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(skillTab.level)
+								]))
+						])),
+					skillTab.content
+				]))
+		]);
+};
 var $author$project$Main$viewSkills = function (model) {
 	var skillTabs = $author$project$Main$getSkillTabs;
+	var maybeContent = $elm$core$List$head(
+		A2(
+			$elm$core$List$filter,
+			function (e) {
+				return _Utils_eq(e.id, model.selectedSkillTabId);
+			},
+			skillTabs));
 	return A2(
 		$elm$html$Html$article,
 		A2(
@@ -6551,7 +6753,14 @@ var $author$project$Main$viewSkills = function (model) {
 										$elm$html$Html$Attributes$id('skillTabContent'),
 										$elm$html$Html$Attributes$class('skill__tab-content')
 									]),
-								_List_Nil)
+								function () {
+									if (maybeContent.$ === 'Just') {
+										var content = maybeContent.a;
+										return $author$project$Main$viewSkillTabContent(content);
+									} else {
+										return _List_Nil;
+									}
+								}())
 							]))
 					]))
 			]));

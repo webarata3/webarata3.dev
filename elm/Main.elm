@@ -422,7 +422,7 @@ getSkillTabs =
       , level = "★★★"
       , content =
             div []
-                [ p [ class "skill__content-p" ] [ text "java 1.1から使っています。" ]
+                [ p [ class "skill__content-p" ] [ text "Java 1.1から使っています。" ]
                 , p [ class "skill__content-p" ]
                     [ span [] [ text "10年程度Webアプリを作っていました。Webのフレームワークとしては" ]
                     , a [ href "https://struts.apache.org/", class "main__link" ] [ text "SAStruts" ]
@@ -448,27 +448,53 @@ getSkillTabs =
     , { id = "skillTab1"
       , title = "HTML / CSS"
       , level = "★★★"
-      , content = div [] []
+      , content =
+            div []
+                [ p [ class "skill__content-p" ] [ text "このサイトくらいのHTMLやCSSは書けます。" ]
+                , p [ class "skill__content-p" ]
+                    [ span [] [ text "Webアプリを作っていたこともあるので、HTMLやCSSで困ることは（新しいものは日々勉強ですが）あまりありません。" ]
+                    ]
+                ]
       }
     , { id = "skillTab2"
       , title = "JavaScript"
       , level = "★★☆"
-      , content = div [] []
+      , content =
+            div []
+                [ p [ class "skill__content-p" ] [ text "バニラJavaScriptはそこそこ書けます。" ]
+                , p [ class "skill__content-p" ]
+                    [ span [] [ text "規模が大きいものを作るときはElmで作ることが多いです。" ]
+                    ]
+                ]
       }
     , { id = "skillTab3"
       , title = "Elm"
       , level = "★★☆"
-      , content = div [] []
+      , content =
+            div []
+                [ p [ class "skill__content-p" ]
+                    [ span [] [ text "このサイトや" ]
+                    , a [ href "https://clean.hakusan.app/", class "main__link" ] [ text "クリーン白山" ]
+                    , span [] [ text "でも使っています。" ]
+                    ]
+                ]
       }
     , { id = "skillTab4"
       , title = "Python"
       , level = "★☆☆"
-      , content = div [] []
+      , content =
+            div []
+                [ p [ class "skill__content-p" ] [ text "文法を一通り勉強して、Flaskを使ったWebアプリを作ったことがあります。" ]
+                , p [ class "skill__content-p" ] [ text "使い方を知っているという程度のレベルです。" ]
+                ]
       }
     , { id = "skillTab5"
       , title = "Flutter / Dart"
       , level = "★☆☆"
-      , content = div [] []
+      , content =
+            div []
+                [ p [ class "skill__content-p" ] [ text "勉強中です。" ]
+                ]
       }
     ]
 
@@ -624,6 +650,9 @@ viewSkills model =
     let
         skillTabs =
             getSkillTabs
+
+        maybeContent =
+            List.filter (\e -> e.id == model.selectedSkillTabId) skillTabs |> List.head
     in
     article
         (class "main__content" :: mainStyle model "skills")
@@ -635,7 +664,13 @@ viewSkills model =
                     [ id "skillTabContent"
                     , class "skill__tab-content"
                     ]
-                    []
+                  <|
+                    case maybeContent of
+                        Just content ->
+                            viewSkillTabContent content
+
+                        Nothing ->
+                            []
                 ]
             ]
         ]
@@ -715,6 +750,19 @@ viewSkillTabButton model skillTab skillTitle =
             )
             [ text skillTab.title ]
         ]
+
+
+viewSkillTabContent : SkillTab -> List (Html Msg)
+viewSkillTabContent skillTab =
+    [ div [ class "skill__content" ]
+        [ h3 [ class "skill__tab-title" ] [ text skillTab.title ]
+        , div [ class "skill__level" ]
+            [ span [ class "skill__level-title" ] [ text "レベル" ]
+            , span [ class "skill__level-star" ] [ text skillTab.level ]
+            ]
+        , skillTab.content
+        ]
+    ]
 
 
 viewLink : Model -> Html Msg
