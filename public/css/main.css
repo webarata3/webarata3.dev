@@ -28,7 +28,7 @@
   font-weight: 300;
 }
 
-.body {
+body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -66,6 +66,7 @@
 .main {
   width: var(--content-width);
   margin: 0 auto;
+  position: relative;
 }
 
 .main__content {
@@ -250,12 +251,17 @@
   z-index: 10;
 }
 
+.skill__tab-button {
+  position: absolute;
+}
+
 .skill__tab-button-inner {
   padding: var(--basic-padding);
   border-radius: var(--basic-padding);
   background-color: #fff;
   border: 1px solid var(--skill-border-color);
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .skill__tab-button-inner--selected {
