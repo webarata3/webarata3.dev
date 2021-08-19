@@ -5324,6 +5324,7 @@ var $author$project$Main$init = F3(
 							_Utils_Tuple2('skills', 180),
 							_Utils_Tuple2('link', 90)
 						])),
+				selectedSkillTabId: 'skillTab0',
 				skillContent: {betweenDeg: 0, height: 0, left: 0, r: 0, top: 0},
 				skillTitleHeight: 0,
 				skillTitles: _List_Nil,
@@ -5643,7 +5644,6 @@ var $elm$core$List$head = function (list) {
 	}
 };
 var $elm$browser$Browser$Navigation$load = _Browser_load;
-var $elm$core$Debug$log = _Debug_log;
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
@@ -5867,7 +5867,6 @@ var $author$project$Main$update = F2(
 						$elm$core$Platform$Cmd$none);
 				} else {
 					var e = msg.a.a;
-					var a = A2($elm$core$Debug$log, 'error', e);
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
 			case 'LinkClicked':
@@ -5919,7 +5918,8 @@ var $author$project$Main$update = F2(
 						{currentPage: page, maybeBodyCss: maybeBodyCss, url: url}),
 					$elm$core$Platform$Cmd$none);
 			default:
-				var clickDeg = msg.a;
+				var skillTabId = msg.a;
+				var clickDeg = msg.b;
 				var changeDeg = 360 - clickDeg;
 				var skillTitles = A2(
 					$elm$core$List$map,
@@ -5933,7 +5933,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{isSkillTabFirstView: false, skillTitles: skillTitles}),
+						{isSkillTabFirstView: false, selectedSkillTabId: skillTabId, skillTitles: skillTitles}),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -6412,9 +6412,10 @@ var $elm$core$List$repeat = F2(
 	function (n, value) {
 		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
 	});
-var $author$project$Main$SkillTabClick = function (a) {
-	return {$: 'SkillTabClick', a: a};
-};
+var $author$project$Main$SkillTabClick = F2(
+	function (a, b) {
+		return {$: 'SkillTabClick', a: a, b: b};
+	});
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -6443,6 +6444,7 @@ var $author$project$Main$viewSkillTabButton = F3(
 			]);
 		var skillContent = model.skillContent;
 		var isSkillTabFirstView = model.isSkillTabFirstView;
+		var classList = _Utils_eq(model.selectedSkillTabId, skillTab.id) ? 'skill__tab-button-inner skill__tab-button-inner--selected' : 'skill__tab-button-inner';
 		var baseLeft = skillContent.left + skillContent.r;
 		var animationStyle = isSkillTabFirstView ? _List_Nil : _List_fromArray(
 			[
@@ -6475,7 +6477,7 @@ var $author$project$Main$viewSkillTabButton = F3(
 						'transform-origin',
 						'0 ' + ($elm$core$String$fromInt(skillContent.r) + 'px')),
 						$elm$html$Html$Events$onClick(
-						$author$project$Main$SkillTabClick(skillTitle.deg))
+						A2($author$project$Main$SkillTabClick, skillTab.id, skillTitle.deg))
 					])),
 			_List_fromArray(
 				[
@@ -6486,7 +6488,7 @@ var $author$project$Main$viewSkillTabButton = F3(
 						animationStyle,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('skill__tab-button-inner'),
+								$elm$html$Html$Attributes$class(classList),
 								A2(
 								$elm$html$Html$Attributes$style,
 								'transform',

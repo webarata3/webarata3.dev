@@ -103,6 +103,7 @@ type alias Model =
     , skillTitleHeight : Int
     , skillTitles : List SkillTitleElem
     , isSkillTabFirstView : Bool
+    , selectedSkillTabId : String
     }
 
 
@@ -133,6 +134,7 @@ init flags url key =
       , skillTitleHeight = 0
       , skillTitles = []
       , isSkillTabFirstView = True
+      , selectedSkillTabId = "skillTab0"
       }
     , Task.attempt Init <| Browser.Dom.getElement "main"
     )
@@ -150,7 +152,7 @@ type Msg
     | TabButtonWidth (Result Browser.Dom.Error (List Browser.Dom.Element))
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
-    | SkillTabClick Int
+    | SkillTabClick String Int
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -325,7 +327,7 @@ update msg model =
             , Cmd.none
             )
 
-        SkillTabClick clickDeg ->
+        SkillTabClick skillTabId clickDeg ->
             let
                 changeDeg =
                     360 - clickDeg
@@ -342,6 +344,7 @@ update msg model =
             ( { model
                 | skillTitles = skillTitles
                 , isSkillTabFirstView = False
+                , selectedSkillTabId = skillTabId
               }
             , Cmd.none
             )
@@ -681,6 +684,13 @@ viewSkillTabButton model skillTab skillTitle =
         appendStyle =
             List.append styleWidth animationStyle
 
+        classList =
+            if model.selectedSkillTabId == skillTab.id then
+                "skill__tab-button-inner skill__tab-button-inner--selected"
+
+            else
+                "skill__tab-button-inner"
+
         baseLeft =
             skillContent.left + skillContent.r
     in
@@ -693,12 +703,12 @@ viewSkillTabButton model skillTab skillTitle =
             , style "left" <| String.fromInt (baseLeft - (skillTitle.width // 2)) ++ "px"
             , style "transform" <| "rotate(" ++ String.fromInt skillTitle.deg ++ "deg)"
             , style "transform-origin" <| "0 " ++ String.fromInt skillContent.r ++ "px"
-            , onClick <| SkillTabClick skillTitle.deg
+            , onClick <| SkillTabClick skillTab.id skillTitle.deg
             ]
         )
         [ p
             (List.append animationStyle
-                [ class "skill__tab-button-inner"
+                [ class classList
                 , style "transform" <| "rotate(-" ++ String.fromInt skillTitle.deg ++ "deg)"
                 , style "transform-origin" "0 0"
                 ]
