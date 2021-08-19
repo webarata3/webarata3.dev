@@ -6813,13 +6813,14 @@ var $author$project$Main$viewMain = function (model) {
 			]));
 };
 var $author$project$Main$view = function (model) {
+	var pageTitle = ((model.currentPage === 'Home') ? '' : (model.currentPage + ' - ')) + 'webarata3.dev';
 	return {
 		body: _List_fromArray(
 			[
 				$author$project$Main$viewHeader,
 				$author$project$Main$viewMain(model)
 			]),
-		title: 'URL Interceptor'
+		title: pageTitle
 	};
 };
 var $author$project$Main$main = $elm$browser$Browser$application(

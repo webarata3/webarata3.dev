@@ -505,7 +505,17 @@ getSkillTabs =
 
 view : Model -> Document Msg
 view model =
-    { title = "URL Interceptor"
+    let
+        pageTitle =
+            (if model.currentPage == "Home" then
+                ""
+
+             else
+                model.currentPage ++ " - "
+            )
+                ++ "webarata3.dev"
+    in
+    { title = pageTitle
     , body =
         [ viewHeader
         , viewMain model
