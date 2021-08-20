@@ -47,6 +47,13 @@ main =
 -- MODEL
 
 
+type alias WorkTab =
+    { id : String
+    , title : String
+    , content : Html Msg
+    }
+
+
 type alias SkillTab =
     { id : String
     , title : String
@@ -415,6 +422,15 @@ mainRotateStyle model =
             []
 
 
+getWorkTabs : List WorkTab
+getWorkTabs =
+    [ { id = "workTab0"
+      , title = "クリーン白山"
+      , content = div [] []
+      }
+    ]
+
+
 getSkillTabs : List SkillTab
 getSkillTabs =
     [ { id = "skillTab0"
@@ -650,9 +666,22 @@ viewWork model =
         (class "main__content" :: mainStyle model "work")
         [ div [ class "main__inner" ]
             [ viewMainHeader model.currentPage
-            , div [] [ text "作ったもの" ]
+            , section []
+                [ viewWorkTabs model
+                , viewWorkContent
+                ]
             ]
         ]
+
+
+viewWorkTabs : Model -> Html Msg
+viewWorkTabs model =
+    ul [] []
+
+
+viewWorkContent : Html Msg
+viewWorkContent =
+    div [] []
 
 
 viewSkills : Model -> Html Msg

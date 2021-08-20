@@ -6774,6 +6774,10 @@ var $author$project$Main$viewSkills = function (model) {
 					]))
 			]));
 };
+var $author$project$Main$viewWorkContent = A2($elm$html$Html$div, _List_Nil, _List_Nil);
+var $author$project$Main$viewWorkTabs = function (model) {
+	return A2($elm$html$Html$ul, _List_Nil, _List_Nil);
+};
 var $author$project$Main$viewWork = function (model) {
 	return A2(
 		$elm$html$Html$article,
@@ -6793,11 +6797,12 @@ var $author$project$Main$viewWork = function (model) {
 					[
 						$author$project$Main$viewMainHeader(model.currentPage),
 						A2(
-						$elm$html$Html$div,
+						$elm$html$Html$section,
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('作ったもの')
+								$author$project$Main$viewWorkTabs(model),
+								$author$project$Main$viewWorkContent
 							]))
 					]))
 			]));
