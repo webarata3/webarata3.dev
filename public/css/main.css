@@ -241,6 +241,7 @@ body {
 .skill {
   position: relative;
   width: 900px;
+  height: calc(var(--skill-content-height) + 100px);
   margin: 0 auto;
 }
 

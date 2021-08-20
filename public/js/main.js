@@ -6733,34 +6733,43 @@ var $author$project$Main$viewSkills = function (model) {
 			[
 				$author$project$Main$viewMainHeader(model.currentPage),
 				A2(
-				$elm$html$Html$section,
-				_List_Nil,
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('main__inner')
+					]),
 				_List_fromArray(
 					[
 						A2(
-						$elm$html$Html$div,
+						$elm$html$Html$section,
+						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('skill')
-							]),
-						_List_fromArray(
-							[
-								A2($author$project$Main$viewSkillTabButtons, model, skillTabs),
 								A2(
 								$elm$html$Html$div,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$id('skillTabContent'),
-										$elm$html$Html$Attributes$class('skill__tab-content')
+										$elm$html$Html$Attributes$class('skill')
 									]),
-								function () {
-									if (maybeContent.$ === 'Just') {
-										var content = maybeContent.a;
-										return $author$project$Main$viewSkillTabContent(content);
-									} else {
-										return _List_Nil;
-									}
-								}())
+								_List_fromArray(
+									[
+										A2($author$project$Main$viewSkillTabButtons, model, skillTabs),
+										A2(
+										$elm$html$Html$div,
+										_List_fromArray(
+											[
+												$elm$html$Html$Attributes$id('skillTabContent'),
+												$elm$html$Html$Attributes$class('skill__tab-content')
+											]),
+										function () {
+											if (maybeContent.$ === 'Just') {
+												var content = maybeContent.a;
+												return $author$project$Main$viewSkillTabContent(content);
+											} else {
+												return _List_Nil;
+											}
+										}())
+									]))
 							]))
 					]))
 			]));

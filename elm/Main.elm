@@ -667,20 +667,22 @@ viewSkills model =
     article
         (class "main__content" :: mainStyle model "skills")
         [ viewMainHeader model.currentPage
-        , section []
-            [ div [ class "skill" ]
-                [ viewSkillTabButtons model skillTabs
-                , div
-                    [ id "skillTabContent"
-                    , class "skill__tab-content"
-                    ]
-                  <|
-                    case maybeContent of
-                        Just content ->
-                            viewSkillTabContent content
+        , div [ class "main__inner" ]
+            [ section []
+                [ div [ class "skill" ]
+                    [ viewSkillTabButtons model skillTabs
+                    , div
+                        [ id "skillTabContent"
+                        , class "skill__tab-content"
+                        ]
+                      <|
+                        case maybeContent of
+                            Just content ->
+                                viewSkillTabContent content
 
-                        Nothing ->
-                            []
+                            Nothing ->
+                                []
+                    ]
                 ]
             ]
         ]
