@@ -542,7 +542,7 @@ view model =
 viewHeader : Html Msg
 viewHeader =
     header [ class "header" ]
-        [ div [ class "header__innder" ]
+        [ div [ class "header__inner" ]
             [ h1 [ class "header__title" ]
                 [ img [ src "image/neko.webp", class "header__logo" ] []
                 , p [] [ text "webarata3.dev" ]

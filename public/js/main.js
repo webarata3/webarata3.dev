@@ -6099,7 +6099,7 @@ var $author$project$Main$viewHeader = A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$elm$html$Html$Attributes$class('header__innder')
+					$elm$html$Html$Attributes$class('header__inner')
 				]),
 			_List_fromArray(
 				[
