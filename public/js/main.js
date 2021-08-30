@@ -6115,7 +6115,7 @@ var $author$project$Main$viewHeader = A2(
 							$elm$html$Html$img,
 							_List_fromArray(
 								[
-									$elm$html$Html$Attributes$src('image/neko.png'),
+									$elm$html$Html$Attributes$src('image/neko.webp'),
 									$elm$html$Html$Attributes$class('header__logo')
 								]),
 							_List_Nil),

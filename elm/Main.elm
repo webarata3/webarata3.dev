@@ -544,7 +544,7 @@ viewHeader =
     header [ class "header" ]
         [ div [ class "header__innder" ]
             [ h1 [ class "header__title" ]
-                [ img [ src "image/neko.png", class "header__logo" ] []
+                [ img [ src "image/neko.webp", class "header__logo" ] []
                 , p [] [ text "webarata3.dev" ]
                 ]
             ]
