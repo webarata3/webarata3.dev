@@ -570,16 +570,16 @@ viewMainHeader currentPage =
     let
         allLinks =
             [ { page = "home"
-              , linkText = "ホーム"
+              , linkText = "home"
               }
             , { page = "work"
-              , linkText = "作ったもの"
+              , linkText = "work"
               }
             , { page = "skills"
               , linkText = "skills"
               }
             , { page = "link"
-              , linkText = "リンク"
+              , linkText = "link"
               }
             ]
 

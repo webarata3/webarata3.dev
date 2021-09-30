@@ -6435,10 +6435,10 @@ var $author$project$Main$viewMainHeaderLink = function (link) {
 var $author$project$Main$viewMainHeader = function (currentPage) {
 	var allLinks = _List_fromArray(
 		[
-			{linkText: 'ホーム', page: 'home'},
-			{linkText: '作ったもの', page: 'work'},
+			{linkText: 'home', page: 'home'},
+			{linkText: 'work', page: 'work'},
 			{linkText: 'skills', page: 'skills'},
-			{linkText: 'リンク', page: 'link'}
+			{linkText: 'link', page: 'link'}
 		]);
 	var currentLink = A2(
 		$elm$core$Maybe$withDefault,
