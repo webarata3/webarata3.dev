@@ -5305,7 +5305,7 @@ var $elm$core$Basics$negate = function (n) {
 	return -n;
 };
 var $author$project$Main$init = F3(
-	function (flags, url, key) {
+	function (_v0, url, key) {
 		return _Utils_Tuple2(
 			{
 				currentDeg: 0,
@@ -6007,7 +6007,6 @@ var $author$project$Main$update = F2(
 							{skillTitleHeight: height, skillTitles: skillTitles}),
 						$elm$core$Platform$Cmd$none);
 				} else {
-					var e = msg.a.a;
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
 			case 'LinkClicked':
@@ -6775,7 +6774,7 @@ var $author$project$Main$viewSkills = function (model) {
 			]));
 };
 var $author$project$Main$viewWorkContent = A2($elm$html$Html$div, _List_Nil, _List_Nil);
-var $author$project$Main$viewWorkTabs = function (model) {
+var $author$project$Main$viewWorkTabs = function (_v0) {
 	return A2($elm$html$Html$ul, _List_Nil, _List_Nil);
 };
 var $author$project$Main$viewWork = function (model) {
