@@ -1,7 +1,7 @@
 port module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 
 import Browser exposing (Document)
-import Browser.Dom exposing (Element)
+import Browser.Dom
 import Browser.Navigation as Nav
 import Dict exposing (Dict)
 import Html exposing (..)
@@ -115,7 +115,7 @@ type alias Model =
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
-init flags url key =
+init _ url key =
     ( { key = key
       , url = url
       , currentPage = "Home"
@@ -287,7 +287,7 @@ update msg model =
             , Cmd.none
             )
 
-        TabButtonWidth (Err e) ->
+        TabButtonWidth (Err _) ->
             ( model, Cmd.none )
 
         LinkClicked urlRequest ->
@@ -675,7 +675,7 @@ viewWork model =
 
 
 viewWorkTabs : Model -> Html Msg
-viewWorkTabs model =
+viewWorkTabs _ =
     ul [] []
 
 
