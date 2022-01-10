@@ -1,5 +1,6 @@
 port module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
 
+import Array exposing (Array)
 import Browser exposing (Document)
 import Browser.Dom
 import Browser.Navigation as Nav
@@ -48,9 +49,10 @@ main =
 
 
 type alias WorkTab =
-    { id : String
-    , title : String
-    , content : Html Msg
+    { title : String
+    , contentType : String
+    , techItems : List String
+    , content : List (Html Msg)
     }
 
 
@@ -110,6 +112,7 @@ type alias Model =
     , skillTitleHeight : Int
     , skillTitles : List SkillTitleElem
     , isSkillTabFirstView : Bool
+    , workTabIndex : Int
     , selectedSkillTabId : String
     }
 
@@ -141,6 +144,7 @@ init _ url key =
       , skillTitleHeight = 0
       , skillTitles = []
       , isSkillTabFirstView = True
+      , workTabIndex = 0
       , selectedSkillTabId = "skillTab0"
       }
     , Task.attempt Init <| Browser.Dom.getElement "main"
@@ -159,6 +163,7 @@ type Msg
     | TabButtonWidth (Result Browser.Dom.Error (List Browser.Dom.Element))
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
+    | WorkTabClick Int
     | SkillTabClick String Int
 
 
@@ -334,6 +339,13 @@ update msg model =
             , Cmd.none
             )
 
+        WorkTabClick index ->
+            ( { model
+                | workTabIndex = index
+              }
+            , Cmd.none
+            )
+
         SkillTabClick skillTabId clickDeg ->
             let
                 changeDeg =
@@ -422,13 +434,35 @@ mainRotateStyle model =
             []
 
 
-getWorkTabs : List WorkTab
+getWorkTabs : Array WorkTab
 getWorkTabs =
-    [ { id = "workTab0"
-      , title = "クリーン白山"
-      , content = div [] []
-      }
-    ]
+    Array.fromList
+        [ { title = "クリーン白山"
+          , contentType = "Webアプリ"
+          , techItems = [ "HTML", "CSS", "Elm", "JavaScript", "Java" ]
+          , content =
+                [ div []
+                    [ p [ class "work__description-text" ] [ text "石川県白山市のゴミ収集日程のアプリです。" ]
+                    , p [ class "work__description-text" ]
+                        [ span [] [ text "データの取得は市のサイトをスクレイピングしています。スクレイピングには" ]
+                        , a
+                            [ href "https://jsoup.org"
+                            , class "main__link"
+                            ]
+                            [ text "jsoup" ]
+                        , span [] [ text "を使用しています。" ]
+                        ]
+                    , p [ class "work__description-text" ] [ text "アプリ自体はPWAとして作成しています。" ]
+                    ]
+                , img [ class "work__image", src "image/clean-hakusan-app.webp" ] []
+                ]
+          }
+        , { title = "KExcelAPI"
+          , contentType = "ライブラリ"
+          , techItems = [ "Kotlin" ]
+          , content = []
+          }
+        ]
 
 
 getSkillTabs : List SkillTab
@@ -645,10 +679,10 @@ viewHome model =
                 [ div [ class "footer__inner" ]
                     [ div [ class "footer__credit" ]
                         [ a
-                            [ href "#", class "footer__link" ]
+                            [ href "#", class "main__link" ]
                             [ text "プライバシーポリシー" ]
                         , a
-                            [ href "#", class "footer__link" ]
+                            [ href "#", class "main__link" ]
                             [ text "クレジット" ]
                         ]
                     , p []
@@ -662,26 +696,114 @@ viewHome model =
 
 viewWork : Model -> Html Msg
 viewWork model =
+    let
+        workTabs =
+            getWorkTabs
+    in
     article
         (class "main__content" :: mainStyle model "work")
         [ div [ class "main__inner" ]
             [ viewMainHeader model.currentPage
-            , section []
-                [ viewWorkTabs model
-                , viewWorkContent
+            , section [ class "work" ]
+                [ viewWorkTabs model.workTabIndex workTabs
+                , Array.indexedMap (viewWorkTabContent model.workTabIndex) workTabs
+                    |> Array.toList
+                    |> div [ class "work__tab-contents" ]
                 ]
             ]
         ]
 
 
-viewWorkTabs : Model -> Html Msg
-viewWorkTabs _ =
-    ul [] []
+viewWorkTabs : Int -> Array WorkTab -> Html Msg
+viewWorkTabs center workTabs =
+    Array.indexedMap (viewWorkTab center) workTabs
+        |> Array.toList
+        |> ul [ class "work__buttons" ]
 
 
-viewWorkContent : Html Msg
-viewWorkContent =
-    div [] []
+viewWorkTab : Int -> Int -> WorkTab -> Html Msg
+viewWorkTab center index workTab =
+    let
+        className =
+            "work__buttons-item"
+                ++ (if center == index then
+                        " work__buttons-item--selected"
+
+                    else
+                        ""
+                   )
+    in
+    li
+        [ class className
+        , onClick <| WorkTabClick index
+        ]
+        [ text workTab.title ]
+
+
+viewWorkTabContent : Int -> Int -> WorkTab -> Html Msg
+viewWorkTabContent center index workTab =
+    div
+        (class "work__content"
+            :: viewWorkTabStyle center index
+        )
+        [ h3 [ class "work__content-title" ]
+            [ span [] [ text workTab.title ]
+            , span [ class "work__content-type" ] [ text workTab.contentType ]
+            ]
+        , div [ class "work__tech" ]
+            [ h3 [ class "work__tech-title" ] [ text "使用技術" ]
+            , ul [ class "work__tech-list" ] <|
+                List.map viewWorkTech workTab.techItems
+            ]
+        , div [ class "work__description" ] workTab.content
+        ]
+
+
+viewWorkTabStyle : Int -> Int -> List (Attribute msg)
+viewWorkTabStyle center index =
+    let
+        left =
+            200 + (index - center) * 500
+
+        scale =
+            if index == center then
+                "1.0"
+
+            else if
+                (index - 1 == center)
+                    || (index + 1 == center)
+            then
+                "0.333"
+
+            else
+                "0"
+
+        scaleStyle =
+            String.concat
+                [ "scale("
+                , scale
+                , ", "
+                , scale
+                , ")"
+                ]
+
+        filter =
+            if index == center then
+                "none"
+
+            else
+                "grayscale(80%)"
+    in
+    [ style "bottom" "0"
+    , String.fromInt left ++ "px" |> style "left"
+    , style "transform" scaleStyle
+    , style "filter" filter
+    ]
+
+
+viewWorkTech : String -> Html Msg
+viewWorkTech techItem =
+    li [ class "work__tech-item" ] [ text techItem ]
 
 
 viewSkills : Model -> Html Msg

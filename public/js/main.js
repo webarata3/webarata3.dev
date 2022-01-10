@@ -4355,6 +4355,43 @@ function _Browser_load(url)
 		}
 	}));
 }
+
+
+
+var _Bitwise_and = F2(function(a, b)
+{
+	return a & b;
+});
+
+var _Bitwise_or = F2(function(a, b)
+{
+	return a | b;
+});
+
+var _Bitwise_xor = F2(function(a, b)
+{
+	return a ^ b;
+});
+
+function _Bitwise_complement(a)
+{
+	return ~a;
+};
+
+var _Bitwise_shiftLeftBy = F2(function(offset, a)
+{
+	return a << offset;
+});
+
+var _Bitwise_shiftRightBy = F2(function(offset, a)
+{
+	return a >> offset;
+});
+
+var _Bitwise_shiftRightZfBy = F2(function(offset, a)
+{
+	return a >>> offset;
+});
 var $author$project$Main$LinkClicked = function (a) {
 	return {$: 'LinkClicked', a: a};
 };
@@ -5328,7 +5365,8 @@ var $author$project$Main$init = F3(
 				skillContent: {betweenDeg: 0, height: 0, left: 0, r: 0, top: 0},
 				skillTitleHeight: 0,
 				skillTitles: _List_Nil,
-				url: url
+				url: url,
+				workTabIndex: 0
 			},
 			A2(
 				$elm$core$Task$attempt,
@@ -6057,6 +6095,13 @@ var $author$project$Main$update = F2(
 						model,
 						{currentPage: page, maybeBodyCss: maybeBodyCss, url: url}),
 					$elm$core$Platform$Cmd$none);
+			case 'WorkTabClick':
+				var index = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{workTabIndex: index}),
+					$elm$core$Platform$Cmd$none);
 			default:
 				var skillTabId = msg.a;
 				var clickDeg = msg.b;
@@ -6360,7 +6405,7 @@ var $author$project$Main$viewHome = function (model) {
 												_List_fromArray(
 													[
 														$elm$html$Html$Attributes$href('#'),
-														$elm$html$Html$Attributes$class('footer__link')
+														$elm$html$Html$Attributes$class('main__link')
 													]),
 												_List_fromArray(
 													[
@@ -6371,7 +6416,7 @@ var $author$project$Main$viewHome = function (model) {
 												_List_fromArray(
 													[
 														$elm$html$Html$Attributes$href('#'),
-														$elm$html$Html$Attributes$class('footer__link')
+														$elm$html$Html$Attributes$class('main__link')
 													]),
 												_List_fromArray(
 													[
@@ -6773,11 +6818,312 @@ var $author$project$Main$viewSkills = function (model) {
 					]))
 			]));
 };
-var $author$project$Main$viewWorkContent = A2($elm$html$Html$div, _List_Nil, _List_Nil);
-var $author$project$Main$viewWorkTabs = function (_v0) {
-	return A2($elm$html$Html$ul, _List_Nil, _List_Nil);
+var $elm$core$Array$fromListHelp = F3(
+	function (list, nodeList, nodeListSize) {
+		fromListHelp:
+		while (true) {
+			var _v0 = A2($elm$core$Elm$JsArray$initializeFromList, $elm$core$Array$branchFactor, list);
+			var jsArray = _v0.a;
+			var remainingItems = _v0.b;
+			if (_Utils_cmp(
+				$elm$core$Elm$JsArray$length(jsArray),
+				$elm$core$Array$branchFactor) < 0) {
+				return A2(
+					$elm$core$Array$builderToArray,
+					true,
+					{nodeList: nodeList, nodeListSize: nodeListSize, tail: jsArray});
+			} else {
+				var $temp$list = remainingItems,
+					$temp$nodeList = A2(
+					$elm$core$List$cons,
+					$elm$core$Array$Leaf(jsArray),
+					nodeList),
+					$temp$nodeListSize = nodeListSize + 1;
+				list = $temp$list;
+				nodeList = $temp$nodeList;
+				nodeListSize = $temp$nodeListSize;
+				continue fromListHelp;
+			}
+		}
+	});
+var $elm$core$Array$fromList = function (list) {
+	if (!list.b) {
+		return $elm$core$Array$empty;
+	} else {
+		return A3($elm$core$Array$fromListHelp, list, _List_Nil, 0);
+	}
 };
+var $author$project$Main$getWorkTabs = $elm$core$Array$fromList(
+	_List_fromArray(
+		[
+			{
+			content: _List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$p,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('work__description-text')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('石川県白山市のゴミ収集日程のアプリです。')
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('work__description-text')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$span,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$elm$html$Html$text('データの取得は市のサイトをスクレイピングしています。スクレイピングには')
+										])),
+									A2(
+									$elm$html$Html$a,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$href('https://jsoup.org'),
+											$elm$html$Html$Attributes$class('main__link')
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text('jsoup')
+										])),
+									A2(
+									$elm$html$Html$span,
+									_List_Nil,
+									_List_fromArray(
+										[
+											$elm$html$Html$text('を使用しています。')
+										]))
+								])),
+							A2(
+							$elm$html$Html$p,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('work__description-text')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('アプリ自体はPWAとして作成しています。')
+								]))
+						])),
+					A2(
+					$elm$html$Html$img,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('work__image'),
+							$elm$html$Html$Attributes$src('image/clean-hakusan-app.webp')
+						]),
+					_List_Nil)
+				]),
+			contentType: 'Webアプリ',
+			techItems: _List_fromArray(
+				['HTML', 'CSS', 'Elm', 'JavaScript', 'Java']),
+			title: 'クリーン白山'
+		},
+			{
+			content: _List_Nil,
+			contentType: 'ライブラリ',
+			techItems: _List_fromArray(
+				['Kotlin']),
+			title: 'KExcelAPI'
+		}
+		]));
+var $elm$core$Elm$JsArray$foldl = _JsArray_foldl;
+var $elm$core$Elm$JsArray$indexedMap = _JsArray_indexedMap;
+var $elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
+var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
+var $elm$core$Array$tailIndex = function (len) {
+	return (len >>> 5) << 5;
+};
+var $elm$core$Array$indexedMap = F2(
+	function (func, _v0) {
+		var len = _v0.a;
+		var tree = _v0.c;
+		var tail = _v0.d;
+		var initialBuilder = {
+			nodeList: _List_Nil,
+			nodeListSize: 0,
+			tail: A3(
+				$elm$core$Elm$JsArray$indexedMap,
+				func,
+				$elm$core$Array$tailIndex(len),
+				tail)
+		};
+		var helper = F2(
+			function (node, builder) {
+				if (node.$ === 'SubTree') {
+					var subTree = node.a;
+					return A3($elm$core$Elm$JsArray$foldl, helper, builder, subTree);
+				} else {
+					var leaf = node.a;
+					var offset = builder.nodeListSize * $elm$core$Array$branchFactor;
+					var mappedLeaf = $elm$core$Array$Leaf(
+						A3($elm$core$Elm$JsArray$indexedMap, func, offset, leaf));
+					return {
+						nodeList: A2($elm$core$List$cons, mappedLeaf, builder.nodeList),
+						nodeListSize: builder.nodeListSize + 1,
+						tail: builder.tail
+					};
+				}
+			});
+		return A2(
+			$elm$core$Array$builderToArray,
+			true,
+			A3($elm$core$Elm$JsArray$foldl, helper, initialBuilder, tree));
+	});
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
+var $author$project$Main$viewWorkTabStyle = F2(
+	function (center, index) {
+		var scale = _Utils_eq(index, center) ? '1.0' : ((_Utils_eq(index - 1, center) || _Utils_eq(index + 1, center)) ? '0.333' : '0');
+		var scaleStyle = $elm$core$String$concat(
+			_List_fromArray(
+				['scale(', scale, ', ', scale, ')']));
+		var left = 200 + ((index - center) * 500);
+		var filter = _Utils_eq(index, center) ? 'none' : 'grayscale(80%)';
+		return _List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'bottom', '0'),
+				A2(
+				$elm$html$Html$Attributes$style,
+				'left',
+				$elm$core$String$fromInt(left) + 'px'),
+				A2($elm$html$Html$Attributes$style, 'transform', scaleStyle),
+				A2($elm$html$Html$Attributes$style, 'filter', filter)
+			]);
+	});
+var $author$project$Main$viewWorkTech = function (techItem) {
+	return A2(
+		$elm$html$Html$li,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('work__tech-item')
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(techItem)
+			]));
+};
+var $author$project$Main$viewWorkTabContent = F3(
+	function (center, index, workTab) {
+		return A2(
+			$elm$html$Html$div,
+			A2(
+				$elm$core$List$cons,
+				$elm$html$Html$Attributes$class('work__content'),
+				A2($author$project$Main$viewWorkTabStyle, center, index)),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$h3,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('work__content-title')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$span,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(workTab.title)
+								])),
+							A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('work__content-type')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(workTab.contentType)
+								]))
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('work__tech')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h3,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('work__tech-title')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('使用技術')
+								])),
+							A2(
+							$elm$html$Html$ul,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('work__tech-list')
+								]),
+							A2($elm$core$List$map, $author$project$Main$viewWorkTech, workTab.techItems))
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('work__description')
+						]),
+					workTab.content)
+				]));
+	});
+var $author$project$Main$WorkTabClick = function (a) {
+	return {$: 'WorkTabClick', a: a};
+};
+var $author$project$Main$viewWorkTab = F3(
+	function (center, index, workTab) {
+		var className = 'work__buttons-item' + (_Utils_eq(center, index) ? ' work__buttons-item--selected' : '');
+		return A2(
+			$elm$html$Html$li,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class(className),
+					$elm$html$Html$Events$onClick(
+					$author$project$Main$WorkTabClick(index))
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(workTab.title)
+				]));
+	});
+var $author$project$Main$viewWorkTabs = F2(
+	function (center, workTabs) {
+		return A2(
+			$elm$html$Html$ul,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('work__buttons')
+				]),
+			$elm$core$Array$toList(
+				A2(
+					$elm$core$Array$indexedMap,
+					$author$project$Main$viewWorkTab(center),
+					workTabs)));
+	});
 var $author$project$Main$viewWork = function (model) {
+	var workTabs = $author$project$Main$getWorkTabs;
 	return A2(
 		$elm$html$Html$article,
 		A2(
@@ -6797,11 +7143,24 @@ var $author$project$Main$viewWork = function (model) {
 						$author$project$Main$viewMainHeader(model.currentPage),
 						A2(
 						$elm$html$Html$section,
-						_List_Nil,
 						_List_fromArray(
 							[
-								$author$project$Main$viewWorkTabs(model),
-								$author$project$Main$viewWorkContent
+								$elm$html$Html$Attributes$class('work')
+							]),
+						_List_fromArray(
+							[
+								A2($author$project$Main$viewWorkTabs, model.workTabIndex, workTabs),
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('work__tab-contents')
+									]),
+								$elm$core$Array$toList(
+									A2(
+										$elm$core$Array$indexedMap,
+										$author$project$Main$viewWorkTabContent(model.workTabIndex),
+										workTabs)))
 							]))
 					]))
 			]));
