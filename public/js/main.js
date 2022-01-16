@@ -6929,6 +6929,8 @@ var $author$project$Main$getWorkTabs = $elm$core$Array$fromList(
 					_List_Nil)
 				]),
 			contentType: 'Webアプリ',
+			maybeGitHub: $elm$core$Maybe$Just('https://github.com/webarata3/clean-hakusan'),
+			maybeWebSite: $elm$core$Maybe$Just('https://clean.hakusan.app'),
 			techItems: _List_fromArray(
 				['HTML', 'CSS', 'Elm', 'JavaScript', 'Java']),
 			title: 'クリーン白山'
@@ -6936,6 +6938,8 @@ var $author$project$Main$getWorkTabs = $elm$core$Array$fromList(
 			{
 			content: _List_Nil,
 			contentType: 'ライブラリ',
+			maybeGitHub: $elm$core$Maybe$Just('https://github.com/webarata3/KExcelAPI'),
+			maybeWebSite: $elm$core$Maybe$Nothing,
 			techItems: _List_fromArray(
 				['Kotlin']),
 			title: 'KExcelAPI'
@@ -6984,6 +6988,66 @@ var $elm$core$Array$indexedMap = F2(
 			true,
 			A3($elm$core$Elm$JsArray$foldl, helper, initialBuilder, tree));
 	});
+var $elm$core$List$concat = function (lists) {
+	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
+};
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $elm$svg$Svg$use = $elm$svg$Svg$trustedNode('use');
+var $elm$svg$Svg$Attributes$xlinkHref = function (value) {
+	return A3(
+		_VirtualDom_attributeNS,
+		'http://www.w3.org/1999/xlink',
+		'xlink:href',
+		_VirtualDom_noJavaScriptUri(value));
+};
+var $author$project$Main$viewWorkIcon = F2(
+	function (maybeLink, iconFile) {
+		if (maybeLink.$ === 'Just') {
+			var link = maybeLink.a;
+			return _List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href(link),
+							$elm$html$Html$Attributes$target('_blank'),
+							$elm$html$Html$Attributes$class('work__icon-link')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$svg$Svg$svg,
+							_List_fromArray(
+								[
+									A2($elm$html$Html$Attributes$attribute, 'class', 'work__icon')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$svg$Svg$use,
+									_List_fromArray(
+										[
+											$elm$svg$Svg$Attributes$xlinkHref(iconFile)
+										]),
+									_List_Nil)
+								]))
+						]))
+				]);
+		} else {
+			return _List_Nil;
+		}
+	});
 var $elm$core$String$concat = function (strings) {
 	return A2($elm$core$String$join, '', strings);
 };
@@ -6994,7 +7058,7 @@ var $author$project$Main$viewWorkTabStyle = F2(
 			_List_fromArray(
 				['scale(', scale, ', ', scale, ')']));
 		var left = 200 + ((index - center) * 500);
-		var filter = _Utils_eq(index, center) ? 'none' : 'grayscale(80%)';
+		var filter = _Utils_eq(index, center) ? 'none' : 'blur(5px)';
 		return _List_fromArray(
 			[
 				A2($elm$html$Html$Attributes$style, 'bottom', '0'),
@@ -7020,6 +7084,8 @@ var $author$project$Main$viewWorkTech = function (techItem) {
 };
 var $author$project$Main$viewWorkTabContent = F3(
 	function (center, index, workTab) {
+		var webSite = A2($author$project$Main$viewWorkIcon, workTab.maybeWebSite, 'image/open.svg#open');
+		var github = A2($author$project$Main$viewWorkIcon, workTab.maybeGitHub, 'image/github.svg#github');
 		return A2(
 			$elm$html$Html$div,
 			A2(
@@ -7052,7 +7118,16 @@ var $author$project$Main$viewWorkTabContent = F3(
 							_List_fromArray(
 								[
 									$elm$html$Html$text(workTab.contentType)
-								]))
+								])),
+							A2(
+							$elm$html$Html$div,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('work__icon-area')
+								]),
+							$elm$core$List$concat(
+								_List_fromArray(
+									[webSite, github])))
 						])),
 					A2(
 					$elm$html$Html$div,

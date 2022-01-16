@@ -8,6 +8,8 @@ import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Svg exposing (svg, use)
+import Svg.Attributes exposing (xlinkHref)
 import Task
 import Url
 
@@ -50,6 +52,8 @@ main =
 
 type alias WorkTab =
     { title : String
+    , maybeWebSite : Maybe String
+    , maybeGitHub : Maybe String
     , contentType : String
     , techItems : List String
     , content : List (Html Msg)
@@ -438,6 +442,8 @@ getWorkTabs : Array WorkTab
 getWorkTabs =
     Array.fromList
         [ { title = "クリーン白山"
+          , maybeWebSite = Just "https://clean.hakusan.app"
+          , maybeGitHub = Just "https://github.com/webarata3/clean-hakusan"
           , contentType = "Webアプリ"
           , techItems = [ "HTML", "CSS", "Elm", "JavaScript", "Java" ]
           , content =
@@ -458,6 +464,8 @@ getWorkTabs =
                 ]
           }
         , { title = "KExcelAPI"
+          , maybeWebSite = Nothing
+          , maybeGitHub = Just "https://github.com/webarata3/KExcelAPI"
           , contentType = "ライブラリ"
           , techItems = [ "Kotlin" ]
           , content = []
@@ -742,6 +750,13 @@ viewWorkTab center index workTab =
 
 viewWorkTabContent : Int -> Int -> WorkTab -> Html Msg
 viewWorkTabContent center index workTab =
+    let
+        webSite =
+            viewWorkIcon workTab.maybeWebSite "image/open.svg#open"
+
+        github =
+            viewWorkIcon workTab.maybeGitHub "image/github.svg#github"
+    in
     div
         (class "work__content"
             :: viewWorkTabStyle center index
@@ -749,6 +764,11 @@ viewWorkTabContent center index workTab =
         [ h3 [ class "work__content-title" ]
             [ span [] [ text workTab.title ]
             , span [ class "work__content-type" ] [ text workTab.contentType ]
+            , div [ class "work__icon-area" ] <|
+                List.concat
+                    [ webSite
+                    , github
+                    ]
             ]
         , div [ class "work__tech" ]
             [ h3 [ class "work__tech-title" ] [ text "使用技術" ]
@@ -757,6 +777,25 @@ viewWorkTabContent center index workTab =
             ]
         , div [ class "work__description" ] workTab.content
         ]
+
+
+viewWorkIcon : Maybe String -> String -> List (Html Msg)
+viewWorkIcon maybeLink iconFile =
+    case maybeLink of
+        Just link ->
+            [ a
+                [ href link
+                , target "_blank"
+                , class "work__icon-link"
+                ]
+                [ svg
+                    [ attribute "class" "work__icon" ]
+                    [ use [ xlinkHref iconFile ] [] ]
+                ]
+            ]
+
+        _ ->
+            []
 
 
 viewWorkTabStyle : Int -> Int -> List (Attribute msg)
@@ -792,7 +831,8 @@ viewWorkTabStyle center index =
                 "none"
 
             else
-                "grayscale(80%)"
+                -- "grayscale(80%)"
+                "blur(5px)"
     in
     [ style "bottom" "0"
     , String.fromInt left ++ "px" |> style "left"

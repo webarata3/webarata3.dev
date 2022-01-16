@@ -250,10 +250,6 @@ body {
   color: #007bff;
 }
 
-.work {
-  width: 960px;
-  margin: 0 auto;
-}
 
 .work__buttons {
   display: flex;
@@ -308,7 +304,6 @@ body {
 
 .work__tab-contents {
   position: relative;
-  width: 1000px;
   height: 600px;
   overflow: hidden;
 }
@@ -330,11 +325,32 @@ body {
 }
 
 .work__content-title {
+  position: relative;
   font-size: 22px;
   border-bottom: 1px solid #666;
   padding: 5px 10px 10px;
   text-align: center;
   margin: 0 10px 30px;
+}
+
+.work__icon-area {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.work__icon-link:is(:link, :hover, :active, :visited) {
+  color: var(--main-color);
+}
+
+.work__icon {
+  width: 16px;
+  height: 16px;
+  padding-bottom: 2px;
+}
+
+.work__icon-area .work__icon:not(:last-of-type) {
+  padding-left: 2px;
 }
 
 .work__content-type {
