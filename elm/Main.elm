@@ -467,8 +467,12 @@ getWorkTabs =
           , maybeWebSite = Nothing
           , maybeGitHub = Just "https://github.com/webarata3/KExcelAPI"
           , contentType = "ライブラリ"
-          , techItems = [ "Kotlin" ]
-          , content = []
+          , techItems = [ "Kotlin", "Apache POI" ]
+          , content =
+                [ div []
+                    [ p [ class "workd__description-text" ] [ text "POIをかんたんに扱うためのライブラリです。" ]
+                    ]
+                ]
           }
         ]
 
