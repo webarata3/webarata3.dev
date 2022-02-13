@@ -133,7 +133,7 @@ init _ url key =
                 [ ( "", 0 )
                 , ( "home", 0 )
                 , ( "work", -90 )
-                , ( "skills", 180 )
+                , ( "skill", 180 )
                 , ( "link", 90 )
                 ]
       , currentDeg = 0
@@ -161,7 +161,7 @@ init _ url key =
 
 type Msg
     = Init (Result Browser.Dom.Error Browser.Dom.Element)
-    | InitSkills (Result Browser.Dom.Error Browser.Dom.Element)
+    | InitSkill (Result Browser.Dom.Error Browser.Dom.Element)
     | RetGetSkillOffset Offset
     | RetGetComputedHeight Int
     | TabButtonWidth (Result Browser.Dom.Error (List Browser.Dom.Element))
@@ -199,7 +199,7 @@ update msg model =
                             , left = String.fromInt (2000 + y) ++ "px"
                             }
                           )
-                        , ( "skills"
+                        , ( "skill"
                           , { deg = "180deg"
                             , top = String.fromInt ((2000 + y) * 2) ++ "px"
                             , left = "0"
@@ -213,13 +213,13 @@ update msg model =
                           )
                         ]
               }
-            , Task.attempt InitSkills <| Browser.Dom.getElement "skillTabContent"
+            , Task.attempt InitSkill <| Browser.Dom.getElement "skillTabContent"
             )
 
         Init (Err _) ->
             ( model, Cmd.none )
 
-        InitSkills (Ok elem) ->
+        InitSkill (Ok elem) ->
             ( { model
                 | skillContent =
                     { height = floor elem.element.height
@@ -232,7 +232,7 @@ update msg model =
             , getOffset "skillTabContent"
             )
 
-        InitSkills (Err _) ->
+        InitSkill (Err _) ->
             ( model, Cmd.none )
 
         RetGetSkillOffset offset ->
@@ -400,8 +400,8 @@ urlToRoute url =
         Just "work" ->
             "work"
 
-        Just "skills" ->
-            "skills"
+        Just "skill" ->
+            "skill"
 
         Just "link" ->
             "link"
@@ -602,7 +602,7 @@ viewMain model =
         )
         [ viewHome model
         , viewWork model
-        , viewSkills model
+        , viewSkill model
         , viewLink model
         ]
 
@@ -617,8 +617,8 @@ viewMainHeader currentPage =
             , { page = "work"
               , linkText = "work"
               }
-            , { page = "skills"
-              , linkText = "skills"
+            , { page = "skill"
+              , linkText = "skill"
               }
             , { page = "link"
               , linkText = "link"
@@ -666,7 +666,7 @@ viewHome model =
                             [ a [ href "#work", class "main__nav-link" ] [ text "work" ]
                             ]
                         , li [ class "main__nav-item" ]
-                            [ a [ href "#skills", class "main__nav-link" ] [ text "skills" ]
+                            [ a [ href "#skill", class "main__nav-link" ] [ text "skill" ]
                             ]
                         , li [ class "main__nav-item" ]
                             [ a [ href "#link", class "main__nav-link" ] [ text "link" ]
@@ -846,8 +846,8 @@ viewWorkTech techItem =
     li [ class "work__tech-item" ] [ text techItem ]
 
 
-viewSkills : Model -> Html Msg
-viewSkills model =
+viewSkill : Model -> Html Msg
+viewSkill model =
     let
         skillTabs =
             getSkillTabs
@@ -856,7 +856,7 @@ viewSkills model =
             List.filter (\e -> e.id == model.selectedSkillTabId) skillTabs |> List.head
     in
     article
-        (class "main__content" :: mainStyle model "skills")
+        (class "main__content" :: mainStyle model "skill")
         [ viewMainHeader model.currentPage
         , div [ class "main__inner" ]
             [ section []

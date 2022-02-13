@@ -5358,7 +5358,7 @@ var $author$project$Main$init = F3(
 							_Utils_Tuple2('', 0),
 							_Utils_Tuple2('home', 0),
 							_Utils_Tuple2('work', -90),
-							_Utils_Tuple2('skills', 180),
+							_Utils_Tuple2('skill', 180),
 							_Utils_Tuple2('link', 90)
 						])),
 				selectedSkillTabId: 'skillTab0',
@@ -5406,8 +5406,8 @@ var $author$project$Main$subscriptions = function (_v0) {
 				$author$project$Main$getComputedHeightReceiver($author$project$Main$RetGetComputedHeight)
 			]));
 };
-var $author$project$Main$InitSkills = function (a) {
-	return {$: 'InitSkills', a: a};
+var $author$project$Main$InitSkill = function (a) {
+	return {$: 'InitSkill', a: a};
 };
 var $author$project$Main$TabButtonWidth = function (a) {
 	return {$: 'TabButtonWidth', a: a};
@@ -5879,8 +5879,8 @@ var $author$project$Main$urlToRoute = function (url) {
 			switch (_v0.a) {
 				case 'work':
 					return 'work';
-				case 'skills':
-					return 'skills';
+				case 'skill':
+					return 'skill';
 				case 'link':
 					return 'link';
 				default:
@@ -5926,7 +5926,7 @@ var $author$project$Main$update = F2(
 												top: $elm$core$String$fromInt(2000 + y) + 'px'
 											}),
 											_Utils_Tuple2(
-											'skills',
+											'skill',
 											{
 												deg: '180deg',
 												left: '0',
@@ -5945,12 +5945,12 @@ var $author$project$Main$update = F2(
 							}),
 						A2(
 							$elm$core$Task$attempt,
-							$author$project$Main$InitSkills,
+							$author$project$Main$InitSkill,
 							$elm$browser$Browser$Dom$getElement('skillTabContent')));
 				} else {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
-			case 'InitSkills':
+			case 'InitSkill':
 				if (msg.a.$ === 'Ok') {
 					var elem = msg.a.a;
 					return _Utils_Tuple2(
@@ -6296,12 +6296,12 @@ var $author$project$Main$viewHome = function (model) {
 														$elm$html$Html$a,
 														_List_fromArray(
 															[
-																$elm$html$Html$Attributes$href('#skills'),
+																$elm$html$Html$Attributes$href('#skill'),
 																$elm$html$Html$Attributes$class('main__nav-link')
 															]),
 														_List_fromArray(
 															[
-																$elm$html$Html$text('skills')
+																$elm$html$Html$text('skill')
 															]))
 													])),
 												A2(
@@ -6481,7 +6481,7 @@ var $author$project$Main$viewMainHeader = function (currentPage) {
 		[
 			{linkText: 'home', page: 'home'},
 			{linkText: 'work', page: 'work'},
-			{linkText: 'skills', page: 'skills'},
+			{linkText: 'skill', page: 'skill'},
 			{linkText: 'link', page: 'link'}
 		]);
 	var currentLink = A2(
@@ -6758,7 +6758,7 @@ var $author$project$Main$viewSkillTabContent = function (skillTab) {
 				]))
 		]);
 };
-var $author$project$Main$viewSkills = function (model) {
+var $author$project$Main$viewSkill = function (model) {
 	var skillTabs = $author$project$Main$getSkillTabs;
 	var maybeContent = $elm$core$List$head(
 		A2(
@@ -6772,7 +6772,7 @@ var $author$project$Main$viewSkills = function (model) {
 		A2(
 			$elm$core$List$cons,
 			$elm$html$Html$Attributes$class('main__content'),
-			A2($author$project$Main$mainStyle, model, 'skills')),
+			A2($author$project$Main$mainStyle, model, 'skill')),
 		_List_fromArray(
 			[
 				$author$project$Main$viewMainHeader(model.currentPage),
@@ -7255,7 +7255,7 @@ var $author$project$Main$viewMain = function (model) {
 			[
 				$author$project$Main$viewHome(model),
 				$author$project$Main$viewWork(model),
-				$author$project$Main$viewSkills(model),
+				$author$project$Main$viewSkill(model),
 				$author$project$Main$viewLink(model)
 			]));
 };
