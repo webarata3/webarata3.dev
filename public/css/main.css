@@ -339,9 +339,16 @@ body {
   bottom: 0;
 }
 
-.work__icon-link:is(:link, :hover, :active, :visited) {
+.work__icon-link {
   color: var(--main-color);
+
 }
+
+.work__icon-link:is(:hover, :active) {
+  color: var(--accent-color);
+}
+
+
 
 .work__icon {
   width: 16px;
