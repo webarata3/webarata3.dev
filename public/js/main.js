@@ -5347,7 +5347,9 @@ var $author$project$Main$init = F3(
 			{
 				currentDeg: 0,
 				currentPage: 'Home',
+				isCreditAnim: false,
 				isSkillTabFirstView: true,
+				isViewCredit: false,
 				key: key,
 				locationDict: $elm$core$Dict$empty,
 				maybeBodyCss: $elm$core$Maybe$Nothing,
@@ -5409,9 +5411,22 @@ var $author$project$Main$subscriptions = function (_v0) {
 var $author$project$Main$InitSkill = function (a) {
 	return {$: 'InitSkill', a: a};
 };
+var $author$project$Main$OpenCredit = {$: 'OpenCredit'};
 var $author$project$Main$TabButtonWidth = function (a) {
 	return {$: 'TabButtonWidth', a: a};
 };
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
+var $elm$core$Process$sleep = _Process_sleep;
+var $andrewMacmurray$elm_delay$Delay$after = F2(
+	function (time, msg) {
+		return A2(
+			$elm$core$Task$perform,
+			$elm$core$Basics$always(msg),
+			$elm$core$Process$sleep(time));
+	});
 var $elm$core$Dict$get = F2(
 	function (targetKey, dict) {
 		get:
@@ -6102,7 +6117,7 @@ var $author$project$Main$update = F2(
 						model,
 						{workTabIndex: index}),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 'SkillTabClick':
 				var skillTabId = msg.a;
 				var clickDeg = msg.b;
 				var changeDeg = 360 - clickDeg;
@@ -6120,8 +6135,180 @@ var $author$project$Main$update = F2(
 						model,
 						{isSkillTabFirstView: false, selectedSkillTabId: skillTabId, skillTitles: skillTitles}),
 					$elm$core$Platform$Cmd$none);
+			case 'ClickCredit':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isViewCredit: true}),
+					A2($andrewMacmurray$elm_delay$Delay$after, 100, $author$project$Main$OpenCredit));
+			case 'OpenCredit':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isCreditAnim: true}),
+					$elm$core$Platform$Cmd$none);
+			case 'CreditCloseClick':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isCreditAnim: false}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isViewCredit: false}),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$Main$CreditCloseAnimEnd = {$: 'CreditCloseAnimEnd'};
+var $author$project$Main$CreditCloseClick = {$: 'CreditCloseClick'};
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $elm$html$Html$Attributes$classList = function (classes) {
+	return $elm$html$Html$Attributes$class(
+		A2(
+			$elm$core$String$join,
+			' ',
+			A2(
+				$elm$core$List$map,
+				$elm$core$Tuple$first,
+				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
+};
+var $elm$html$Html$h2 = _VirtualDom_node('h2');
+var $elm$core$Basics$not = _Basics_not;
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $author$project$Main$onTransitionEnd = function (message) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'transitionend',
+		$elm$json$Json$Decode$succeed(message));
+};
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $elm$svg$Svg$use = $elm$svg$Svg$trustedNode('use');
+var $elm$svg$Svg$Attributes$xlinkHref = function (value) {
+	return A3(
+		_VirtualDom_attributeNS,
+		'http://www.w3.org/1999/xlink',
+		'xlink:href',
+		_VirtualDom_noJavaScriptUri(value));
+};
+var $author$project$Main$viewCredit = function (model) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$classList(
+				_List_fromArray(
+					[
+						_Utils_Tuple2('main__hidden', !model.isViewCredit)
+					]))
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('credit__wrapper'),
+						$elm$html$Html$Events$onClick($author$project$Main$CreditCloseClick)
+					]),
+				_List_Nil),
+				A2(
+				$elm$html$Html$div,
+				_Utils_ap(
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$classList(
+							_List_fromArray(
+								[
+									_Utils_Tuple2('credit__main', true),
+									_Utils_Tuple2('credit__main-open', model.isCreditAnim)
+								]))
+						]),
+					(model.isViewCredit && (!model.isCreditAnim)) ? _List_fromArray(
+						[
+							$author$project$Main$onTransitionEnd($author$project$Main$CreditCloseAnimEnd)
+						]) : _List_Nil),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('credit__header')
+							]),
+						_List_fromArray(
+							[
+								A2(
+								$elm$html$Html$h2,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('credit__title')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text('クレジット')
+									])),
+								A2(
+								$elm$svg$Svg$svg,
+								_List_fromArray(
+									[
+										A2($elm$html$Html$Attributes$attribute, 'class', 'credit__close-icon'),
+										$elm$html$Html$Events$onClick($author$project$Main$CreditCloseClick)
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$elm$svg$Svg$use,
+										_List_fromArray(
+											[
+												$elm$svg$Svg$Attributes$xlinkHref('image/close.svg#close')
+											]),
+										_List_Nil)
+									]))
+							]))
+					]))
+			]));
+};
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$header = _VirtualDom_node('header');
 var $elm$html$Html$img = _VirtualDom_node('img');
@@ -6199,6 +6386,7 @@ var $author$project$Main$mainRotateStyle = function (model) {
 	}
 };
 var $elm$html$Html$main_ = _VirtualDom_node('main');
+var $author$project$Main$ClickCredit = {$: 'ClickCredit'};
 var $elm$html$Html$article = _VirtualDom_node('article');
 var $elm$html$Html$Attributes$datetime = _VirtualDom_attribute('datetime');
 var $elm$html$Html$footer = _VirtualDom_node('footer');
@@ -6416,7 +6604,8 @@ var $author$project$Main$viewHome = function (model) {
 												_List_fromArray(
 													[
 														$elm$html$Html$Attributes$href('#'),
-														$elm$html$Html$Attributes$class('main__link')
+														$elm$html$Html$Attributes$class('main__link'),
+														$elm$html$Html$Events$onClick($author$project$Main$ClickCredit)
 													]),
 												_List_fromArray(
 													[
@@ -6433,7 +6622,7 @@ var $author$project$Main$viewHome = function (model) {
 												_List_Nil,
 												_List_fromArray(
 													[
-														$elm$html$Html$text('©2021 webarata3（ARATA Shinichi）')
+														$elm$html$Html$text('©2022 webarata3（ARATA Shinichi）')
 													]))
 											]))
 									]))
@@ -6441,18 +6630,6 @@ var $author$project$Main$viewHome = function (model) {
 					]))
 			]));
 };
-var $elm$core$List$filter = F2(
-	function (isGood, list) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, xs) {
-					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
-				}),
-			_List_Nil,
-			list);
-	});
-var $elm$html$Html$h2 = _VirtualDom_node('h2');
 var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Main$viewMainHeaderLink = function (link) {
 	return A2(
@@ -6601,23 +6778,6 @@ var $author$project$Main$SkillTabClick = F2(
 	function (a, b) {
 		return {$: 'SkillTabClick', a: a, b: b};
 	});
-var $elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 'Normal', a: a};
-};
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var $elm$html$Html$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			$elm$virtual_dom$VirtualDom$on,
-			event,
-			$elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var $elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		$elm$html$Html$Events$on,
-		'click',
-		$elm$json$Json$Decode$succeed(msg));
-};
 var $author$project$Main$viewSkillTabButton = F3(
 	function (model, skillTab, skillTitle) {
 		var styleWidth = (!skillTitle.width) ? _List_Nil : _List_fromArray(
@@ -6936,12 +7096,30 @@ var $author$project$Main$getWorkTabs = $elm$core$Array$fromList(
 			title: 'クリーン白山'
 		},
 			{
-			content: _List_Nil,
+			content: _List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$p,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('workd__description-text')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('POIをかんたんに扱うためのライブラリです。')
+								]))
+						]))
+				]),
 			contentType: 'ライブラリ',
 			maybeGitHub: $elm$core$Maybe$Just('https://github.com/webarata3/KExcelAPI'),
 			maybeWebSite: $elm$core$Maybe$Nothing,
 			techItems: _List_fromArray(
-				['Kotlin']),
+				['Kotlin', 'Apache POI']),
 			title: 'KExcelAPI'
 		}
 		]));
@@ -6991,25 +7169,7 @@ var $elm$core$Array$indexedMap = F2(
 var $elm$core$List$concat = function (lists) {
 	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
 };
-var $elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
-var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
-var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
 var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
-var $elm$svg$Svg$use = $elm$svg$Svg$trustedNode('use');
-var $elm$svg$Svg$Attributes$xlinkHref = function (value) {
-	return A3(
-		_VirtualDom_attributeNS,
-		'http://www.w3.org/1999/xlink',
-		'xlink:href',
-		_VirtualDom_noJavaScriptUri(value));
-};
 var $author$project$Main$viewWorkIcon = F2(
 	function (maybeLink, iconFile) {
 		if (maybeLink.$ === 'Just') {
@@ -7265,7 +7425,8 @@ var $author$project$Main$view = function (model) {
 		body: _List_fromArray(
 			[
 				$author$project$Main$viewHeader,
-				$author$project$Main$viewMain(model)
+				$author$project$Main$viewMain(model),
+				$author$project$Main$viewCredit(model)
 			]),
 		title: pageTitle
 	};
