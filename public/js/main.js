@@ -5345,11 +5345,10 @@ var $author$project$Main$init = F3(
 	function (_v0, url, key) {
 		return _Utils_Tuple2(
 			{
+				creditModel: {isCreditAnim: false, isViewCredit: false},
 				currentDeg: 0,
 				currentPage: 'Home',
-				isCreditAnim: false,
 				isSkillTabFirstView: true,
-				isViewCredit: false,
 				key: key,
 				locationDict: $elm$core$Dict$empty,
 				maybeBodyCss: $elm$core$Maybe$Nothing,
@@ -5408,25 +5407,15 @@ var $author$project$Main$subscriptions = function (_v0) {
 				$author$project$Main$getComputedHeightReceiver($author$project$Main$RetGetComputedHeight)
 			]));
 };
+var $author$project$Main$CreditMsg = function (a) {
+	return {$: 'CreditMsg', a: a};
+};
 var $author$project$Main$InitSkill = function (a) {
 	return {$: 'InitSkill', a: a};
 };
-var $author$project$Main$OpenCredit = {$: 'OpenCredit'};
 var $author$project$Main$TabButtonWidth = function (a) {
 	return {$: 'TabButtonWidth', a: a};
 };
-var $elm$core$Basics$always = F2(
-	function (a, _v0) {
-		return a;
-	});
-var $elm$core$Process$sleep = _Process_sleep;
-var $andrewMacmurray$elm_delay$Delay$after = F2(
-	function (time, msg) {
-		return A2(
-			$elm$core$Task$perform,
-			$elm$core$Basics$always(msg),
-			$elm$core$Process$sleep(time));
-	});
 var $elm$core$Dict$get = F2(
 	function (targetKey, dict) {
 		get:
@@ -5838,6 +5827,7 @@ var $elm$core$List$head = function (list) {
 	}
 };
 var $elm$browser$Browser$Navigation$load = _Browser_load;
+var $elm$core$Platform$Cmd$map = _Platform_map;
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
@@ -5886,6 +5876,48 @@ var $elm$url$Url$toString = function (url) {
 					_Utils_ap(http, url.host)),
 				url.path)));
 };
+var $author$project$Credit$OpenCredit = {$: 'OpenCredit'};
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
+var $elm$core$Process$sleep = _Process_sleep;
+var $andrewMacmurray$elm_delay$Delay$after = F2(
+	function (time, msg) {
+		return A2(
+			$elm$core$Task$perform,
+			$elm$core$Basics$always(msg),
+			$elm$core$Process$sleep(time));
+	});
+var $author$project$Credit$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'ClickCredit':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isViewCredit: true}),
+					A2($andrewMacmurray$elm_delay$Delay$after, 100, $author$project$Credit$OpenCredit));
+			case 'OpenCredit':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isCreditAnim: true}),
+					$elm$core$Platform$Cmd$none);
+			case 'CreditCloseClick':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isCreditAnim: false}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isViewCredit: false}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
 var $author$project$Main$urlToRoute = function (url) {
 	var _v0 = url.fragment;
 	_v0$3:
@@ -6135,34 +6167,22 @@ var $author$project$Main$update = F2(
 						model,
 						{isSkillTabFirstView: false, selectedSkillTabId: skillTabId, skillTitles: skillTitles}),
 					$elm$core$Platform$Cmd$none);
-			case 'ClickCredit':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{isViewCredit: true}),
-					A2($andrewMacmurray$elm_delay$Delay$after, 100, $author$project$Main$OpenCredit));
-			case 'OpenCredit':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{isCreditAnim: true}),
-					$elm$core$Platform$Cmd$none);
-			case 'CreditCloseClick':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{isCreditAnim: false}),
-					$elm$core$Platform$Cmd$none);
 			default:
+				var msg_ = msg.a;
+				var _v3 = A2($author$project$Credit$update, msg_, model.creditModel);
+				var m_ = _v3.a;
+				var cmd = _v3.b;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{isViewCredit: false}),
-					$elm$core$Platform$Cmd$none);
+						{creditModel: m_}),
+					A2($elm$core$Platform$Cmd$map, $author$project$Main$CreditMsg, cmd));
 		}
 	});
-var $author$project$Main$CreditCloseAnimEnd = {$: 'CreditCloseAnimEnd'};
-var $author$project$Main$CreditCloseClick = {$: 'CreditCloseClick'};
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
+var $author$project$Credit$CreditCloseAnimEnd = {$: 'CreditCloseAnimEnd'};
+var $author$project$Credit$CreditCloseClick = {$: 'CreditCloseClick'};
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
 		return A2(
@@ -6215,7 +6235,7 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $author$project$Main$onTransitionEnd = function (message) {
+var $author$project$Credit$onTransitionEnd = function (message) {
 	return A2(
 		$elm$html$Html$Events$on,
 		'transitionend',
@@ -6231,7 +6251,7 @@ var $elm$svg$Svg$Attributes$xlinkHref = function (value) {
 		'xlink:href',
 		_VirtualDom_noJavaScriptUri(value));
 };
-var $author$project$Main$viewCredit = function (model) {
+var $author$project$Credit$viewCredit = function (model) {
 	return A2(
 		$elm$html$Html$div,
 		_List_fromArray(
@@ -6249,24 +6269,22 @@ var $author$project$Main$viewCredit = function (model) {
 				_List_fromArray(
 					[
 						$elm$html$Html$Attributes$class('credit__wrapper'),
-						$elm$html$Html$Events$onClick($author$project$Main$CreditCloseClick)
+						$elm$html$Html$Events$onClick($author$project$Credit$CreditCloseClick)
 					]),
 				_List_Nil),
 				A2(
 				$elm$html$Html$div,
-				_Utils_ap(
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$classList(
-							_List_fromArray(
-								[
-									_Utils_Tuple2('credit__main', true),
-									_Utils_Tuple2('credit__main-open', model.isCreditAnim)
-								]))
-						]),
+				A2(
+					$elm$core$List$cons,
+					$elm$html$Html$Attributes$classList(
+						_List_fromArray(
+							[
+								_Utils_Tuple2('credit__main', true),
+								_Utils_Tuple2('credit__main-open', model.isCreditAnim)
+							])),
 					(model.isViewCredit && (!model.isCreditAnim)) ? _List_fromArray(
 						[
-							$author$project$Main$onTransitionEnd($author$project$Main$CreditCloseAnimEnd)
+							$author$project$Credit$onTransitionEnd($author$project$Credit$CreditCloseAnimEnd)
 						]) : _List_Nil),
 				_List_fromArray(
 					[
@@ -6293,7 +6311,7 @@ var $author$project$Main$viewCredit = function (model) {
 								_List_fromArray(
 									[
 										A2($elm$html$Html$Attributes$attribute, 'class', 'credit__close-icon'),
-										$elm$html$Html$Events$onClick($author$project$Main$CreditCloseClick)
+										$elm$html$Html$Events$onClick($author$project$Credit$CreditCloseClick)
 									]),
 								_List_fromArray(
 									[
@@ -6386,7 +6404,6 @@ var $author$project$Main$mainRotateStyle = function (model) {
 	}
 };
 var $elm$html$Html$main_ = _VirtualDom_node('main');
-var $author$project$Main$ClickCredit = {$: 'ClickCredit'};
 var $elm$html$Html$article = _VirtualDom_node('article');
 var $elm$html$Html$Attributes$datetime = _VirtualDom_attribute('datetime');
 var $elm$html$Html$footer = _VirtualDom_node('footer');
@@ -6414,6 +6431,19 @@ var $elm$html$Html$section = _VirtualDom_node('section');
 var $elm$html$Html$small = _VirtualDom_node('small');
 var $elm$html$Html$time = _VirtualDom_node('time');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
+var $author$project$Credit$ClickCredit = {$: 'ClickCredit'};
+var $author$project$Credit$viewCreditLink = A2(
+	$elm$html$Html$a,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$href('#'),
+			$elm$html$Html$Attributes$class('main__link'),
+			$elm$html$Html$Events$onClick($author$project$Credit$ClickCredit)
+		]),
+	_List_fromArray(
+		[
+			$elm$html$Html$text('クレジット')
+		]));
 var $author$project$Main$viewHome = function (model) {
 	return A2(
 		$elm$html$Html$article,
@@ -6599,18 +6629,7 @@ var $author$project$Main$viewHome = function (model) {
 													[
 														$elm$html$Html$text('プライバシーポリシー')
 													])),
-												A2(
-												$elm$html$Html$a,
-												_List_fromArray(
-													[
-														$elm$html$Html$Attributes$href('#'),
-														$elm$html$Html$Attributes$class('main__link'),
-														$elm$html$Html$Events$onClick($author$project$Main$ClickCredit)
-													]),
-												_List_fromArray(
-													[
-														$elm$html$Html$text('クレジット')
-													]))
+												A2($elm$html$Html$map, $author$project$Main$CreditMsg, $author$project$Credit$viewCreditLink)
 											])),
 										A2(
 										$elm$html$Html$p,
@@ -7426,7 +7445,10 @@ var $author$project$Main$view = function (model) {
 			[
 				$author$project$Main$viewHeader,
 				$author$project$Main$viewMain(model),
-				$author$project$Main$viewCredit(model)
+				A2(
+				$elm$html$Html$map,
+				$author$project$Main$CreditMsg,
+				$author$project$Credit$viewCredit(model.creditModel))
 			]),
 		title: pageTitle
 	};

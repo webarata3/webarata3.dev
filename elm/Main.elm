@@ -1,15 +1,14 @@
-port module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)
+port module Main exposing (..)
 
 import Array exposing (Array)
 import Browser exposing (Document)
 import Browser.Dom
 import Browser.Navigation as Nav
-import Delay
+import Credit exposing (..)
 import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Json.Decode
 import Svg exposing (svg, use)
 import Svg.Attributes exposing (xlinkHref)
 import Task
@@ -120,8 +119,7 @@ type alias Model =
     , isSkillTabFirstView : Bool
     , workTabIndex : Int
     , selectedSkillTabId : String
-    , isViewCredit : Bool
-    , isCreditAnim : Bool
+    , creditModel : Credit.Model
     }
 
 
@@ -154,8 +152,10 @@ init _ url key =
       , isSkillTabFirstView = True
       , workTabIndex = 0
       , selectedSkillTabId = "skillTab0"
-      , isViewCredit = False
-      , isCreditAnim = False
+      , creditModel =
+            { isViewCredit = False
+            , isCreditAnim = False
+            }
       }
     , Task.attempt Init <| Browser.Dom.getElement "main"
     )
@@ -175,10 +175,7 @@ type Msg
     | UrlChanged Url.Url
     | WorkTabClick Int
     | SkillTabClick String Int
-    | ClickCredit
-    | OpenCredit
-    | CreditCloseClick
-    | CreditCloseAnimEnd
+    | CreditMsg Credit.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -382,31 +379,12 @@ update msg model =
             , Cmd.none
             )
 
-        ClickCredit ->
-            ( { model
-                | isViewCredit = True
-              }
-            , Delay.after 100 OpenCredit
-            )
-
-        OpenCredit ->
-            ( { model
-                | isCreditAnim = True
-              }
-            , Cmd.none
-            )
-
-        CreditCloseClick ->
-            ( { model
-                | isCreditAnim = False
-              }
-            , Cmd.none
-            )
-
-        CreditCloseAnimEnd ->
-            ( { model | isViewCredit = False }
-            , Cmd.none
-            )
+        CreditMsg msg_ ->
+            let
+                ( m_, cmd ) =
+                    Credit.update msg_ model.creditModel
+            in
+            ( { model | creditModel = m_ }, Cmd.map CreditMsg cmd )
 
 
 
@@ -444,11 +422,6 @@ urlToRoute url =
 
         _ ->
             "home"
-
-
-onTransitionEnd : msg -> Attribute msg
-onTransitionEnd message =
-    on "transitionend" <| Json.Decode.succeed message
 
 
 mainStyle : Model -> String -> List (Attribute msg)
@@ -622,7 +595,7 @@ view model =
     , body =
         [ viewHeader
         , viewMain model
-        , viewCredit model
+        , viewCredit model.creditModel |> Html.map CreditMsg
         ]
     }
 
@@ -735,9 +708,7 @@ viewHome model =
                         [ a
                             [ href "#", class "main__link" ]
                             [ text "プライバシーポリシー" ]
-                        , a
-                            [ href "#", class "main__link", onClick ClickCredit ]
-                            [ text "クレジット" ]
+                        , viewCreditLink |> Html.map CreditMsg
                         ]
                     , p []
                         [ small [] [ text "©2022 webarata3（ARATA Shinichi）" ]
@@ -1021,42 +992,5 @@ viewLink model =
         [ div [ class "main__inner" ]
             [ viewMainHeader model.currentPage
             , div [] [ text "リンク" ]
-            ]
-        ]
-
-
-viewCredit : Model -> Html Msg
-viewCredit model =
-    div
-        [ classList [ ( "main__hidden", not model.isViewCredit ) ] ]
-        [ div
-            [ class "credit__wrapper"
-            , onClick CreditCloseClick
-            ]
-            []
-        , div
-            ([ classList
-                [ ( "credit__main", True )
-                , ( "credit__main-open", model.isCreditAnim )
-                ]
-             ]
-                ++ (if
-                        model.isViewCredit
-                            && not model.isCreditAnim
-                    then
-                        [ onTransitionEnd CreditCloseAnimEnd ]
-
-                    else
-                        []
-                   )
-            )
-            [ div [ class "credit__header" ]
-                [ h2 [ class "credit__title" ] [ text "クレジット" ]
-                , svg
-                    [ attribute "class" "credit__close-icon"
-                    , onClick CreditCloseClick
-                    ]
-                    [ use [ xlinkHref "image/close.svg#close" ] [] ]
-                ]
             ]
         ]
