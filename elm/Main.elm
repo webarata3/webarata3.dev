@@ -155,6 +155,7 @@ init _ url key =
       , creditModel =
             { isViewCredit = False
             , isCreditAnim = False
+            , credits = getCredits
             }
       }
     , Task.attempt Init <| Browser.Dom.getElement "main"

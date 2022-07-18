@@ -5337,6 +5337,13 @@ var $elm$core$Dict$fromList = function (assocs) {
 		$elm$core$Dict$empty,
 		assocs);
 };
+var $author$project$Credit$getCredits = _List_fromArray(
+	[
+		{license: '\nCopyright 2012-present Evan Czaplicki\n\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n', title: 'Elm', url: 'https://elm-lang.org/'},
+		{license: 'CC BY 4.0 License', title: 'Font Awesome Free License', url: 'https://fontawesome.com/license/free'},
+		{license: 'Open Font License', title: 'Noto Sans Japanese', url: 'https://fonts.google.com/noto/specimen/Noto+Sans+JP?query=Noto+san'},
+		{license: 'Open Font License', title: 'Poiret One', url: 'https://fonts.google.com/specimen/Poiret+One?query=Poiret'}
+	]);
 var $elm$browser$Browser$Dom$getElement = _Browser_getElement;
 var $elm$core$Basics$negate = function (n) {
 	return -n;
@@ -5345,7 +5352,7 @@ var $author$project$Main$init = F3(
 	function (_v0, url, key) {
 		return _Utils_Tuple2(
 			{
-				creditModel: {isCreditAnim: false, isViewCredit: false},
+				creditModel: {credits: $author$project$Credit$getCredits, isCreditAnim: false, isViewCredit: false},
 				currentDeg: 0,
 				currentPage: 'Home',
 				isSkillTabFirstView: true,
@@ -6244,6 +6251,48 @@ var $author$project$Credit$onTransitionEnd = function (message) {
 var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
 var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
 var $elm$svg$Svg$use = $elm$svg$Svg$trustedNode('use');
+var $elm$html$Html$pre = _VirtualDom_node('pre');
+var $author$project$Credit$viewLicense = function (credit) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('credit__license')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$h2,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('credit__license-title')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$a,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$href(credit.url),
+								$elm$html$Html$Attributes$class('main__link')
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(credit.title)
+							]))
+					])),
+				A2(
+				$elm$html$Html$pre,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('credit__license-content')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(credit.license)
+					]))
+			]));
+};
 var $elm$svg$Svg$Attributes$xlinkHref = function (value) {
 	return A3(
 		_VirtualDom_attributeNS,
@@ -6323,7 +6372,14 @@ var $author$project$Credit$viewCredit = function (model) {
 											]),
 										_List_Nil)
 									]))
-							]))
+							])),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$class('credit__content')
+							]),
+						A2($elm$core$List$map, $author$project$Credit$viewLicense, model.credits))
 					]))
 			]));
 };

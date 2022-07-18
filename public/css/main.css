@@ -1,5 +1,8 @@
 @charset 'utf-8';
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+
 :root {
   --basic-padding: 10px;
   --basic-margin: 10px;
@@ -31,7 +34,7 @@
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -41,7 +44,7 @@
 ::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 50, .5);
   border-radius: 10px;
-  box-shadow:0 0 0 1px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
 }
 
 body {
@@ -226,7 +229,7 @@ body {
   display: flex;
 }
 
-.footer__credit{
+.footer__credit {
   margin-right: var(--basic-margin-large);
   display: flex;
   flex-direction: column;
@@ -237,7 +240,7 @@ body {
   display: flex;
 }
 
-.header__nav > .header__nav-item:not(:last-child) {
+.header__nav>.header__nav-item:not(:last-child) {
   margin-right: 1em;
 }
 
@@ -265,13 +268,14 @@ body {
   position: relative;
 }
 
-.work__buttons-item::before, .work__buttons-item::after {
-  content:'';
-  position:absolute;
-  top:0;
-  right:0;
-  height:2px;
-  width:0;
+.work__buttons-item::before,
+.work__buttons-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
   background: #000;
   transition: 200ms ease all;
 }
@@ -283,7 +287,8 @@ body {
   bottom: 0;
 }
 
-.work__buttons-item:hover::before, .work__buttons-item:hover::after {
+.work__buttons-item:hover::before,
+.work__buttons-item:hover::after {
   width: 100%;
   transition: 300ms ease all;
 }
@@ -419,7 +424,7 @@ body {
 }
 
 .work__description-text {
-   line-height: 1.8;
+  line-height: 1.8;
 }
 
 .work__tech-item:not(:last-of-type) {
@@ -557,6 +562,7 @@ body {
 
 .credit__main {
   padding: var(--basic-padding);
+  overflow: hidden;
 }
 
 .credit__header {
@@ -568,7 +574,7 @@ body {
   text-align: center;
   padding-bottom: var(--basic-padding);
   border-bottom: 1px solid #000;
-  margin: 0 180px; 
+  margin: 0 180px;
 }
 
 .credit__close-icon {
@@ -578,4 +584,30 @@ body {
   width: 24px;
   height: 24px;
   cursor: pointer;
+}
+
+.credit__content {
+  overflow: scroll;
+  width: calc(600px - var(--basic-padding) * 2);
+  height: 95%;
+  margin: var(--basic-margin) 0 0;
+}
+
+.credit__license {
+  padding: var(--basic-padding) 0;
+}
+
+.credit__license:not(:last-child) {
+  margin-bottom: var(--basic-margin);
+  border-bottom: 1px solid #ddd;
+}
+
+.credit__license-title {
+  font-size: 20px;
+  text-align: center;
+}
+
+.credit__license-content {
+  white-space: pre-wrap;
+  line-height: 1.5;
 }
