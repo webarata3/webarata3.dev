@@ -1,6 +1,5 @@
 port module Main exposing (..)
 
-import Array exposing (Array)
 import Browser exposing (Document)
 import Browser.Dom
 import Browser.Navigation as Nav
@@ -9,10 +8,9 @@ import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Svg exposing (svg, use)
-import Svg.Attributes exposing (xlinkHref)
 import Task
 import Url
+import Work
 
 
 
@@ -49,16 +47,6 @@ main =
 
 
 -- MODEL
-
-
-type alias WorkTab =
-    { title : String
-    , maybeWebSite : Maybe String
-    , maybeGitHub : Maybe String
-    , contentType : String
-    , techItems : List String
-    , content : List (Html Msg)
-    }
 
 
 type alias SkillTab =
@@ -117,8 +105,8 @@ type alias Model =
     , skillTitleHeight : Int
     , skillTitles : List SkillTitleElem
     , isSkillTabFirstView : Bool
-    , workTabIndex : Int
     , selectedSkillTabId : String
+    , workModel : Work.Model
     , creditModel : Credit.Model
     }
 
@@ -150,8 +138,10 @@ init _ url key =
       , skillTitleHeight = 0
       , skillTitles = []
       , isSkillTabFirstView = True
-      , workTabIndex = 0
       , selectedSkillTabId = "skillTab0"
+      , workModel =
+            { workTabIndex = 0
+            }
       , creditModel =
             { isViewCredit = False
             , isCreditAnim = False
@@ -174,8 +164,8 @@ type Msg
     | TabButtonWidth (Result Browser.Dom.Error (List Browser.Dom.Element))
     | LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
-    | WorkTabClick Int
     | SkillTabClick String Int
+    | WorkMsg Work.Msg
     | CreditMsg Credit.Msg
 
 
@@ -351,13 +341,6 @@ update msg model =
             , Cmd.none
             )
 
-        WorkTabClick index ->
-            ( { model
-                | workTabIndex = index
-              }
-            , Cmd.none
-            )
-
         SkillTabClick skillTabId clickDeg ->
             let
                 changeDeg =
@@ -379,6 +362,13 @@ update msg model =
               }
             , Cmd.none
             )
+
+        WorkMsg msg_ ->
+            let
+                ( m_, cmd ) =
+                    Work.update msg_ model.workModel
+            in
+            ( { model | workModel = m_ }, Cmd.map WorkMsg cmd )
 
         CreditMsg msg_ ->
             let
@@ -451,45 +441,6 @@ mainRotateStyle model =
 
         Nothing ->
             []
-
-
-getWorkTabs : Array WorkTab
-getWorkTabs =
-    Array.fromList
-        [ { title = "クリーン白山"
-          , maybeWebSite = Just "https://clean.hakusan.app"
-          , maybeGitHub = Just "https://github.com/webarata3/clean-hakusan"
-          , contentType = "Webアプリ"
-          , techItems = [ "HTML", "CSS", "Elm", "JavaScript", "Java" ]
-          , content =
-                [ div []
-                    [ p [ class "work__description-text" ] [ text "石川県白山市のゴミ収集日程のアプリです。" ]
-                    , p [ class "work__description-text" ]
-                        [ span [] [ text "データの取得は市のサイトをスクレイピングしています。スクレイピングには" ]
-                        , a
-                            [ href "https://jsoup.org"
-                            , class "main__link"
-                            ]
-                            [ text "jsoup" ]
-                        , span [] [ text "を使用しています。" ]
-                        ]
-                    , p [ class "work__description-text" ] [ text "アプリ自体はPWAとして作成しています。" ]
-                    ]
-                , img [ class "work__image", src "image/clean-hakusan-app.webp" ] []
-                ]
-          }
-        , { title = "KExcelAPI"
-          , maybeWebSite = Nothing
-          , maybeGitHub = Just "https://github.com/webarata3/KExcelAPI"
-          , contentType = "ライブラリ"
-          , techItems = [ "Kotlin", "Apache POI" ]
-          , content =
-                [ div []
-                    [ p [ class "workd__description-text" ] [ text "POIをかんたんに扱うためのライブラリです。" ]
-                    ]
-                ]
-          }
-        ]
 
 
 getSkillTabs : List SkillTab
@@ -722,146 +673,13 @@ viewHome model =
 
 viewWork : Model -> Html Msg
 viewWork model =
-    let
-        workTabs =
-            getWorkTabs
-    in
     article
         (class "main__content" :: mainStyle model "work")
         [ div [ class "main__inner" ]
             [ viewMainHeader model.currentPage
-            , section [ class "work" ]
-                [ viewWorkTabs model.workTabIndex workTabs
-                , Array.indexedMap (viewWorkTabContent model.workTabIndex) workTabs
-                    |> Array.toList
-                    |> div [ class "work__tab-contents" ]
-                ]
+            , Work.viewWorkMain model.workModel |> Html.map WorkMsg
             ]
         ]
-
-
-viewWorkTabs : Int -> Array WorkTab -> Html Msg
-viewWorkTabs center workTabs =
-    Array.indexedMap (viewWorkTab center) workTabs
-        |> Array.toList
-        |> ul [ class "work__buttons" ]
-
-
-viewWorkTab : Int -> Int -> WorkTab -> Html Msg
-viewWorkTab center index workTab =
-    let
-        className =
-            "work__buttons-item"
-                ++ (if center == index then
-                        " work__buttons-item--selected"
-
-                    else
-                        ""
-                   )
-    in
-    li
-        [ class className
-        , onClick <| WorkTabClick index
-        ]
-        [ text workTab.title ]
-
-
-viewWorkTabContent : Int -> Int -> WorkTab -> Html Msg
-viewWorkTabContent center index workTab =
-    let
-        webSite =
-            viewWorkIcon workTab.maybeWebSite "image/open.svg#open"
-
-        github =
-            viewWorkIcon workTab.maybeGitHub "image/github.svg#github"
-    in
-    div
-        (class "work__content"
-            :: viewWorkTabStyle center index
-        )
-        [ h3 [ class "work__content-title" ]
-            [ span [] [ text workTab.title ]
-            , span [ class "work__content-type" ] [ text workTab.contentType ]
-            , div [ class "work__icon-area" ] <|
-                List.concat
-                    [ webSite
-                    , github
-                    ]
-            ]
-        , div [ class "work__tech" ]
-            [ h3 [ class "work__tech-title" ] [ text "使用技術" ]
-            , ul [ class "work__tech-list" ] <|
-                List.map viewWorkTech workTab.techItems
-            ]
-        , div [ class "work__description" ] workTab.content
-        ]
-
-
-viewWorkIcon : Maybe String -> String -> List (Html Msg)
-viewWorkIcon maybeLink iconFile =
-    case maybeLink of
-        Just link ->
-            [ a
-                [ href link
-                , target "_blank"
-                , class "work__icon-link"
-                ]
-                [ svg
-                    [ attribute "class" "work__icon" ]
-                    [ use [ xlinkHref iconFile ] [] ]
-                ]
-            ]
-
-        _ ->
-            []
-
-
-viewWorkTabStyle : Int -> Int -> List (Attribute msg)
-viewWorkTabStyle center index =
-    let
-        left =
-            200 + (index - center) * 500
-
-        scale =
-            if index == center then
-                "1.0"
-
-            else if
-                (index - 1 == center)
-                    || (index + 1 == center)
-            then
-                "0.333"
-
-            else
-                "0"
-
-        scaleStyle =
-            String.concat
-                [ "scale("
-                , scale
-                , ", "
-                , scale
-                , ")"
-                ]
-
-        filter =
-            if index == center then
-                "none"
-
-            else
-                -- "grayscale(80%)"
-                "blur(5px)"
-    in
-    [ style "bottom" "0"
-    , String.fromInt left ++ "px" |> style "left"
-    , style "transform" scaleStyle
-    , style "filter" filter
-    ]
-
-
-viewWorkTech : String -> Html Msg
-viewWorkTech techItem =
-    li [ class "work__tech-item" ] [ text techItem ]
 
 
 viewSkill : Model -> Html Msg

@@ -5374,7 +5374,7 @@ var $author$project$Main$init = F3(
 				skillTitleHeight: 0,
 				skillTitles: _List_Nil,
 				url: url,
-				workTabIndex: 0
+				workModel: {workTabIndex: 0}
 			},
 			A2(
 				$elm$core$Task$attempt,
@@ -5422,6 +5422,9 @@ var $author$project$Main$InitSkill = function (a) {
 };
 var $author$project$Main$TabButtonWidth = function (a) {
 	return {$: 'TabButtonWidth', a: a};
+};
+var $author$project$Main$WorkMsg = function (a) {
+	return {$: 'WorkMsg', a: a};
 };
 var $elm$core$Dict$get = F2(
 	function (targetKey, dict) {
@@ -5925,6 +5928,15 @@ var $author$project$Credit$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$Work$update = F2(
+	function (msg, model) {
+		var index = msg.a;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{workTabIndex: index}),
+			$elm$core$Platform$Cmd$none);
+	});
 var $author$project$Main$urlToRoute = function (url) {
 	var _v0 = url.fragment;
 	_v0$3:
@@ -6149,13 +6161,6 @@ var $author$project$Main$update = F2(
 						model,
 						{currentPage: page, maybeBodyCss: maybeBodyCss, url: url}),
 					$elm$core$Platform$Cmd$none);
-			case 'WorkTabClick':
-				var index = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{workTabIndex: index}),
-					$elm$core$Platform$Cmd$none);
 			case 'SkillTabClick':
 				var skillTabId = msg.a;
 				var clickDeg = msg.b;
@@ -6174,11 +6179,21 @@ var $author$project$Main$update = F2(
 						model,
 						{isSkillTabFirstView: false, selectedSkillTabId: skillTabId, skillTitles: skillTitles}),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 'WorkMsg':
 				var msg_ = msg.a;
-				var _v3 = A2($author$project$Credit$update, msg_, model.creditModel);
+				var _v3 = A2($author$project$Work$update, msg_, model.workModel);
 				var m_ = _v3.a;
 				var cmd = _v3.b;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{workModel: m_}),
+					A2($elm$core$Platform$Cmd$map, $author$project$Main$WorkMsg, cmd));
+			default:
+				var msg_ = msg.a;
+				var _v4 = A2($author$project$Credit$update, msg_, model.creditModel);
+				var m_ = _v4.a;
+				var cmd = _v4.b;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
@@ -7088,7 +7103,7 @@ var $elm$core$Array$fromList = function (list) {
 		return A3($elm$core$Array$fromListHelp, list, _List_Nil, 0);
 	}
 };
-var $author$project$Main$getWorkTabs = $elm$core$Array$fromList(
+var $author$project$Work$getWorkTabs = $elm$core$Array$fromList(
 	_List_fromArray(
 		[
 			{
@@ -7245,7 +7260,7 @@ var $elm$core$List$concat = function (lists) {
 	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
 };
 var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
-var $author$project$Main$viewWorkIcon = F2(
+var $author$project$Work$viewWorkIcon = F2(
 	function (maybeLink, iconFile) {
 		if (maybeLink.$ === 'Just') {
 			var link = maybeLink.a;
@@ -7286,7 +7301,7 @@ var $author$project$Main$viewWorkIcon = F2(
 var $elm$core$String$concat = function (strings) {
 	return A2($elm$core$String$join, '', strings);
 };
-var $author$project$Main$viewWorkTabStyle = F2(
+var $author$project$Work$viewWorkTabStyle = F2(
 	function (center, index) {
 		var scale = _Utils_eq(index, center) ? '1.0' : ((_Utils_eq(index - 1, center) || _Utils_eq(index + 1, center)) ? '0.333' : '0');
 		var scaleStyle = $elm$core$String$concat(
@@ -7305,7 +7320,7 @@ var $author$project$Main$viewWorkTabStyle = F2(
 				A2($elm$html$Html$Attributes$style, 'filter', filter)
 			]);
 	});
-var $author$project$Main$viewWorkTech = function (techItem) {
+var $author$project$Work$viewWorkTech = function (techItem) {
 	return A2(
 		$elm$html$Html$li,
 		_List_fromArray(
@@ -7317,16 +7332,16 @@ var $author$project$Main$viewWorkTech = function (techItem) {
 				$elm$html$Html$text(techItem)
 			]));
 };
-var $author$project$Main$viewWorkTabContent = F3(
+var $author$project$Work$viewWorkTabContent = F3(
 	function (center, index, workTab) {
-		var webSite = A2($author$project$Main$viewWorkIcon, workTab.maybeWebSite, 'image/open.svg#open');
-		var github = A2($author$project$Main$viewWorkIcon, workTab.maybeGitHub, 'image/github.svg#github');
+		var webSite = A2($author$project$Work$viewWorkIcon, workTab.maybeWebSite, 'image/open.svg#open');
+		var github = A2($author$project$Work$viewWorkIcon, workTab.maybeGitHub, 'image/github.svg#github');
 		return A2(
 			$elm$html$Html$div,
 			A2(
 				$elm$core$List$cons,
 				$elm$html$Html$Attributes$class('work__content'),
-				A2($author$project$Main$viewWorkTabStyle, center, index)),
+				A2($author$project$Work$viewWorkTabStyle, center, index)),
 			_List_fromArray(
 				[
 					A2(
@@ -7388,7 +7403,7 @@ var $author$project$Main$viewWorkTabContent = F3(
 								[
 									$elm$html$Html$Attributes$class('work__tech-list')
 								]),
-							A2($elm$core$List$map, $author$project$Main$viewWorkTech, workTab.techItems))
+							A2($elm$core$List$map, $author$project$Work$viewWorkTech, workTab.techItems))
 						])),
 					A2(
 					$elm$html$Html$div,
@@ -7399,10 +7414,10 @@ var $author$project$Main$viewWorkTabContent = F3(
 					workTab.content)
 				]));
 	});
-var $author$project$Main$WorkTabClick = function (a) {
+var $author$project$Work$WorkTabClick = function (a) {
 	return {$: 'WorkTabClick', a: a};
 };
-var $author$project$Main$viewWorkTab = F3(
+var $author$project$Work$viewWorkTab = F3(
 	function (center, index, workTab) {
 		var className = 'work__buttons-item' + (_Utils_eq(center, index) ? ' work__buttons-item--selected' : '');
 		return A2(
@@ -7411,14 +7426,14 @@ var $author$project$Main$viewWorkTab = F3(
 				[
 					$elm$html$Html$Attributes$class(className),
 					$elm$html$Html$Events$onClick(
-					$author$project$Main$WorkTabClick(index))
+					$author$project$Work$WorkTabClick(index))
 				]),
 			_List_fromArray(
 				[
 					$elm$html$Html$text(workTab.title)
 				]));
 	});
-var $author$project$Main$viewWorkTabs = F2(
+var $author$project$Work$viewWorkTabs = F2(
 	function (center, workTabs) {
 		return A2(
 			$elm$html$Html$ul,
@@ -7429,11 +7444,34 @@ var $author$project$Main$viewWorkTabs = F2(
 			$elm$core$Array$toList(
 				A2(
 					$elm$core$Array$indexedMap,
-					$author$project$Main$viewWorkTab(center),
+					$author$project$Work$viewWorkTab(center),
 					workTabs)));
 	});
+var $author$project$Work$viewWorkMain = function (model) {
+	var workTabs = $author$project$Work$getWorkTabs;
+	return A2(
+		$elm$html$Html$section,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('work')
+			]),
+		_List_fromArray(
+			[
+				A2($author$project$Work$viewWorkTabs, model.workTabIndex, workTabs),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('work__tab-contents')
+					]),
+				$elm$core$Array$toList(
+					A2(
+						$elm$core$Array$indexedMap,
+						$author$project$Work$viewWorkTabContent(model.workTabIndex),
+						workTabs)))
+			]));
+};
 var $author$project$Main$viewWork = function (model) {
-	var workTabs = $author$project$Main$getWorkTabs;
 	return A2(
 		$elm$html$Html$article,
 		A2(
@@ -7452,26 +7490,9 @@ var $author$project$Main$viewWork = function (model) {
 					[
 						$author$project$Main$viewMainHeader(model.currentPage),
 						A2(
-						$elm$html$Html$section,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('work')
-							]),
-						_List_fromArray(
-							[
-								A2($author$project$Main$viewWorkTabs, model.workTabIndex, workTabs),
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('work__tab-contents')
-									]),
-								$elm$core$Array$toList(
-									A2(
-										$elm$core$Array$indexedMap,
-										$author$project$Main$viewWorkTabContent(model.workTabIndex),
-										workTabs)))
-							]))
+						$elm$html$Html$map,
+						$author$project$Main$WorkMsg,
+						$author$project$Work$viewWorkMain(model.workModel))
 					]))
 			]));
 };
