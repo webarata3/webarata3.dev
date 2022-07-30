@@ -5355,7 +5355,6 @@ var $author$project$Main$init = F3(
 				creditModel: {credits: $author$project$Credit$getCredits, isCreditAnim: false, isViewCredit: false},
 				currentDeg: 0,
 				currentPage: 'Home',
-				isSkillTabFirstView: true,
 				key: key,
 				locationDict: $elm$core$Dict$empty,
 				maybeBodyCss: $elm$core$Maybe$Nothing,
@@ -5369,10 +5368,13 @@ var $author$project$Main$init = F3(
 							_Utils_Tuple2('skill', 180),
 							_Utils_Tuple2('link', 90)
 						])),
-				selectedSkillTabId: 'skillTab0',
-				skillContent: {betweenDeg: 0, height: 0, left: 0, r: 0, top: 0},
-				skillTitleHeight: 0,
-				skillTitles: _List_Nil,
+				skillModel: {
+					isSkillTabFirstView: true,
+					selectedSkillTabId: 'skillTab0',
+					skillContent: {betweenDeg: 0, height: 0, left: 0, r: 0, top: 0},
+					skillTitleHeight: 0,
+					skillTitles: _List_Nil
+				},
 				url: url,
 				workModel: {workTabIndex: 0}
 			},
@@ -5381,18 +5383,21 @@ var $author$project$Main$init = F3(
 				$author$project$Main$Init,
 				$elm$browser$Browser$Dom$getElement('main')));
 	});
-var $author$project$Main$RetGetComputedHeight = function (a) {
+var $author$project$Skill$RetGetComputedHeight = function (a) {
 	return {$: 'RetGetComputedHeight', a: a};
 };
-var $author$project$Main$RetGetSkillOffset = function (a) {
+var $author$project$Skill$RetGetSkillOffset = function (a) {
 	return {$: 'RetGetSkillOffset', a: a};
+};
+var $author$project$Main$SkillMsg = function (a) {
+	return {$: 'SkillMsg', a: a};
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$json$Json$Decode$int = _Json_decodeInt;
-var $author$project$Main$getComputedHeightReceiver = _Platform_incomingPort('getComputedHeightReceiver', $elm$json$Json$Decode$int);
+var $author$project$Skill$getComputedHeightReceiver = _Platform_incomingPort('getComputedHeightReceiver', $elm$json$Json$Decode$int);
 var $elm$json$Json$Decode$andThen = _Json_andThen;
 var $elm$json$Json$Decode$field = _Json_decodeField;
-var $author$project$Main$getOffsetReceiver = _Platform_incomingPort(
+var $author$project$Skill$getOffsetReceiver = _Platform_incomingPort(
 	'getOffsetReceiver',
 	A2(
 		$elm$json$Json$Decode$andThen,
@@ -5406,22 +5411,26 @@ var $author$project$Main$getOffsetReceiver = _Platform_incomingPort(
 				A2($elm$json$Json$Decode$field, 'left', $elm$json$Json$Decode$int));
 		},
 		A2($elm$json$Json$Decode$field, 'top', $elm$json$Json$Decode$int)));
+var $elm$core$Platform$Sub$map = _Platform_map;
 var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$batch(
 		_List_fromArray(
 			[
-				$author$project$Main$getOffsetReceiver($author$project$Main$RetGetSkillOffset),
-				$author$project$Main$getComputedHeightReceiver($author$project$Main$RetGetComputedHeight)
+				A2(
+				$elm$core$Platform$Sub$map,
+				$author$project$Main$SkillMsg,
+				$author$project$Skill$getOffsetReceiver($author$project$Skill$RetGetSkillOffset)),
+				A2(
+				$elm$core$Platform$Sub$map,
+				$author$project$Main$SkillMsg,
+				$author$project$Skill$getComputedHeightReceiver($author$project$Skill$RetGetComputedHeight))
 			]));
 };
 var $author$project$Main$CreditMsg = function (a) {
 	return {$: 'CreditMsg', a: a};
 };
-var $author$project$Main$InitSkill = function (a) {
+var $author$project$Skill$InitSkill = function (a) {
 	return {$: 'InitSkill', a: a};
-};
-var $author$project$Main$TabButtonWidth = function (a) {
-	return {$: 'TabButtonWidth', a: a};
 };
 var $author$project$Main$WorkMsg = function (a) {
 	return {$: 'WorkMsg', a: a};
@@ -5457,9 +5466,103 @@ var $elm$core$Dict$get = F2(
 			}
 		}
 	});
+var $elm$browser$Browser$Navigation$load = _Browser_load;
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
+var $elm$url$Url$addPort = F2(
+	function (maybePort, starter) {
+		if (maybePort.$ === 'Nothing') {
+			return starter;
+		} else {
+			var port_ = maybePort.a;
+			return starter + (':' + $elm$core$String$fromInt(port_));
+		}
+	});
+var $elm$url$Url$addPrefixed = F3(
+	function (prefix, maybeSegment, starter) {
+		if (maybeSegment.$ === 'Nothing') {
+			return starter;
+		} else {
+			var segment = maybeSegment.a;
+			return _Utils_ap(
+				starter,
+				_Utils_ap(prefix, segment));
+		}
+	});
+var $elm$url$Url$toString = function (url) {
+	var http = function () {
+		var _v0 = url.protocol;
+		if (_v0.$ === 'Http') {
+			return 'http://';
+		} else {
+			return 'https://';
+		}
+	}();
+	return A3(
+		$elm$url$Url$addPrefixed,
+		'#',
+		url.fragment,
+		A3(
+			$elm$url$Url$addPrefixed,
+			'?',
+			url.query,
+			_Utils_ap(
+				A2(
+					$elm$url$Url$addPort,
+					url.port_,
+					_Utils_ap(http, url.host)),
+				url.path)));
+};
+var $author$project$Credit$OpenCredit = {$: 'OpenCredit'};
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
+var $elm$core$Process$sleep = _Process_sleep;
+var $andrewMacmurray$elm_delay$Delay$after = F2(
+	function (time, msg) {
+		return A2(
+			$elm$core$Task$perform,
+			$elm$core$Basics$always(msg),
+			$elm$core$Process$sleep(time));
+	});
+var $author$project$Credit$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'ClickCredit':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isViewCredit: true}),
+					A2($andrewMacmurray$elm_delay$Delay$after, 100, $author$project$Credit$OpenCredit));
+			case 'OpenCredit':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isCreditAnim: true}),
+					$elm$core$Platform$Cmd$none);
+			case 'CreditCloseClick':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isCreditAnim: false}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isViewCredit: false}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
+var $author$project$Skill$TabButtonWidth = function (a) {
+	return {$: 'TabButtonWidth', a: a};
+};
 var $elm$json$Json$Encode$string = _Json_wrap;
-var $author$project$Main$getComputedHeight = _Platform_outgoingPort('getComputedHeight', $elm$json$Json$Encode$string);
-var $author$project$Main$getOffset = _Platform_outgoingPort('getOffset', $elm$json$Json$Encode$string);
+var $author$project$Skill$getComputedHeight = _Platform_outgoingPort('getComputedHeight', $elm$json$Json$Encode$string);
+var $author$project$Skill$getOffset = _Platform_outgoingPort('getOffset', $elm$json$Json$Encode$string);
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5480,7 +5583,7 @@ var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$getSkillTabs = _List_fromArray(
+var $author$project$Skill$getSkillTabs = _List_fromArray(
 	[
 		{
 		content: A2(
@@ -5824,7 +5927,7 @@ var $author$project$Main$getSkillTabs = _List_fromArray(
 		title: 'Flutter / Dart'
 	}
 	]);
-var $author$project$Main$getTabButtonWidth = function (id) {
+var $author$project$Skill$getTabButtonWidth = function (id) {
 	return $elm$browser$Browser$Dom$getElement(id);
 };
 var $elm$core$List$head = function (list) {
@@ -5836,128 +5939,7 @@ var $elm$core$List$head = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
-var $elm$browser$Browser$Navigation$load = _Browser_load;
-var $elm$core$Platform$Cmd$map = _Platform_map;
 var $elm$core$Basics$modBy = _Basics_modBy;
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $elm$browser$Browser$Navigation$pushUrl = _Browser_pushUrl;
-var $elm$url$Url$addPort = F2(
-	function (maybePort, starter) {
-		if (maybePort.$ === 'Nothing') {
-			return starter;
-		} else {
-			var port_ = maybePort.a;
-			return starter + (':' + $elm$core$String$fromInt(port_));
-		}
-	});
-var $elm$url$Url$addPrefixed = F3(
-	function (prefix, maybeSegment, starter) {
-		if (maybeSegment.$ === 'Nothing') {
-			return starter;
-		} else {
-			var segment = maybeSegment.a;
-			return _Utils_ap(
-				starter,
-				_Utils_ap(prefix, segment));
-		}
-	});
-var $elm$url$Url$toString = function (url) {
-	var http = function () {
-		var _v0 = url.protocol;
-		if (_v0.$ === 'Http') {
-			return 'http://';
-		} else {
-			return 'https://';
-		}
-	}();
-	return A3(
-		$elm$url$Url$addPrefixed,
-		'#',
-		url.fragment,
-		A3(
-			$elm$url$Url$addPrefixed,
-			'?',
-			url.query,
-			_Utils_ap(
-				A2(
-					$elm$url$Url$addPort,
-					url.port_,
-					_Utils_ap(http, url.host)),
-				url.path)));
-};
-var $author$project$Credit$OpenCredit = {$: 'OpenCredit'};
-var $elm$core$Basics$always = F2(
-	function (a, _v0) {
-		return a;
-	});
-var $elm$core$Process$sleep = _Process_sleep;
-var $andrewMacmurray$elm_delay$Delay$after = F2(
-	function (time, msg) {
-		return A2(
-			$elm$core$Task$perform,
-			$elm$core$Basics$always(msg),
-			$elm$core$Process$sleep(time));
-	});
-var $author$project$Credit$update = F2(
-	function (msg, model) {
-		switch (msg.$) {
-			case 'ClickCredit':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{isViewCredit: true}),
-					A2($andrewMacmurray$elm_delay$Delay$after, 100, $author$project$Credit$OpenCredit));
-			case 'OpenCredit':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{isCreditAnim: true}),
-					$elm$core$Platform$Cmd$none);
-			case 'CreditCloseClick':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{isCreditAnim: false}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{isViewCredit: false}),
-					$elm$core$Platform$Cmd$none);
-		}
-	});
-var $author$project$Work$update = F2(
-	function (msg, model) {
-		var index = msg.a;
-		return _Utils_Tuple2(
-			_Utils_update(
-				model,
-				{workTabIndex: index}),
-			$elm$core$Platform$Cmd$none);
-	});
-var $author$project$Main$urlToRoute = function (url) {
-	var _v0 = url.fragment;
-	_v0$3:
-	while (true) {
-		if (_v0.$ === 'Just') {
-			switch (_v0.a) {
-				case 'work':
-					return 'work';
-				case 'skill':
-					return 'skill';
-				case 'link':
-					return 'link';
-				default:
-					break _v0$3;
-			}
-		} else {
-			break _v0$3;
-		}
-	}
-	return 'home';
-};
 var $elm$core$Maybe$withDefault = F2(
 	function (_default, maybe) {
 		if (maybe.$ === 'Just') {
@@ -5967,55 +5949,9 @@ var $elm$core$Maybe$withDefault = F2(
 			return _default;
 		}
 	});
-var $author$project$Main$update = F2(
+var $author$project$Skill$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
-			case 'Init':
-				if (msg.a.$ === 'Ok') {
-					var elem = msg.a.a;
-					var y = $elm$core$Basics$floor(elem.element.y);
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								locationDict: $elm$core$Dict$fromList(
-									_List_fromArray(
-										[
-											_Utils_Tuple2(
-											'home',
-											{deg: '0', left: '0', top: '0'}),
-											_Utils_Tuple2(
-											'work',
-											{
-												deg: '90deg',
-												left: $elm$core$String$fromInt(2000 + y) + 'px',
-												top: $elm$core$String$fromInt(2000 + y) + 'px'
-											}),
-											_Utils_Tuple2(
-											'skill',
-											{
-												deg: '180deg',
-												left: '0',
-												top: $elm$core$String$fromInt((2000 + y) * 2) + 'px'
-											}),
-											_Utils_Tuple2(
-											'link',
-											{
-												deg: '270deg',
-												left: '-' + ($elm$core$String$fromInt(2000 + y) + 'px'),
-												top: $elm$core$String$fromInt(2000 + y) + 'px'
-											})
-										])),
-								maybeCenter: $elm$core$Maybe$Just(
-									{x: 2000 + y, y: 2000 + y})
-							}),
-						A2(
-							$elm$core$Task$attempt,
-							$author$project$Main$InitSkill,
-							$elm$browser$Browser$Dom$getElement('skillTabContent')));
-				} else {
-					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-				}
 			case 'InitSkill':
 				if (msg.a.$ === 'Ok') {
 					var elem = msg.a.a;
@@ -6025,17 +5961,34 @@ var $author$project$Main$update = F2(
 							{
 								skillContent: {
 									betweenDeg: $elm$core$Basics$floor(
-										360 / $elm$core$List$length($author$project$Main$getSkillTabs)),
+										360 / $elm$core$List$length($author$project$Skill$getSkillTabs)),
 									height: $elm$core$Basics$floor(elem.element.height),
 									left: 0,
 									r: ($elm$core$Basics$floor(elem.element.width) / 2) | 0,
 									top: 0
 								}
 							}),
-						$author$project$Main$getOffset('skillTabContent'));
+						$author$project$Skill$getOffset('skillTabContent'));
 				} else {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
+			case 'RetGetComputedHeight':
+				var height = msg.a;
+				var tabIds = A2(
+					$elm$core$List$map,
+					function (e) {
+						return e.id;
+					},
+					$author$project$Skill$getSkillTabs);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{skillTitleHeight: height}),
+					A2(
+						$elm$core$Task$attempt,
+						$author$project$Skill$TabButtonWidth,
+						$elm$core$Task$sequence(
+							A2($elm$core$List$map, $author$project$Skill$getTabButtonWidth, tabIds))));
 			case 'RetGetSkillOffset':
 				var offset = msg.a;
 				return _Utils_Tuple2(
@@ -6044,24 +5997,7 @@ var $author$project$Main$update = F2(
 						{
 							skillContent: {betweenDeg: model.skillContent.betweenDeg, height: model.skillContent.height, left: offset.left, r: model.skillContent.r, top: offset.top}
 						}),
-					$author$project$Main$getComputedHeight('skillTab0'));
-			case 'RetGetComputedHeight':
-				var height = msg.a;
-				var tabIds = A2(
-					$elm$core$List$map,
-					function (e) {
-						return e.id;
-					},
-					$author$project$Main$getSkillTabs);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{skillTitleHeight: height}),
-					A2(
-						$elm$core$Task$attempt,
-						$author$project$Main$TabButtonWidth,
-						$elm$core$Task$sequence(
-							A2($elm$core$List$map, $author$project$Main$getTabButtonWidth, tabIds))));
+					$author$project$Skill$getComputedHeight('skillTab0'));
 			case 'TabButtonWidth':
 				if (msg.a.$ === 'Ok') {
 					var elems = msg.a.a;
@@ -6113,6 +6049,108 @@ var $author$project$Main$update = F2(
 				} else {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
+			default:
+				var skillTabId = msg.a;
+				var clickDeg = msg.b;
+				var changeDeg = 360 - clickDeg;
+				var skillTitles = A2(
+					$elm$core$List$map,
+					function (e) {
+						return {
+							deg: A2($elm$core$Basics$modBy, 360, (e.deg + changeDeg) + 360),
+							width: e.width
+						};
+					},
+					model.skillTitles);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isSkillTabFirstView: false, selectedSkillTabId: skillTabId, skillTitles: skillTitles}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
+var $author$project$Work$update = F2(
+	function (msg, model) {
+		var index = msg.a;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{workTabIndex: index}),
+			$elm$core$Platform$Cmd$none);
+	});
+var $author$project$Main$urlToRoute = function (url) {
+	var _v0 = url.fragment;
+	_v0$3:
+	while (true) {
+		if (_v0.$ === 'Just') {
+			switch (_v0.a) {
+				case 'work':
+					return 'work';
+				case 'skill':
+					return 'skill';
+				case 'link':
+					return 'link';
+				default:
+					break _v0$3;
+			}
+		} else {
+			break _v0$3;
+		}
+	}
+	return 'home';
+};
+var $author$project$Main$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'Init':
+				if (msg.a.$ === 'Ok') {
+					var elem = msg.a.a;
+					var y = $elm$core$Basics$floor(elem.element.y);
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								locationDict: $elm$core$Dict$fromList(
+									_List_fromArray(
+										[
+											_Utils_Tuple2(
+											'home',
+											{deg: '0', left: '0', top: '0'}),
+											_Utils_Tuple2(
+											'work',
+											{
+												deg: '90deg',
+												left: $elm$core$String$fromInt(2000 + y) + 'px',
+												top: $elm$core$String$fromInt(2000 + y) + 'px'
+											}),
+											_Utils_Tuple2(
+											'skill',
+											{
+												deg: '180deg',
+												left: '0',
+												top: $elm$core$String$fromInt((2000 + y) * 2) + 'px'
+											}),
+											_Utils_Tuple2(
+											'link',
+											{
+												deg: '270deg',
+												left: '-' + ($elm$core$String$fromInt(2000 + y) + 'px'),
+												top: $elm$core$String$fromInt(2000 + y) + 'px'
+											})
+										])),
+								maybeCenter: $elm$core$Maybe$Just(
+									{x: 2000 + y, y: 2000 + y})
+							}),
+						A2(
+							$elm$core$Platform$Cmd$map,
+							$author$project$Main$SkillMsg,
+							A2(
+								$elm$core$Task$attempt,
+								$author$project$Skill$InitSkill,
+								$elm$browser$Browser$Dom$getElement('skillTabContent'))));
+				} else {
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				}
 			case 'LinkClicked':
 				var urlRequest = msg.a;
 				if (urlRequest.$ === 'Internal') {
@@ -6161,24 +6199,6 @@ var $author$project$Main$update = F2(
 						model,
 						{currentPage: page, maybeBodyCss: maybeBodyCss, url: url}),
 					$elm$core$Platform$Cmd$none);
-			case 'SkillTabClick':
-				var skillTabId = msg.a;
-				var clickDeg = msg.b;
-				var changeDeg = 360 - clickDeg;
-				var skillTitles = A2(
-					$elm$core$List$map,
-					function (e) {
-						return {
-							deg: A2($elm$core$Basics$modBy, 360, (e.deg + changeDeg) + 360),
-							width: e.width
-						};
-					},
-					model.skillTitles);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{isSkillTabFirstView: false, selectedSkillTabId: skillTabId, skillTitles: skillTitles}),
-					$elm$core$Platform$Cmd$none);
 			case 'WorkMsg':
 				var msg_ = msg.a;
 				var _v3 = A2($author$project$Work$update, msg_, model.workModel);
@@ -6189,11 +6209,21 @@ var $author$project$Main$update = F2(
 						model,
 						{workModel: m_}),
 					A2($elm$core$Platform$Cmd$map, $author$project$Main$WorkMsg, cmd));
-			default:
+			case 'SkillMsg':
 				var msg_ = msg.a;
-				var _v4 = A2($author$project$Credit$update, msg_, model.creditModel);
+				var _v4 = A2($author$project$Skill$update, msg_, model.skillModel);
 				var m_ = _v4.a;
 				var cmd = _v4.b;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{skillModel: m_}),
+					A2($elm$core$Platform$Cmd$map, $author$project$Main$SkillMsg, cmd));
+			default:
+				var msg_ = msg.a;
+				var _v5 = A2($author$project$Credit$update, msg_, model.creditModel);
+				var m_ = _v5.a;
+				var cmd = _v5.b;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
@@ -6864,11 +6894,11 @@ var $elm$core$List$repeat = F2(
 	function (n, value) {
 		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
 	});
-var $author$project$Main$SkillTabClick = F2(
+var $author$project$Skill$SkillTabClick = F2(
 	function (a, b) {
 		return {$: 'SkillTabClick', a: a, b: b};
 	});
-var $author$project$Main$viewSkillTabButton = F3(
+var $author$project$Skill$viewSkillTabButton = F3(
 	function (model, skillTab, skillTitle) {
 		var styleWidth = (!skillTitle.width) ? _List_Nil : _List_fromArray(
 			[
@@ -6912,7 +6942,7 @@ var $author$project$Main$viewSkillTabButton = F3(
 						'transform-origin',
 						'0 ' + ($elm$core$String$fromInt(skillContent.r) + 'px')),
 						$elm$html$Html$Events$onClick(
-						A2($author$project$Main$SkillTabClick, skillTab.id, skillTitle.deg))
+						A2($author$project$Skill$SkillTabClick, skillTab.id, skillTitle.deg))
 					])),
 			_List_fromArray(
 				[
@@ -6936,7 +6966,7 @@ var $author$project$Main$viewSkillTabButton = F3(
 						]))
 				]));
 	});
-var $author$project$Main$viewSkillTabButtons = F2(
+var $author$project$Skill$viewSkillTabButtons = F2(
 	function (model, skillTabs) {
 		var skillTitles = $elm$core$List$isEmpty(model.skillTitles) ? A2(
 			$elm$core$List$repeat,
@@ -6950,11 +6980,11 @@ var $author$project$Main$viewSkillTabButtons = F2(
 				]),
 			A3(
 				$elm$core$List$map2,
-				$author$project$Main$viewSkillTabButton(model),
+				$author$project$Skill$viewSkillTabButton(model),
 				skillTabs,
 				skillTitles));
 	});
-var $author$project$Main$viewSkillTabContent = function (skillTab) {
+var $author$project$Skill$viewSkillTabContent = function (skillTab) {
 	return _List_fromArray(
 		[
 			A2(
@@ -7008,8 +7038,8 @@ var $author$project$Main$viewSkillTabContent = function (skillTab) {
 				]))
 		]);
 };
-var $author$project$Main$viewSkill = function (model) {
-	var skillTabs = $author$project$Main$getSkillTabs;
+var $author$project$Skill$viewSkillMain = function (model) {
+	var skillTabs = $author$project$Skill$getSkillTabs;
 	var maybeContent = $elm$core$List$head(
 		A2(
 			$elm$core$List$filter,
@@ -7017,6 +7047,39 @@ var $author$project$Main$viewSkill = function (model) {
 				return _Utils_eq(e.id, model.selectedSkillTabId);
 			},
 			skillTabs));
+	return A2(
+		$elm$html$Html$section,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('skill')
+					]),
+				_List_fromArray(
+					[
+						A2($author$project$Skill$viewSkillTabButtons, model, skillTabs),
+						A2(
+						$elm$html$Html$div,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$id('skillTabContent'),
+								$elm$html$Html$Attributes$class('skill__tab-content')
+							]),
+						function () {
+							if (maybeContent.$ === 'Just') {
+								var content = maybeContent.a;
+								return $author$project$Skill$viewSkillTabContent(content);
+							} else {
+								return _List_Nil;
+							}
+						}())
+					]))
+			]));
+};
+var $author$project$Main$viewSkill = function (model) {
 	return A2(
 		$elm$html$Html$article,
 		A2(
@@ -7035,36 +7098,9 @@ var $author$project$Main$viewSkill = function (model) {
 				_List_fromArray(
 					[
 						A2(
-						$elm$html$Html$section,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('skill')
-									]),
-								_List_fromArray(
-									[
-										A2($author$project$Main$viewSkillTabButtons, model, skillTabs),
-										A2(
-										$elm$html$Html$div,
-										_List_fromArray(
-											[
-												$elm$html$Html$Attributes$id('skillTabContent'),
-												$elm$html$Html$Attributes$class('skill__tab-content')
-											]),
-										function () {
-											if (maybeContent.$ === 'Just') {
-												var content = maybeContent.a;
-												return $author$project$Main$viewSkillTabContent(content);
-											} else {
-												return _List_Nil;
-											}
-										}())
-									]))
-							]))
+						$elm$html$Html$map,
+						$author$project$Main$SkillMsg,
+						$author$project$Skill$viewSkillMain(model.skillModel))
 					]))
 			]));
 };
