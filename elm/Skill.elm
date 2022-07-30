@@ -1,14 +1,11 @@
 port module Skill exposing (..)
 
-import Browser exposing (Document)
 import Browser.Dom
 import Credit exposing (..)
-import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Task
-import Url
 
 
 
