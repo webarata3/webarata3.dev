@@ -5919,7 +5919,7 @@ var $author$project$Skill$getSkillTabs = _List_fromArray(
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text('勉強中です。')
+							$elm$html$Html$text('最低限アプリは作れるレベルです')
 						]))
 				])),
 		id: 'skillTab5',

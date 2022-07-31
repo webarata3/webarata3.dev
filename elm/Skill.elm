@@ -266,7 +266,7 @@ getSkillTabs =
       , level = "★☆☆"
       , content =
             div []
-                [ p [ class "skill__content-p" ] [ text "勉強中です。" ]
+                [ p [ class "skill__content-p" ] [ text "最低限アプリは作れるレベルです" ]
                 ]
       }
     ]
