@@ -527,7 +527,7 @@ body {
   line-height: 1.5;
 }
 
-.credit__wrapper {
+.dialog__wrapper {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -542,34 +542,30 @@ body {
   display: none;
 }
 
-.credit__main {
+.dialog__main {
   position: fixed;
   width: 600px;
   height: 80%;
   z-index: 20;
   top: 10%;
   left: calc((100% - 600px) /2);
-  overflow-y: scroll;
+  overflow-y: hidden;
   background-color: #fff;
   opacity: 1;
   transform: scaleY(0);
   transition: transform 0.5s 0.1s ease;
+  padding: var(--basic-padding);
 }
 
-.credit__main-open {
+.dialog__main-open {
   transform: scaleY(1);
 }
 
-.credit__main {
-  padding: var(--basic-padding);
-  overflow: hidden;
-}
-
-.credit__header {
+.dialog__header {
   position: relative;
 }
 
-.credit__title {
+.dialog__title {
   font-size: 18px;
   text-align: center;
   padding-bottom: var(--basic-padding);
@@ -577,7 +573,7 @@ body {
   margin: 0 180px;
 }
 
-.credit__close-icon {
+.dialog__close-icon {
   position: absolute;
   top: 0;
   right: 0;
@@ -586,7 +582,7 @@ body {
   cursor: pointer;
 }
 
-.credit__content {
+.dialog__content {
   overflow: scroll;
   width: calc(600px - var(--basic-padding) * 2);
   height: 95%;
@@ -612,64 +608,7 @@ body {
   line-height: 1.5;
 }
 
-.policy__wrapper {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  background-color: #999;
-  opacity: 0.6;
-}
-
-.policy__main {
-  position: fixed;
-  width: 600px;
-  height: 80%;
-  z-index: 20;
-  top: 10%;
-  left: calc((100% - 600px) /2);
-  overflow-y: scroll;
-  background-color: #fff;
-  opacity: 1;
-  transform: scaleY(0);
-  transition: transform 0.5s 0.1s ease;
-}
-
-.policy__main-open {
-  transform: scaleY(1);
-}
-
-.policy__main {
-  padding: var(--basic-padding);
-  overflow: hidden;
-}
-
-.policy__header {
-  position: relative;
-}
-
-.policy__title {
-  font-size: 18px;
-  text-align: center;
-  padding-bottom: var(--basic-padding);
-  border-bottom: 1px solid #000;
-  margin: 0 180px;
-}
-
-.policy__close-icon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-}
-
-.policy__content {
-  overflow: scroll;
-  width: calc(600px - var(--basic-padding) * 2);
-  height: 95%;
-  margin: var(--basic-margin) 0 0;
+.policy__p {
+  text-indent: 1em;
+  line-height: 1.5;
 }

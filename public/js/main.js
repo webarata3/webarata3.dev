@@ -6463,7 +6463,7 @@ var $author$project$Credit$viewCredit = function (model) {
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('credit__wrapper'),
+						$elm$html$Html$Attributes$class('dialog__wrapper'),
 						$elm$html$Html$Events$onClick(2)
 					]),
 				_List_Nil),
@@ -6474,8 +6474,8 @@ var $author$project$Credit$viewCredit = function (model) {
 					$elm$html$Html$Attributes$classList(
 						_List_fromArray(
 							[
-								_Utils_Tuple2('credit__main', true),
-								_Utils_Tuple2('credit__main-open', model.O)
+								_Utils_Tuple2('dialog__main', true),
+								_Utils_Tuple2('dialog__main-open', model.O)
 							])),
 					(model.P && (!model.O)) ? _List_fromArray(
 						[
@@ -6487,7 +6487,7 @@ var $author$project$Credit$viewCredit = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('credit__header')
+								$elm$html$Html$Attributes$class('dialog__header')
 							]),
 						_List_fromArray(
 							[
@@ -6495,7 +6495,7 @@ var $author$project$Credit$viewCredit = function (model) {
 								$elm$html$Html$h2,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('credit__title')
+										$elm$html$Html$Attributes$class('dialog__title')
 									]),
 								_List_fromArray(
 									[
@@ -6505,7 +6505,7 @@ var $author$project$Credit$viewCredit = function (model) {
 								$elm$svg$Svg$svg,
 								_List_fromArray(
 									[
-										A2($elm$html$Html$Attributes$attribute, 'class', 'credit__close-icon'),
+										A2($elm$html$Html$Attributes$attribute, 'class', 'dialog__close-icon'),
 										$elm$html$Html$Events$onClick(2)
 									]),
 								_List_fromArray(
@@ -6523,7 +6523,7 @@ var $author$project$Credit$viewCredit = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('credit__content')
+								$elm$html$Html$Attributes$class('dialog__content')
 							]),
 						A2($elm$core$List$map, $author$project$Credit$viewLicense, model.an))
 					]))
@@ -7673,7 +7673,7 @@ var $author$project$Policy$viewPolicy = function (model) {
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$html$Html$Attributes$class('policy__wrapper'),
+						$elm$html$Html$Attributes$class('dialog__wrapper'),
 						$elm$html$Html$Events$onClick(2)
 					]),
 				_List_Nil),
@@ -7684,8 +7684,8 @@ var $author$project$Policy$viewPolicy = function (model) {
 					$elm$html$Html$Attributes$classList(
 						_List_fromArray(
 							[
-								_Utils_Tuple2('policy__main', true),
-								_Utils_Tuple2('policy__main-open', model.aZ)
+								_Utils_Tuple2('dialog__main', true),
+								_Utils_Tuple2('dialog__main-open', model.aZ)
 							])),
 					(model.at && (!model.aZ)) ? _List_fromArray(
 						[
@@ -7697,7 +7697,7 @@ var $author$project$Policy$viewPolicy = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('policy__header')
+								$elm$html$Html$Attributes$class('dialog__header')
 							]),
 						_List_fromArray(
 							[
@@ -7705,7 +7705,7 @@ var $author$project$Policy$viewPolicy = function (model) {
 								$elm$html$Html$h2,
 								_List_fromArray(
 									[
-										$elm$html$Html$Attributes$class('credit__title')
+										$elm$html$Html$Attributes$class('dialog__title')
 									]),
 								_List_fromArray(
 									[
@@ -7715,7 +7715,7 @@ var $author$project$Policy$viewPolicy = function (model) {
 								$elm$svg$Svg$svg,
 								_List_fromArray(
 									[
-										A2($elm$html$Html$Attributes$attribute, 'class', 'policy__close-icon'),
+										A2($elm$html$Html$Attributes$attribute, 'class', 'dialog__close-icon'),
 										$elm$html$Html$Events$onClick(2)
 									]),
 								_List_fromArray(
@@ -7733,20 +7733,26 @@ var $author$project$Policy$viewPolicy = function (model) {
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('policy__content')
+								$elm$html$Html$Attributes$class('dialog__content')
 							]),
 						_List_fromArray(
 							[
 								A2(
 								$elm$html$Html$p,
-								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('policy__p')
+									]),
 								_List_fromArray(
 									[
 										$elm$html$Html$text('当サイトでは、Googleによるアクセス解析ツール「Googleアナリティクス」を使用しています。このGoogleアナリティクスはデータの収集のためにCookieを使用しています。このデータは匿名で収集されており、個人を特定するものではありません。')
 									])),
 								A2(
 								$elm$html$Html$p,
-								_List_Nil,
+								_List_fromArray(
+									[
+										$elm$html$Html$Attributes$class('policy__p')
+									]),
 								_List_fromArray(
 									[
 										A2(

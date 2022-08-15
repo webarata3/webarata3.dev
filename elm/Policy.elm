@@ -77,14 +77,14 @@ viewPolicy model =
     div
         [ classList [ ( "main__hidden", not model.isViewPolicy ) ] ]
         [ div
-            [ class "policy__wrapper"
+            [ class "dialog__wrapper"
             , onClick ClickClosePolicy
             ]
             []
         , div
             (classList
-                [ ( "policy__main", True )
-                , ( "policy__main-open", model.isPolicyAnim )
+                [ ( "dialog__main", True )
+                , ( "dialog__main-open", model.isPolicyAnim )
                 ]
                 :: (if
                         model.isViewPolicy
@@ -96,17 +96,17 @@ viewPolicy model =
                         []
                    )
             )
-            [ div [ class "policy__header" ]
-                [ h2 [ class "credit__title" ] [ text "プライバシーポリシー" ]
+            [ div [ class "dialog__header" ]
+                [ h2 [ class "dialog__title" ] [ text "プライバシーポリシー" ]
                 , svg
-                    [ attribute "class" "policy__close-icon"
+                    [ attribute "class" "dialog__close-icon"
                     , onClick ClickClosePolicy
                     ]
                     [ use [ xlinkHref "image/close.svg#close" ] [] ]
                 ]
-            , div [ class "policy__content" ]
-                [ p [] [ text "当サイトでは、Googleによるアクセス解析ツール「Googleアナリティクス」を使用しています。このGoogleアナリティクスはデータの収集のためにCookieを使用しています。このデータは匿名で収集されており、個人を特定するものではありません。" ]
-                , p []
+            , div [ class "dialog__content" ]
+                [ p [ class "policy__p" ] [ text "当サイトでは、Googleによるアクセス解析ツール「Googleアナリティクス」を使用しています。このGoogleアナリティクスはデータの収集のためにCookieを使用しています。このデータは匿名で収集されており、個人を特定するものではありません。" ]
+                , p [ class "policy__p" ]
                     [ span [] [ text "この機能はCookieを無効にすることで収集を拒否することが出来ますので、お使いのブラウザの設定をご確認ください。この規約に関しての詳細は" ]
                     , a
                         [ href "https://marketingplatform.google.com/about/analytics/terms/jp/"

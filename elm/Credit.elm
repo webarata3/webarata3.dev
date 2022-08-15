@@ -85,14 +85,14 @@ viewCredit model =
     div
         [ classList [ ( "main__hidden", not model.isViewCredit ) ] ]
         [ div
-            [ class "credit__wrapper"
+            [ class "dialog__wrapper"
             , onClick ClickCloseCredit
             ]
             []
         , div
             (classList
-                [ ( "credit__main", True )
-                , ( "credit__main-open", model.isCreditAnim )
+                [ ( "dialog__main", True )
+                , ( "dialog__main-open", model.isCreditAnim )
                 ]
                 :: (if
                         model.isViewCredit
@@ -104,15 +104,15 @@ viewCredit model =
                         []
                    )
             )
-            [ div [ class "credit__header" ]
-                [ h2 [ class "credit__title" ] [ text "クレジット" ]
+            [ div [ class "dialog__header" ]
+                [ h2 [ class "dialog__title" ] [ text "クレジット" ]
                 , svg
-                    [ attribute "class" "credit__close-icon"
+                    [ attribute "class" "dialog__close-icon"
                     , onClick ClickCloseCredit
                     ]
                     [ use [ xlinkHref "image/close.svg#close" ] [] ]
                 ]
-            , div [ class "credit__content" ] <|
+            , div [ class "dialog__content" ] <|
                 List.map viewLicense model.credits
             ]
         ]
