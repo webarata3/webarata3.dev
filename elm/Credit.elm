@@ -1,5 +1,6 @@
-module Credit exposing (Model, Msg, getCredits, update, viewCredit, viewCreditLink)
+module Credit exposing (Model, Msg(..), getCredits, update, viewCredit, viewCreditLink)
 
+import Browser.Navigation as Nav
 import Delay
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -17,7 +18,8 @@ type alias Credit =
 
 
 type alias Model =
-    { isViewCredit : Bool
+    { key : Nav.Key
+    , isViewCredit : Bool
     , isCreditAnim : Bool
     , credits : List Credit
     }
@@ -26,8 +28,9 @@ type alias Model =
 type Msg
     = ClickCredit
     | OpenCredit
-    | CreditCloseClick
-    | CreditCloseAnimEnd
+    | ClickCloseCredit
+    | CloseCredit
+    | CloseAnimEnd
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -47,15 +50,20 @@ update msg model =
             , Cmd.none
             )
 
-        CreditCloseClick ->
+        ClickCloseCredit ->
+            ( model, Nav.pushUrl model.key "#" )
+
+        CloseCredit ->
             ( { model
                 | isCreditAnim = False
               }
             , Cmd.none
             )
 
-        CreditCloseAnimEnd ->
-            ( { model | isViewCredit = False }
+        CloseAnimEnd ->
+            ( { model
+                | isViewCredit = False
+              }
             , Cmd.none
             )
 
@@ -68,7 +76,7 @@ onTransitionEnd message =
 viewCreditLink : Html Msg
 viewCreditLink =
     a
-        [ href "#", class "main__link", onClick ClickCredit ]
+        [ href "#credit", class "main__link" ]
         [ text "クレジット" ]
 
 
@@ -78,7 +86,7 @@ viewCredit model =
         [ classList [ ( "main__hidden", not model.isViewCredit ) ] ]
         [ div
             [ class "credit__wrapper"
-            , onClick CreditCloseClick
+            , onClick ClickCloseCredit
             ]
             []
         , div
@@ -90,7 +98,7 @@ viewCredit model =
                         model.isViewCredit
                             && not model.isCreditAnim
                     then
-                        [ onTransitionEnd CreditCloseAnimEnd ]
+                        [ onTransitionEnd CloseAnimEnd ]
 
                     else
                         []
@@ -100,7 +108,7 @@ viewCredit model =
                 [ h2 [ class "credit__title" ] [ text "クレジット" ]
                 , svg
                     [ attribute "class" "credit__close-icon"
-                    , onClick CreditCloseClick
+                    , onClick ClickCloseCredit
                     ]
                     [ use [ xlinkHref "image/close.svg#close" ] [] ]
                 ]

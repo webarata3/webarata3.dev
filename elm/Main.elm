@@ -8,6 +8,7 @@ import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Policy exposing (..)
 import Skill
 import Task
 import Url
@@ -60,6 +61,7 @@ type alias Model =
     , workModel : Work.Model
     , skillModel : Skill.Model
     , creditModel : Credit.Model
+    , policyModel : Policy.Model
     }
 
 
@@ -67,7 +69,7 @@ init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url key =
     ( { key = key
       , url = url
-      , currentPage = "Home"
+      , currentPage = "home"
       , maybeCenter = Nothing
       , locationDict = Dict.empty
       , pageDegDict =
@@ -96,10 +98,16 @@ init _ url key =
             , isSkillTabFirstView = True
             , selectedSkillTabId = "skillTab0"
             }
+      , policyModel =
+            { isViewPolicy = False
+            , isPolicyAnim = False
+            , key = key
+            }
       , creditModel =
             { isViewCredit = False
             , isCreditAnim = False
             , credits = getCredits
+            , key = key
             }
       }
     , Task.attempt Init <| Browser.Dom.getElement "main"
@@ -116,6 +124,7 @@ type Msg
     | UrlChanged Url.Url
     | WorkMsg Work.Msg
     | SkillMsg Skill.Msg
+    | PolicyMsg Policy.Msg
     | CreditMsg Credit.Msg
 
 
@@ -181,37 +190,71 @@ update msg model =
             let
                 page =
                     urlToRoute url
-
-                maybeBodyCss =
-                    if page == model.currentPage then
-                        model.maybeBodyCss
-
-                    else
-                        let
-                            deg =
-                                Maybe.withDefault 0 <|
-                                    Dict.get page model.pageDegDict
-
-                            y =
-                                case model.maybeCenter of
-                                    Just center ->
-                                        center.y
-
-                                    Nothing ->
-                                        0
-                        in
-                        Just
-                            { transform = "rotate(" ++ String.fromInt deg ++ "deg)"
-                            , transformOrigin = "0px " ++ String.fromInt y ++ "px"
-                            }
             in
-            ( { model
-                | url = url
-                , currentPage = page
-                , maybeBodyCss = maybeBodyCss
-              }
-            , Cmd.none
-            )
+            if
+                model.creditModel.isViewCredit
+                    && page
+                    == "home"
+            then
+                ( model
+                , (Task.perform (always CloseCredit) <| Task.succeed ())
+                    |> Cmd.map CreditMsg
+                )
+
+            else if page == "credit" then
+                ( model
+                , (Task.perform (always ClickCredit) <| Task.succeed ())
+                    |> Cmd.map CreditMsg
+                )
+
+            else if
+                model.policyModel.isViewPolicy
+                    && page
+                    == "home"
+            then
+                ( model
+                , (Task.perform (always ClosePolicy) <| Task.succeed ())
+                    |> Cmd.map PolicyMsg
+                )
+
+            else if page == "policy" then
+                ( model
+                , (Task.perform (always ClickPolicy) <| Task.succeed ())
+                    |> Cmd.map PolicyMsg
+                )
+
+            else
+                let
+                    maybeBodyCss =
+                        if page == model.currentPage then
+                            model.maybeBodyCss
+
+                        else
+                            let
+                                deg =
+                                    Maybe.withDefault 0 <|
+                                        Dict.get page model.pageDegDict
+
+                                y =
+                                    case model.maybeCenter of
+                                        Just center ->
+                                            center.y
+
+                                        Nothing ->
+                                            0
+                            in
+                            Just
+                                { transform = "rotate(" ++ String.fromInt deg ++ "deg)"
+                                , transformOrigin = "0px " ++ String.fromInt y ++ "px"
+                                }
+                in
+                ( { model
+                    | url = url
+                    , currentPage = page
+                    , maybeBodyCss = maybeBodyCss
+                  }
+                , Cmd.none
+                )
 
         WorkMsg msg_ ->
             let
@@ -226,6 +269,13 @@ update msg model =
                     Skill.update msg_ model.skillModel
             in
             ( { model | skillModel = m_ }, Cmd.map SkillMsg cmd )
+
+        PolicyMsg msg_ ->
+            let
+                ( m_, cmd ) =
+                    Policy.update msg_ model.policyModel
+            in
+            ( { model | policyModel = m_ }, Cmd.map PolicyMsg cmd )
 
         CreditMsg msg_ ->
             let
@@ -264,6 +314,12 @@ urlToRoute url =
 
         Just "link" ->
             "link"
+
+        Just "policy" ->
+            "policy"
+
+        Just "credit" ->
+            "credit"
 
         _ ->
             "home"
@@ -317,6 +373,7 @@ view model =
     , body =
         [ viewHeader
         , viewMain model
+        , viewPolicy model.policyModel |> Html.map PolicyMsg
         , viewCredit model.creditModel |> Html.map CreditMsg
         ]
     }
@@ -427,9 +484,7 @@ viewHome model =
             , footer [ class "footer" ]
                 [ div [ class "footer__inner" ]
                     [ div [ class "footer__credit" ]
-                        [ a
-                            [ href "#", class "main__link" ]
-                            [ text "プライバシーポリシー" ]
+                        [ viewPolicyLink |> Html.map PolicyMsg
                         , viewCreditLink |> Html.map CreditMsg
                         ]
                     , p []
