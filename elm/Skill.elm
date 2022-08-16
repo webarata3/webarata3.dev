@@ -169,7 +169,7 @@ update msg model =
                 skillTitles =
                     List.map
                         (\e ->
-                            { deg = modBy 360 (e.deg + changeDeg + 360)
+                            { deg = e.deg + changeDeg
                             , width = e.width
                             }
                         )
