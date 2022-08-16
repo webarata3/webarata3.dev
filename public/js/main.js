@@ -6795,14 +6795,14 @@ var $author$project$Main$viewHome = function (model) {
 															]),
 														_List_fromArray(
 															[
-																$elm$html$Html$text('2021/8/16')
+																$elm$html$Html$text('2022/8/16')
 															])),
 														A2(
 														$elm$html$Html$span,
 														_List_Nil,
 														_List_fromArray(
 															[
-																$elm$html$Html$text('デザインの変更')
+																$elm$html$Html$text('公開')
 															]))
 													]))
 											]))
@@ -6853,6 +6853,67 @@ var $author$project$Main$viewHome = function (model) {
 					]))
 			]));
 };
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $author$project$Link$viewLinkMain = A2(
+	$elm$html$Html$div,
+	_List_Nil,
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$a,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$href('https://twitter.com/webarata3'),
+					$elm$html$Html$Attributes$target('_blank'),
+					$elm$html$Html$Attributes$class('work__icon-link')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$svg,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$Attributes$attribute, 'class', 'work__icon')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$svg$Svg$use,
+							_List_fromArray(
+								[
+									$elm$svg$Svg$Attributes$xlinkHref('../image/twitter.svg#twitter')
+								]),
+							_List_Nil)
+						]))
+				])),
+			A2(
+			$elm$html$Html$a,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$href('https://github.com/webarata3'),
+					$elm$html$Html$Attributes$target('_blank'),
+					$elm$html$Html$Attributes$class('work__icon-link')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$svg$Svg$svg,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$Attributes$attribute, 'class', 'work__icon')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$svg$Svg$use,
+							_List_fromArray(
+								[
+									$elm$svg$Svg$Attributes$xlinkHref('../image/github.svg#github')
+								]),
+							_List_Nil)
+						]))
+				]))
+		]));
 var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Main$viewMainHeaderLink = function (link) {
 	return A2(
@@ -6959,13 +7020,7 @@ var $author$project$Main$viewLink = function (model) {
 				_List_fromArray(
 					[
 						$author$project$Main$viewMainHeader(model.currentPage),
-						A2(
-						$elm$html$Html$div,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('リンク')
-							]))
+						$author$project$Link$viewLinkMain
 					]))
 			]));
 };
@@ -7398,7 +7453,6 @@ var $elm$core$Array$indexedMap = F2(
 var $elm$core$List$concat = function (lists) {
 	return A3($elm$core$List$foldr, $elm$core$List$append, _List_Nil, lists);
 };
-var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
 var $author$project$Work$viewWorkIcon = F2(
 	function (maybeLink, iconFile) {
 		if (maybeLink.$ === 'Just') {

@@ -8,6 +8,7 @@ import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Link
 import Policy exposing (..)
 import Skill
 import Task
@@ -524,6 +525,6 @@ viewLink model =
         (class "main__content" :: mainStyle model "link")
         [ div [ class "main__inner" ]
             [ viewMainHeader model.currentPage
-            , div [] [ text "リンク" ]
+            , Link.viewLinkMain
             ]
         ]
