@@ -195,6 +195,10 @@ body {
   transform: scale(1, 1);
 }
 
+ul .main__li:not(:last-child) {
+  margin-bottom: var(--basic-margin);
+}
+
 .history {
   display: flex;
   flex-direction: column;

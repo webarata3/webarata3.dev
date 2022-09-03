@@ -54,7 +54,20 @@ update msg model =
 getWorkTabs : Array WorkTab
 getWorkTabs =
     Array.fromList
-        [ { title = "クリーン白山"
+        [ { title = "ICa残高照会"
+          , maybeWebSite = Just "https://play.google.com/store/apps/details?id=dev.webarata3.app.ica_reader"
+          , maybeGitHub = Just "https://github.com/webarata3/ica_reader"
+          , contentType = "Androidアプリ"
+          , techItems = [ "Flutter", "Dart" ]
+          , content =
+                [ div []
+                    [ p [ class "work__description-text" ] [ text "北陸鉄道バスのICaの残高照会アプリです。" ]
+                    , p [ class "work__description-text" ] [ text "以前も作っていましたが、Flutterで書き直しました。" ]
+                    ]
+                , img [ class "work__image", src "image/ica_reader.webp" ] []
+                ]
+          }
+        , { title = "クリーン白山"
           , maybeWebSite = Just "https://clean.hakusan.app"
           , maybeGitHub = Just "https://github.com/webarata3/clean-hakusan"
           , contentType = "Webアプリ"
