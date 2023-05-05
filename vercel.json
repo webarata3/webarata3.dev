@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/home",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/work",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/skill",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/link",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/credit",
+      "destination": "/index.html"
+    }
+  ]
+}
