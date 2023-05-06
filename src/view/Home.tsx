@@ -30,13 +30,14 @@ const Home = ({ deg, top, left }: Props): React.ReactElement => {
             <h3 className="history__title">更新履歴</h3>
             <ul>
               <li className="main__li">
+                <time dateTime="2023-05-06" className="history__time">2023/05/06</time>
+                <span>実装をReactに変更</span>
+              </li>
+              <li className="main__li">
                 <time dateTime="2021-09-03" className="history__time">2022/09/03</time>
                 <span>WorkにICa残高照会を追加</span>
               </li>
-              <li className="main__li">
-                <time dateTime="2021-08-16" className="history__time">2022/08/16</time>
-                <span>公開</span>
-              </li></ul>
+            </ul>
           </section>
         </div>
         <footer className="footer">
@@ -46,7 +47,7 @@ const Home = ({ deg, top, left }: Props): React.ReactElement => {
               <Link to="/credit" className="main__link">クレジット</Link>
             </div>
             <p>
-              <small>©2022 webarata3（ARATA Shinichi）</small>
+              <small>©2023 webarata3（ARATA Shinichi）</small>
             </p>
           </div>
         </footer>
