@@ -350,21 +350,17 @@ ul .main__li:not(:last-child) {
 
 .work__icon-link {
   color: var(--main-color);
-
-}
-
-.work__icon-link:is(:hover, :active) {
-  color: var(--accent-color);
+  display: inline-block;
 }
 
 .work__icon {
-  width: 16px;
+  width: auto;
   height: 16px;
   padding-bottom: 2px;
 }
 
-.work__icon-area .work__icon:not(:last-of-type) {
-  padding-left: 2px;
+.work__icon-area .work__icon-link:not(:last-child) {
+  margin-right: 3px;
 }
 
 .work__content-type {

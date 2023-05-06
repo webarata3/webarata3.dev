@@ -88,13 +88,13 @@ const WORK_TAB_CONTENTS = [
       <div className="work__icon-area">
         <a href="https://play.google.com/store/apps/details?id=dev.webarata3.app.ica_reader"
           target="_blank" rel="noreferrer"
-          className="work__icon-link">
-          <svg className="work__icon"><use xlinkHref="image/open.svg#open"></use></svg>
+          className="main__link work__icon-link">
+          <img src="image/up-right-from-square-solid.svg" alt="別ウィンドウで開くアイコン" className="work__icon" />
         </a>
         <a href="https://github.com/webarata3/ica_reader"
           target="_blank" rel="noreferrer"
-          className="work__icon-link">
-          <svg className="work__icon"><use xlinkHref="image/github.svg#github"></use></svg>
+          className="main__link work__icon-link">
+          <img src="image/github.svg" alt="GitHubのアイコン" className="work__icon" />
         </a>
       </div>
     </h3>
@@ -121,13 +121,13 @@ const WORK_TAB_CONTENTS = [
       <div className="work__icon-area">
         <a href="https://clean.hakusan.app"
           target="_blank" rel="noreferrer"
-          className="work__icon-link">
-          <svg className="work__icon"><use xlinkHref="image/open.svg#open"></use></svg>
+          className="main__link work__icon-link">
+          <img src="image/up-right-from-square-solid.svg" alt="別ウィンドウで開くアイコン" className="work__icon" />
         </a>
         <a href="https://github.com/webarata3/clean-hakusan"
           target="_blank" rel="noreferrer"
-          className="work__icon-link">
-          <svg className="work__icon"><use xlinkHref="image/github.svg#github"></use></svg>
+          className="main__link work__icon-link">
+          <img src="image/github.svg" alt="GitHubのアイコン" className="work__icon" />
         </a>
       </div>
     </h3>
@@ -162,8 +162,8 @@ const WORK_TAB_CONTENTS = [
       <div className="work__icon-area">
         <a href="https://github.com/webarata3/KExcelAPI"
           target="_blank" rel="noreferrer"
-          className="work__icon-link">
-          <svg className="work__icon"><use xlinkHref="image/github.svg#github"></use></svg>
+          className="main__link work__icon-link">
+          <img src="image/github.svg" alt="GitHubのアイコン" className="work__icon" />
         </a>
       </div>
     </h3>
