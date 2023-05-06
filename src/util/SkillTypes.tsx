@@ -5,6 +5,6 @@ type ContentInfo = {
   r: number
 };
 
-type SkillTabName = 'Java' | 'HTML / CSS' | 'JavaScript' | 'Elm' | 'Python' | 'Flutter / Dart';
+type SkillTabName = 'Java' | 'HTML / CSS' | 'JavaScript' | 'React' | 'Elm' | 'Python' | 'Flutter / Dart';
 
 export type { ContentInfo, SkillTabName };

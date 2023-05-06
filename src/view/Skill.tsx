@@ -11,7 +11,7 @@ type Props = {
   left: number
 };
 
-const SKILL_TAB_NAMES: SkillTabName[] = ['Java', 'HTML / CSS', 'JavaScript', 'Elm', 'Python', 'Flutter / Dart'];
+const SKILL_TAB_NAMES: SkillTabName[] = ['Java', 'HTML / CSS', 'JavaScript', 'React', 'Elm', 'Python', 'Flutter / Dart'];
 const BETWEEN_DEG = Math.floor(360 / SKILL_TAB_NAMES.length);
 
 const Skill = ({ deg, top, left }: Props): React.ReactElement => {
@@ -167,6 +167,17 @@ const SKILL_CONTENT_MAP = new Map<SkillTabName, React.ReactElement>([
         </p>
       </div>
     </>],
+  ['React',
+    <>
+      <h3 className="skill__tab-title">React</h3>
+      <div className="skill__level">
+        <span className="skill__level-title">レベル</span>
+        <span className="skill__level-star">★☆☆</span>
+      </div>
+      <div>
+        <p className="skill__content-p">勉強中。このサイトもElmから書き直してみました。</p>
+      </div>
+    </>],
   ['Elm',
     <>
       <h3 className="skill__tab-title">Elm</h3>
@@ -175,7 +186,7 @@ const SKILL_CONTENT_MAP = new Map<SkillTabName, React.ReactElement>([
         <span className="skill__level-star">★☆☆</span>
       </div>
       <div>
-        <p className="skill__content-p">文法は一通り学習したことがあります。</p>
+        <p className="skill__content-p">一通り学習して、結構使っていましたが、言語のアップデートがあまりされなくなってしまったので、封印中です。</p>
       </div>
     </>],
   ['Python',
@@ -186,7 +197,7 @@ const SKILL_CONTENT_MAP = new Map<SkillTabName, React.ReactElement>([
         <span className="skill__level-star">★☆☆</span>
       </div>
       <div>
-        <p className="skill__content-p"></p>
+        <p className="skill__content-p">文法を一通り学習しただけです。</p>
       </div>
     </>],
   ['Flutter / Dart',
@@ -194,10 +205,10 @@ const SKILL_CONTENT_MAP = new Map<SkillTabName, React.ReactElement>([
       <h3 className="skill__tab-title">Flutter / Dart</h3>
       <div className="skill__level">
         <span className="skill__level-title">レベル</span>
-        <span className="skill__level-star">★☆☆</span>
+        <span className="skill__level-star">★★☆</span>
       </div>
       <div>
-        <p className="skill__content-p"></p>
+        <p className="skill__content-p">アプリをリリースするところまではできるようになっています。Windowsアプリとしての活用もしている最中。</p>
       </div>
     </>],
 ]);
